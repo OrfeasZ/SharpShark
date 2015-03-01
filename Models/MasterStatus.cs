@@ -11,5 +11,6 @@ namespace GS.Lib.Models
         public bool IsBroadcasting { get; set; }
         public bool CurrentlyPlayingSong { get; set; }
         public String Remora { get; set; }
+        public String Reason { get; set; }
     }
 }

@@ -99,12 +99,12 @@ namespace GS.Lib.Util
 
     public static class DateTimeExtensions
     {
-        public static Int32 ToUnixTimestamp(this DateTime p_Time)
+        public static UInt32 ToUnixTimestamp(this DateTime p_Time)
         {
-            return (Int32)(p_Time.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            return (UInt32)(p_Time.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         }
 
-        public static DateTime FromUnixTimestamp(this Int32 p_Timestamp)
+        public static DateTime FromUnixTimestamp(this UInt32 p_Timestamp)
         {
             var s_DateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             s_DateTime = s_DateTime.AddSeconds(p_Timestamp).ToLocalTime();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GS.Lib.Enums;
 using GS.Lib.Models;
 using GS.Lib.Network.HTTP.Requests;
 
@@ -10,12 +11,20 @@ namespace GS.Lib.Components
     {
         public String ActiveBroadcastID { get; set; }
 
-        public BroadcastData Data { get; set; } 
+        public BroadcastData Data { get; set; }
+
+        public String CurrentBroadcast { get; set; }
+        public BroadcastStatus CurrentBroadcastStatus { get; set; }
+        public String CurrentBroadcastName { get; set; }
+        public String CurrentBroadcastPicture { get; set; }
 
         internal BroadcastComponent(SharpShark p_Library) 
             : base(p_Library)
         {
             Data = null;
+
+            CurrentBroadcast = null;
+            CurrentBroadcastStatus = BroadcastStatus.Idle;
         }
 
         public List<CategoryTag> GetCategoryTags()

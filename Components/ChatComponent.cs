@@ -17,6 +17,8 @@ namespace GS.Lib.Components
 
         internal MasterStatus LoggedInMaster { get; set; }
 
+        internal String LastMasterUUID { get; set; }
+
         public String UID { get; set; }
 
         private readonly Client m_SocketClient;
@@ -47,6 +49,7 @@ namespace GS.Lib.Components
             m_Handlers.Add("set", HandleSet);
             m_Handlers.Add("meta_sub", HandleMetaSub);
             m_Handlers.Add("sub", HandleSub);
+            m_Handlers.Add("get", HandleGet);
         }
 
         public bool Connect()

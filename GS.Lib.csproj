@@ -54,7 +54,9 @@
     <Compile Include="Components\Chat\Dispatchers\SubscribeToMetaUsersKeys.cs" />
     <Compile Include="Components\Chat\Dispatchers\Subscription.cs" />
     <Compile Include="Components\Chat\Dispatchers\UpdateChannelList.cs" />
+    <Compile Include="Components\Chat\Dispatchers\Status.cs" />
     <Compile Include="Components\Chat\Dispatchers\UpdateUserData.cs" />
+    <Compile Include="Components\Chat\Handlers\Get.cs" />
     <Compile Include="Components\Chat\Handlers\MetaSub.cs" />
     <Compile Include="Components\Chat\Handlers\Set.cs" />
     <Compile Include="Components\Chat\Handlers\Sub.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="Components\SearchComponent.cs" />
     <Compile Include="Components\SharkComponent.cs" />
     <Compile Include="Enums\AuthenticationResult.cs" />
+    <Compile Include="Enums\BroadcastStatus.cs" />
     <Compile Include="Models\BroadcastCreationData.cs" />
     <Compile Include="Models\BroadcastData.cs" />
     <Compile Include="Models\CategoryTag.cs" />
@@ -77,11 +80,13 @@
     <Compile Include="Models\KeyValData.cs" />
     <Compile Include="Models\MasterStatus.cs" />
     <Compile Include="Models\MetaUserData.cs" />
+    <Compile Include="Models\StatusSongData.cs" />
     <Compile Include="Models\SongResultData.cs" />
     <Compile Include="Models\StreamKeyData.cs" />
     <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\TokenData.cs" />
     <Compile Include="Models\UserData.cs" />
+    <Compile Include="Models\UserStatus.cs" />
     <Compile Include="Models\UserSubscription.cs" />
     <Compile Include="Network\HTTP\Requests\AuthenticationRequest.cs" />
     <Compile Include="Network\HTTP\Requests\CreateBroadcastRequest.cs" />
@@ -101,6 +106,7 @@
     <Compile Include="Network\Sockets\Messages\Requests\BroadcastDarkLaunchRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\ChannelSubRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\FetchUsersStatusRequest.cs" />
+    <Compile Include="Network\Sockets\Messages\Requests\ParameterizedRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\PublishRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\RestoreLookupRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\SetSubscriptionParamsRequest.cs" />
@@ -109,9 +115,11 @@
     <Compile Include="Network\Sockets\Messages\Requests\SubscribeToMetaUsersRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\UpdateUserDataRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Responses\BasicResponse.cs" />
+    <Compile Include="Network\Sockets\Messages\Responses\BlackboxResponse.cs" />
     <Compile Include="Network\Sockets\Messages\Responses\ErrorResponse.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\IdentifyRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Responses\IdentifyResponse.cs" />
+    <Compile Include="Network\Sockets\Messages\Responses\ReturnResponse.cs" />
     <Compile Include="Network\Sockets\Messages\Responses\SubscribeToMetaUsersResponse.cs" />
     <Compile Include="Network\Sockets\Messages\Responses\SubscriptionResponse.cs" />
     <Compile Include="Network\Sockets\Messages\Responses\SuccessResponse.cs" />
