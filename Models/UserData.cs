@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace GS.Lib.Models
 {
@@ -18,8 +19,10 @@ namespace GS.Lib.Models
 
         public Int64 ArtistID { get; set; }
 
+        [JsonProperty("chatUserData")]
         internal ChatUserData ChatUserData { get; set; }
 
+        [JsonProperty("chatUserDataSig")]
         internal String ChatUserDataSig { get; set; }
 
         public CategoryTag Tag { get; set; }

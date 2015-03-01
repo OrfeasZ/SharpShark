@@ -103,7 +103,7 @@ namespace GS.Lib.Components
             if (Library.User.Data != null && Library.User.Data.ArtistID != 0 &&
                 m_CurrentChannels.ContainsKey("artist:" + Library.User.Data.ArtistID))
             {
-                if (s_ChannelParams.ContainsKey("artist:" + Library.User.Data.ArtistID))
+                if (!s_ChannelParams.ContainsKey("artist:" + Library.User.Data.ArtistID))
                 {
                     SetSubscriptionParameters("artist:" + Library.User.Data.ArtistID, new Dictionary<string, object>()
                     {
@@ -133,7 +133,7 @@ namespace GS.Lib.Components
             else if (Library.User.Data != null && Library.User.Data.UserID != 0 &&
                      m_CurrentChannels.ContainsKey("user:" + Library.User.Data.UserID))
             {
-                if (s_ChannelParams.ContainsKey("user:" + Library.User.Data.UserID))
+                if (!s_ChannelParams.ContainsKey("user:" + Library.User.Data.UserID))
                 {
                     SetSubscriptionParameters("user:" + Library.User.Data.UserID, new Dictionary<string, object>()
                     {
