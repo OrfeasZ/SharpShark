@@ -139,13 +139,13 @@ namespace GS.Lib.Components
             if (User == null)
                 return new List<long>();
 
-            var s_Response = Library.RequestDispatcher.Dispatch<Dictionary<String, String>, List<Int64>>(
+            var s_Response = Library.RequestDispatcher.Dispatch<Dictionary<String, String>, LibrarySongIDsResponse>(
                 "userGetSongIDsInLibrary", new Dictionary<String, String>());
 
             if (s_Response == null)
                 return new List<long>();
 
-            return s_Response;
+            return s_Response.SongIDs;
         }
 
         public List<Int64> GetFavoriteSongs()

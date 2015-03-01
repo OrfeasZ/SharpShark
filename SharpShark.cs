@@ -11,6 +11,7 @@ namespace GS.Lib
         public UserComponent User { get; private set; }
         public ChatComponent Chat { get; private set; }
         public BroadcastComponent Broadcast { get; private set; }
+        public SearchComponent Search { get; private set; }
 
         public String BaseURL { get; private set; }
 
@@ -35,6 +36,7 @@ namespace GS.Lib
             User = new UserComponent(this);
             Chat = new ChatComponent(this);
             Broadcast = new BroadcastComponent(this);
+            Search = new SearchComponent(this);
         }
     }
 }

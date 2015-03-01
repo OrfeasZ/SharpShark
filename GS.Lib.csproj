@@ -63,6 +63,7 @@
     <Compile Include="Network\HTTP\Requests\GetResultsFromSearchRequest.cs" />
     <Compile Include="Network\HTTP\Responses\AuthenticationResponse.cs" />
     <Compile Include="Network\HTTP\Responses\GetResultsFromSearchResponse.cs" />
+    <Compile Include="Network\HTTP\Responses\LibrarySongIDsResponse.cs" />
     <Compile Include="Network\Sockets\Client.cs" />
     <Compile Include="Network\Sockets\Messages\Responses\BasicResponse.cs" />
     <Compile Include="Network\Sockets\Messages\Responses\ErrorResponse.cs" />
