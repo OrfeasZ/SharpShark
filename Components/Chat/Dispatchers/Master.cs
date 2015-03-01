@@ -5,9 +5,10 @@ namespace GS.Lib.Components
 {
     public partial class ChatComponent
     {
-        private void InitiateBroadcastDarkLaunch()
+        private void PingMaster()
         {
-            // TODO: Implement
+            // TODO: Implement timeout timer
+            BroadcastMessageToSelf("masterPing");
         }
     }
 }

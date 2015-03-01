@@ -10,7 +10,7 @@ namespace GS.Lib.Components
     {
         private void PublishToChannels<T>(List<String> p_Subscriptions, T p_Value, bool p_Async = false, bool p_Persist = false, String p_Source = null, Object p_ExtraData = null)
         {
-            var s_Subscriptions = p_Subscriptions.Select(p_Subscription => new SubscriptionData(p_Subscription)).ToList();
+            var s_Subscriptions = p_Subscriptions.Select(p_Subscription => new Subscription(p_Subscription)).ToList();
             m_SocketClient.SendMessage(new PublishRequest(s_Subscriptions, p_Value, p_Async, p_Persist, p_Source, p_ExtraData));
         }
     }

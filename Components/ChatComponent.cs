@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using GS.Lib.Models;
 using GS.Lib.Network.Sockets;
 using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Network.Sockets.Messages.Requests;
@@ -13,6 +14,8 @@ namespace GS.Lib.Components
     public partial class ChatComponent : SharkComponent
     {
         internal Dictionary<String, int> ChatServers { get; set; }
+
+        internal MasterStatus LoggedInMaster { get; set; }
 
         public String UID { get; set; }
 
@@ -43,6 +46,7 @@ namespace GS.Lib.Components
             m_Handlers.Add("identify", HandleIdentify);
             m_Handlers.Add("set", HandleSet);
             m_Handlers.Add("meta_sub", HandleMetaSub);
+            m_Handlers.Add("sub", HandleSub);
         }
 
         public bool Connect()
@@ -52,6 +56,8 @@ namespace GS.Lib.Components
 
             if (ChatServers.Count == 0)
                 return false;
+
+            LoggedInMaster = null;
 
             var s_Server = DetermineBestServer();
 

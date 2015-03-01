@@ -10,7 +10,7 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
         {
             public String Type { get; set; }
             public Object Value { get; set; }
-            public List<SubscriptionData> Subs { get; set; }
+            public List<Subscription> Subs { get; set; }
             public bool Async { get; set; }
             public bool Persist { get; set; }
         }
@@ -19,7 +19,7 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
 
         public Dictionary<String, Object> Blackbox { get; set; } 
 
-        public PublishRequest(List<SubscriptionData> p_Subs, Object p_Value, bool p_Async, bool p_Persist, String p_Source = null, Object p_ExtraData = null) 
+        public PublishRequest(List<Subscription> p_Subs, Object p_Value, bool p_Async, bool p_Persist, String p_Source = null, Object p_ExtraData = null) 
             : base("pub")
         {
             Params = new RequestParameters()

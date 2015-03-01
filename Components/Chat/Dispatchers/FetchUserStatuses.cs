@@ -17,7 +17,7 @@ namespace GS.Lib.Components
 
             if (!p_SendSubscribe)
             {
-                var s_Keys = p_Users.Select(s_User => new UserSubscriptionData(s_User, new[] {"s"})).ToList();
+                var s_Keys = p_Users.Select(s_User => new UserSubscription(s_User, new[] {"s"})).ToList();
                 m_SocketClient.SendMessage(new FetchUsersStatusRequest(s_Keys));
                 return;
             }

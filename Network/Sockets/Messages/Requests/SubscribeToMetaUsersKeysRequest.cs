@@ -12,7 +12,7 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
             public String Type { get; set; }
 
             [JsonProperty("userid_keys")]
-            public List<UserSubscriptionData> KeyData { get; set; }
+            public List<UserSubscription> KeyData { get; set; }
         }
 
         internal class RequestBlackbox
@@ -30,7 +30,7 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
 
         public RequestBlackbox Blackbox { get; set; }
 
-        public SubscribeToMetaUsersKeysRequest(List<UserSubscriptionData> p_KeyData, bool p_Initial, bool p_Retried)
+        public SubscribeToMetaUsersKeysRequest(List<UserSubscription> p_KeyData, bool p_Initial, bool p_Retried)
             : base("meta_sub")
         {
             Params = new RequestParameters()

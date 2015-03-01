@@ -36,14 +36,14 @@ namespace GS.Lib.Components
                             }
                         }
 
-                        Debug.WriteLine("Unknown response type received!");
+                        Debug.WriteLine("Unknown metasub response type received!");
 
                         break;
                     }
 
                 default:
                     {
-                        Debug.WriteLine("Unknown response type received!");
+                        Debug.WriteLine("Unknown metasub response type received!");
                         break;
                     }
             }

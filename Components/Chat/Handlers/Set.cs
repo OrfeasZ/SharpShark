@@ -27,7 +27,7 @@ namespace GS.Lib.Components
 
                 default:
                     {
-                        Debug.WriteLine("Unknown response type received!");
+                        Debug.WriteLine("Unknown set response type received!");
                         break;
                     }
             }

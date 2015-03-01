@@ -9,7 +9,7 @@ namespace GS.Lib.Components
     {
         private void SubscribeToMetaUsersKeys(bool p_Retry = false, bool p_Initial = false)
         {
-            var s_Keys = m_SubscribedMetaKeys.Select(p_User => new UserSubscriptionData(p_User.Key, p_User.Value)).ToList();
+            var s_Keys = m_SubscribedMetaKeys.Select(p_User => new UserSubscription(p_User.Key, p_User.Value)).ToList();
 
             if (s_Keys.Count == 0)
                 return;

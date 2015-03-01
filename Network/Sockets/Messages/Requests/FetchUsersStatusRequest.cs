@@ -8,14 +8,14 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
     {
         internal class RequestParameters
         {
-            public List<UserSubscriptionData> Multikeys { get; set; } 
+            public List<UserSubscription> Multikeys { get; set; } 
         }
 
         public RequestParameters Params { get; set; }
 
         public Dictionary<String, String> Blackbox { get; set; } 
 
-        public FetchUsersStatusRequest(List<UserSubscriptionData> p_KeyData) 
+        public FetchUsersStatusRequest(List<UserSubscription> p_KeyData) 
             : base("multiget")
         {
             Params = new RequestParameters()
