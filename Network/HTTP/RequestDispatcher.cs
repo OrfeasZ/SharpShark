@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using GS.Lib.Network.HTTP.Requests;
 using GS.Lib.Network.HTTP.Responses;
@@ -43,48 +44,63 @@ namespace GS.Lib.Network.HTTP
                 // Determine the SecretKey we need to use.
                 var s_SecretKey = DetermineSecretKey(p_Method);
 
+                if (p_Parameters == null)
+                {
+                    // Construct our request.
+                    var s_EmptyRequest = new SharkRequest<Dictionary<String, String>>(p_Method, Library.User.SessionID,
+                        Library.User.UUID, Library.User.CommunicationToken,
+                        s_SecretKey, new Dictionary<string, string>(), Library.User.CountryData);
+
+                    return RequestInternal<Dictionary<String, String>, Z>(s_Client, p_Method, new Dictionary<string, string>(), p_UseHTTPS, s_EmptyRequest);
+                }
+
                 // Construct our request.
                 var s_Request = new SharkRequest<T>(p_Method, Library.User.SessionID,
                     Library.User.UUID, Library.User.CommunicationToken,
                     s_SecretKey, p_Parameters, Library.User.CountryData);
 
-                string s_ResponseData;
-
-                try
-                {
-                    // Send our request and download the response.
-                    var s_SerializedRequest = JsonConvert.SerializeObject(s_Request, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
-
-                    var s_URL = Library.BaseURL + "/more.php?" + p_Method;
-
-                    if (p_UseHTTPS)
-                        s_URL = s_URL.Replace("http://", "https://");
-
-                    s_ResponseData = s_Client.UploadString(s_URL + p_Method, s_SerializedRequest);
-                }
-                catch
-                {
-                    return default(Z);
-                }
-
-                // If the request requires HTTPS silently retry it with HTTPS.
-                if (s_ResponseData == "HTTPS Required" && !p_UseHTTPS)
-                    return DispatchInternal<T, Z>(p_Method, p_Parameters, true);
-
-                try
-                {
-                    // Try to parse the response.
-                    var s_Response = JsonConvert.DeserializeObject<SharkResponse<Z>>(s_ResponseData);
-
-                    // TODO: Additional checks?
-
-                    return s_Response.Result;
-                }
-                catch
-                {
-                    return default(Z);
-                }
+                return RequestInternal<T, Z>(s_Client, p_Method, p_Parameters, p_UseHTTPS, s_Request);
             }
+        }
+
+        private Z RequestInternal<T, Z>(WebClient p_Client, String p_Method, T p_Parameters, bool p_UseHTTPS, SharkRequest<T> p_Request)
+        {
+            string s_ResponseData;
+
+            try
+            {
+                // Send our request and download the response.
+                var s_SerializedRequest = JsonConvert.SerializeObject(p_Request, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+
+                var s_URL = Library.BaseURL + "/more.php?" + p_Method;
+
+                if (p_UseHTTPS)
+                    s_URL = s_URL.Replace("http://", "https://");
+
+                s_ResponseData = p_Client.UploadString(s_URL + p_Method, s_SerializedRequest);
+            }
+            catch
+            {
+                return default(Z);
+            }
+
+            // If the request requires HTTPS silently retry it with HTTPS.
+            if (s_ResponseData == "HTTPS Required" && !p_UseHTTPS)
+                return DispatchInternal<T, Z>(p_Method, p_Parameters, true);
+
+            try
+            {
+                // Try to parse the response.
+                var s_Response = JsonConvert.DeserializeObject<SharkResponse<Z>>(s_ResponseData);
+
+                // TODO: Additional checks?
+
+                return s_Response.Result;
+            }
+            catch
+            {
+                return default(Z);
+            } 
         }
 
         private String DetermineSecretKey(String p_Method)

@@ -15,6 +15,9 @@ namespace GS.Lib.Components
 
         public StreamKeyData GetStreamKeyFromSongID(Int64 p_SongID, bool p_Prefetch = false, bool p_Mobile = false, Int64 p_Type = 0)
         {
+            if (String.IsNullOrWhiteSpace(Library.User.SessionID))
+                return null;
+
             var s_Request = new GetStreamKeyFromSongIDRequest
             {
                 SongID = p_SongID,
@@ -34,6 +37,9 @@ namespace GS.Lib.Components
 
         public Dictionary<Int64, StreamKeyData> GetStreamKeysFromSongIDs(IEnumerable<Int64> p_SongIDs, bool p_Prefetch = false, bool p_Mobile = false, Int64 p_Type = 0)
         {
+            if (String.IsNullOrWhiteSpace(Library.User.SessionID))
+                return new Dictionary<long, StreamKeyData>();
+
             var s_Request = new GetStreamKeysFromSongIDsRequest
             {
                 SongIDs = p_SongIDs.ToList(),

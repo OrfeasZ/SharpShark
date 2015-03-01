@@ -16,6 +16,9 @@ namespace GS.Lib.Components
 
         public Dictionary<String, List<SongResultData>> GetResultsFromSearch(String p_Query, IEnumerable<String> p_Types)
         {
+            if (String.IsNullOrWhiteSpace(Library.User.SessionID))
+                return new Dictionary<string, List<SongResultData>>();
+
             var s_Request = new GetResultsFromSearchRequest()
             {
                 Guts = 0,
@@ -133,6 +136,9 @@ namespace GS.Lib.Components
 
         public Dictionary<String, List<SongResultData>> GetAutocomplete(String p_Query, String p_Type = "combined")
         {
+            if (String.IsNullOrWhiteSpace(Library.User.SessionID))
+                return new Dictionary<string, List<SongResultData>>();
+
             var s_Request = new GetAutocompleteRequest
             {
                 Query = p_Query,

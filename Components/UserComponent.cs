@@ -101,6 +101,29 @@ namespace GS.Lib.Components
             return AuthenticationResult.Success;
         }
 
+        public bool InitSession()
+        {
+            Data = null;
+            CountryData = null;
+            UUID = Guid.Empty;
+            SessionID = CommunicationToken = null;
+
+            // Try to fetch token data.
+            var s_TokenData = FetchTokenData();
+
+            if (s_TokenData == null || s_TokenData.GetGSConfig == null)
+                return false;
+
+            // Store required information.
+            CommunicationToken = s_TokenData.GetCommunicationToken;
+            SessionID = s_TokenData.GetGSConfig.SessionID;
+            UUID = s_TokenData.GetGSConfig.UUID;
+            Library.Chat.ChatServers = s_TokenData.GetGSConfig.ChatServersWeighted;
+            CountryData = s_TokenData.GetGSConfig.Country;
+
+            return true;
+        }
+
         private TokenData FetchTokenData(String p_SessionID = null)
         {
             // Initialize our WebClient and set our SessionID (if we have one).
@@ -146,8 +169,8 @@ namespace GS.Lib.Components
             if (Data == null)
                 return new List<long>();
 
-            var s_Response = Library.RequestDispatcher.Dispatch<Dictionary<String, String>, LibrarySongIDsResponse>(
-                "userGetSongIDsInLibrary", new Dictionary<String, String>());
+            var s_Response = Library.RequestDispatcher.Dispatch<Object, LibrarySongIDsResponse>(
+                "userGetSongIDsInLibrary", null);
 
             if (s_Response == null)
                 return new List<long>();
@@ -160,8 +183,8 @@ namespace GS.Lib.Components
             if (Data == null)
                 return new List<long>();
 
-            var s_Response = Library.RequestDispatcher.Dispatch<Dictionary<String, String>, List<Int64>>(
-                "userGetFavoriteSongsSongIDs", new Dictionary<String, String>());
+            var s_Response = Library.RequestDispatcher.Dispatch<Object, List<Int64>>(
+                "userGetFavoriteSongsSongIDs", null);
 
             if (s_Response == null)
                 return new List<long>();

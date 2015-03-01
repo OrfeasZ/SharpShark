@@ -52,6 +52,7 @@
     <Compile Include="Components\SearchComponent.cs" />
     <Compile Include="Components\SharkComponent.cs" />
     <Compile Include="Enums\AuthenticationResult.cs" />
+    <Compile Include="Models\BroadcastCreationData.cs" />
     <Compile Include="Models\BroadcastData.cs" />
     <Compile Include="Models\CategoryTag.cs" />
     <Compile Include="Models\ChatUserData.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Models\TokenData.cs" />
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Network\HTTP\Requests\AuthenticationRequest.cs" />
+    <Compile Include="Network\HTTP\Requests\CreateBroadcastRequest.cs" />
     <Compile Include="Network\HTTP\Requests\GetAutocompleteRequest.cs" />
     <Compile Include="Network\HTTP\Requests\GetFavoritesRequest.cs" />
     <Compile Include="Network\HTTP\Requests\GetResultsFromSearchRequest.cs" />
