@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 namespace GS.Lib.Network.HTTP.Requests
 {
     internal class SharkRequest<T>
-        where T : SharkObject
     {
         internal class RequestHeader
         {

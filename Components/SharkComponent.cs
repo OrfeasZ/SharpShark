@@ -1,10 +1,10 @@
 ﻿namespace GS.Lib.Components
 {
-    internal abstract class SharkComponent
+    public abstract class SharkComponent
     {
-        public SharpShark Library { get; protected set; }
+        internal SharpShark Library { get; private set; }
 
-        protected SharkComponent(SharpShark p_Library)
+        internal SharkComponent(SharpShark p_Library)
         {
             Library = p_Library;
         }

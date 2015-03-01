@@ -1,6 +1,5 @@
 ﻿using System;
 using GS.Lib.Components;
-using GS.Lib.Enums;
 using GS.Lib.Network.HTTP;
 
 namespace GS.Lib
@@ -9,8 +8,9 @@ namespace GS.Lib
     {
         internal RequestDispatcher RequestDispatcher { get; private set; }
 
-        internal AuthenticatorComponent Authenticator { get; private set; }
-        internal ChatComponent Chat { get; private set; }
+        public UserComponent User { get; private set; }
+        public ChatComponent Chat { get; private set; }
+        public BroadcastComponent Broadcast { get; private set; }
 
         public String BaseURL { get; private set; }
 
@@ -32,26 +32,9 @@ namespace GS.Lib
 
         private void InitComponents()
         {
-            Authenticator = new AuthenticatorComponent(this);
+            User = new UserComponent(this);
             Chat = new ChatComponent(this);
-        }
-
-        public AuthenticationResult Authenticate(String p_Username, String p_Password)
-        {
-            return Authenticator.Authenticate(p_Username, p_Password);
-        }
-
-        public AuthenticationResult Authenticate(String p_SessionID)
-        {
-            return Authenticator.Authenticate(p_SessionID);
-        }
-
-        public bool ConnectChat()
-        {
-            if (Authenticator.User == null)
-                return false;
-
-            return Chat.Connect();
+            Broadcast = new BroadcastComponent(this);
         }
     }
 }

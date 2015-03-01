@@ -8,9 +8,9 @@ using GS.Lib.Network.Sockets.Messages.Requests;
 
 namespace GS.Lib.Components
 {
-    internal partial class ChatComponent : SharkComponent
+    public partial class ChatComponent : SharkComponent
     {
-        public Dictionary<String, int> ChatServers { get; set; }
+        internal Dictionary<String, int> ChatServers { get; set; }
 
         public String UID { get; set; }
 
@@ -43,6 +43,9 @@ namespace GS.Lib.Components
 
         public bool Connect()
         {
+            if (Library.User.User == null)
+                return false;
+
             if (ChatServers.Count == 0)
                 return false;
 
@@ -76,9 +79,9 @@ namespace GS.Lib.Components
             }
 
             // TODO: Additional checks because when reconnecting we need to do thing differently.
-            m_SocketClient.SendMessage(new IdentifyRequest(Library.Authenticator.User.ChatUserData,
-                Library.Authenticator.User.ChatUserDataSig, Library.Authenticator.SessionID,
-                Library.Authenticator.UUID, false, Library.Authenticator.User.UserID));
+            m_SocketClient.SendMessage(new IdentifyRequest(Library.User.User.ChatUserData,
+                Library.User.User.ChatUserDataSig, Library.User.SessionID,
+                Library.User.UUID, false, Library.User.User.UserID));
         }
 
         private void OnDisconnected(object p_Sender, EventArgs p_EventArgs)

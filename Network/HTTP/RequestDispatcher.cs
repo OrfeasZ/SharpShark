@@ -23,24 +23,20 @@ namespace GS.Lib.Network.HTTP
         }
 
         public Z Dispatch<T, Z>(String p_Method, T p_Parameters)
-            where Z : SharkObject
-            where T : SharkObject
         {
             return DispatchInternal<T, Z>(p_Method, p_Parameters, NeedsHTTPS(p_Method));
         }
 
         private Z DispatchInternal<T, Z>(String p_Method, T p_Parameters, bool p_UseHTTPS)
-            where Z : SharkObject
-            where T : SharkObject
         {
             // Check if we're authenticated.
-            if (String.IsNullOrWhiteSpace(Library.Authenticator.SessionID) ||
-                Library.Authenticator.UUID == Guid.Empty)
-                return null;
+            if (String.IsNullOrWhiteSpace(Library.User.SessionID) ||
+                Library.User.UUID == Guid.Empty)
+                return default(Z);
 
             using (var s_Client = new WebClient())
             {
-                s_Client.Headers.Add(HttpRequestHeader.Cookie, "PHPSESSID=" + Library.Authenticator.SessionID);
+                s_Client.Headers.Add(HttpRequestHeader.Cookie, "PHPSESSID=" + Library.User.SessionID);
                 s_Client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
                 s_Client.Headers.Add(HttpRequestHeader.Accept, "application/json");
 
@@ -48,8 +44,8 @@ namespace GS.Lib.Network.HTTP
                 var s_SecretKey = DetermineSecretKey(p_Method);
 
                 // Construct our request.
-                var s_Request = new SharkRequest<T>(p_Method, Library.Authenticator.SessionID,
-                    Library.Authenticator.UUID, Library.Authenticator.CommunicationToken,
+                var s_Request = new SharkRequest<T>(p_Method, Library.User.SessionID,
+                    Library.User.UUID, Library.User.CommunicationToken,
                     s_SecretKey, p_Parameters);
 
                 string s_ResponseData;
@@ -68,7 +64,7 @@ namespace GS.Lib.Network.HTTP
                 }
                 catch
                 {
-                    return null;
+                    return default(Z);
                 }
 
                 // If the request requires HTTPS silently retry it with HTTPS.
@@ -86,7 +82,7 @@ namespace GS.Lib.Network.HTTP
                 }
                 catch
                 {
-                    return null;
+                    return default(Z);
                 }
             }
         }

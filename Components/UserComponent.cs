@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Text.RegularExpressions;
 using GS.Lib.Enums;
@@ -10,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace GS.Lib.Components
 {
-    internal class AuthenticatorComponent : SharkComponent
+    public class UserComponent : SharkComponent
     {
         public String SessionID { get; set; }
 
@@ -20,7 +21,7 @@ namespace GS.Lib.Components
 
         public UserData User { get; set; }
 
-        internal AuthenticatorComponent(SharpShark p_Library)
+        internal UserComponent(SharpShark p_Library)
             : base(p_Library)
         {
             User = null;
@@ -131,6 +132,50 @@ namespace GS.Lib.Components
                     throw new Exception("Authentication failed; has GS changed something?");
                 }
             }
+        }
+
+        public List<Int64> GetCollectionSongs()
+        {
+            if (User == null)
+                return new List<long>();
+
+            var s_Response = Library.RequestDispatcher.Dispatch<Dictionary<String, String>, List<Int64>>(
+                "userGetSongIDsInLibrary", new Dictionary<String, String>());
+
+            if (s_Response == null)
+                return new List<long>();
+
+            return s_Response;
+        }
+
+        public List<Int64> GetFavoriteSongs()
+        {
+            if (User == null)
+                return new List<long>();
+
+            var s_Response = Library.RequestDispatcher.Dispatch<Dictionary<String, String>, List<Int64>>(
+                "userGetFavoriteSongsSongIDs", new Dictionary<String, String>());
+
+            if (s_Response == null)
+                return new List<long>();
+
+            return s_Response;
+        }
+
+        public List<SongResultData> GetFavorites(String p_What, Int64 p_UserID)
+        {
+            var s_Request = new GetFavoritesRequest 
+            { 
+                OfWhat = p_What, 
+                UserID = p_UserID 
+            };
+
+            var s_Response = Library.RequestDispatcher.Dispatch<GetFavoritesRequest, List<SongResultData>>("getFavorites", s_Request);
+
+            if (s_Response == null)
+                return new List<SongResultData>();
+
+            return s_Response;
         }
     }
 }

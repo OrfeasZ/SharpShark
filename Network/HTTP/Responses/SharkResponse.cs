@@ -3,7 +3,6 @@
 namespace GS.Lib.Network.HTTP.Responses
 {
     internal class SharkResponse<T>
-        where T : SharkObject
     {
         internal class ResponseHeader
         {

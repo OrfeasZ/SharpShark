@@ -5,7 +5,7 @@ using GS.Lib.Network.Sockets.Messages.Responses;
 
 namespace GS.Lib.Components
 {
-    internal partial class ChatComponent
+    public partial class ChatComponent
     {
         private void HandleIdentify(SharkResponseMessage p_Message)
         {
