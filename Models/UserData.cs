@@ -16,10 +16,18 @@ namespace GS.Lib.Models
 
         public Int64 UserID { get; set; }
 
+        public Int64 ArtistID { get; set; }
+
         internal ChatUserData ChatUserData { get; set; }
 
         internal String ChatUserDataSig { get; set; }
 
         public CategoryTag Tag { get; set; }
+
+        public String City { get; set; }
+
+        public String State { get; set; }
+
+        public String Country { get; set; }
     }
 }

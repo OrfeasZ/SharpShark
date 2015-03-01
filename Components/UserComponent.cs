@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using GS.Lib.Enums;
@@ -194,6 +195,9 @@ namespace GS.Lib.Components
 
         public List<SongResultData> GetFavorites(String p_What, Int64 p_UserID)
         {
+            if (String.IsNullOrWhiteSpace(SessionID))
+                return new List<SongResultData>();
+
             var s_Request = new GetFavoritesRequest 
             { 
                 OfWhat = p_What, 
@@ -206,6 +210,66 @@ namespace GS.Lib.Components
                 return new List<SongResultData>();
 
             return s_Response;
+        }
+
+        public List<FollowerFollowingUserData> GetFollowers()
+        {
+            if (Data == null)
+                return new List<FollowerFollowingUserData>();
+
+            var s_Response = Library.RequestDispatcher.Dispatch<Object, List<FollowerFollowingUserData>>(
+                    "userGetFollowersFollowingEx", null);
+
+            var s_Users = new List<FollowerFollowingUserData>();
+
+            if (s_Response == null)
+                return s_Users;
+
+            s_Users.AddRange(s_Response.Where(p_User => !String.IsNullOrWhiteSpace(p_User.IsFollower) && p_User.IsFollower == "1"));
+
+            return s_Users;
+        }
+
+        public List<FollowerFollowingUserData> GetFollowingUsers()
+        {
+            if (Data == null)
+                return new List<FollowerFollowingUserData>();
+
+            var s_Response = Library.RequestDispatcher.Dispatch<Object, List<FollowerFollowingUserData>>(
+                    "userGetFollowersFollowingEx", null);
+
+            var s_Users = new List<FollowerFollowingUserData>();
+
+            if (s_Response == null)
+                return s_Users;
+
+            s_Users.AddRange(s_Response.Where(
+                    p_User =>
+                        !String.IsNullOrWhiteSpace(p_User.FollowingFlags) && p_User.FollowingFlags.Length > 0 &&
+                        (String.IsNullOrWhiteSpace(p_User.IsArtist) || p_User.IsArtist == "0")));
+
+            return s_Users;
+        }
+
+        public List<FollowerFollowingUserData> GetFollowingArtists()
+        {
+            if (Data == null)
+                return new List<FollowerFollowingUserData>();
+
+            var s_Response = Library.RequestDispatcher.Dispatch<Object, List<FollowerFollowingUserData>>(
+                    "userGetFollowersFollowingEx", null);
+
+            var s_Users = new List<FollowerFollowingUserData>();
+
+            if (s_Response == null)
+                return s_Users;
+
+            s_Users.AddRange(s_Response.Where(
+                    p_User =>
+                        !String.IsNullOrWhiteSpace(p_User.FollowingFlags) && p_User.FollowingFlags.Length > 0 &&
+                        (String.IsNullOrWhiteSpace(p_User.IsArtist) || p_User.IsArtist == "1")));
+
+            return s_Users;
         }
     }
 }

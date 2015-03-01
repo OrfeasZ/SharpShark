@@ -43,6 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Chat\Dispatchers\Broadcast.cs" />
+    <Compile Include="Components\Chat\Dispatchers\BroadcastDarkLaunch.cs" />
+    <Compile Include="Components\Chat\Dispatchers\FetchUserStatuses.cs" />
+    <Compile Include="Components\Chat\Dispatchers\JoinChannels.cs" />
+    <Compile Include="Components\Chat\Dispatchers\Publish.cs" />
+    <Compile Include="Components\Chat\Dispatchers\SubscribeToMetaArtists.cs" />
+    <Compile Include="Components\Chat\Dispatchers\SubscribeToMetaUsers.cs" />
+    <Compile Include="Components\Chat\Dispatchers\SubscribeToMetaUsersKeys.cs" />
+    <Compile Include="Components\Chat\Dispatchers\UpdateChannelList.cs" />
+    <Compile Include="Components\Chat\Dispatchers\UpdateUserData.cs" />
+    <Compile Include="Components\Chat\Handlers\MetaSub.cs" />
+    <Compile Include="Components\Chat\Handlers\Set.cs" />
+    <Compile Include="Components\Chat\Handlers\SubscribeToMetaUsers.cs" />
     <Compile Include="Components\SongsComponent.cs" />
     <Compile Include="Components\UserComponent.cs" />
     <Compile Include="Components\BroadcastComponent.cs" />
@@ -57,10 +70,14 @@
     <Compile Include="Models\CategoryTag.cs" />
     <Compile Include="Models\ChatUserData.cs" />
     <Compile Include="Models\CountryData.cs" />
+    <Compile Include="Models\FollowerFollowingUserData.cs" />
+    <Compile Include="Models\MetaUserData.cs" />
     <Compile Include="Models\SongResultData.cs" />
     <Compile Include="Models\StreamKeyData.cs" />
+    <Compile Include="Models\SubscriptionData.cs" />
     <Compile Include="Models\TokenData.cs" />
     <Compile Include="Models\UserData.cs" />
+    <Compile Include="Models\UserSubscriptionData.cs" />
     <Compile Include="Network\HTTP\Requests\AuthenticationRequest.cs" />
     <Compile Include="Network\HTTP\Requests\CreateBroadcastRequest.cs" />
     <Compile Include="Network\HTTP\Requests\GetAutocompleteRequest.cs" />
@@ -72,10 +89,24 @@
     <Compile Include="Network\HTTP\Responses\GetResultsFromSearchResponse.cs" />
     <Compile Include="Network\HTTP\Responses\LibrarySongIDsResponse.cs" />
     <Compile Include="Network\Sockets\Client.cs" />
+    <Compile Include="Network\Sockets\Messages\Generic\KeyValEntry.cs" />
+    <Compile Include="Network\Sockets\Messages\Generic\KeyValParams.cs" />
+    <Compile Include="Network\Sockets\Messages\Generic\KeyVals.cs" />
+    <Compile Include="Network\Sockets\Messages\Generic\PartitionedBlackbox.cs" />
+    <Compile Include="Network\Sockets\Messages\Requests\ChannelSubRequest.cs" />
+    <Compile Include="Network\Sockets\Messages\Requests\FetchUsersStatusRequest.cs" />
+    <Compile Include="Network\Sockets\Messages\Requests\PublishRequest.cs" />
+    <Compile Include="Network\Sockets\Messages\Requests\RestoreLookupRequest.cs" />
+    <Compile Include="Network\Sockets\Messages\Requests\SubscribeToMetaArtistsRequest.cs" />
+    <Compile Include="Network\Sockets\Messages\Requests\SubscribeToMetaUsersKeysRequest.cs" />
+    <Compile Include="Network\Sockets\Messages\Requests\SubscribeToMetaUsersRequest.cs" />
+    <Compile Include="Network\Sockets\Messages\Requests\UpdateUserDataRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Responses\BasicResponse.cs" />
     <Compile Include="Network\Sockets\Messages\Responses\ErrorResponse.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\IdentifyRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Responses\IdentifyResponse.cs" />
+    <Compile Include="Network\Sockets\Messages\Responses\SubscribeToMetaUsersResponse.cs" />
+    <Compile Include="Network\Sockets\Messages\Responses\SuccessResponse.cs" />
     <Compile Include="Network\Sockets\Messages\SharkMessage.cs" />
     <Compile Include="Network\Sockets\Messages\SharkResponseMessage.cs" />
     <Compile Include="Network\Sockets\ObjectPool.cs" />
@@ -91,9 +122,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Components\Chat\Dispatchers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

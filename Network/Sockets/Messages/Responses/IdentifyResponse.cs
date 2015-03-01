@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace GS.Lib.Network.Sockets.Messages.Responses
 {
-    class IdentifyResponse : SharkMessage
+    internal class IdentifyResponse : SharkMessage
     {
         internal class ChatIDContainer
         {

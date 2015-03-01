@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using GS.Lib.Network.Sockets;
 using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Network.Sockets.Messages.Requests;
@@ -39,6 +41,8 @@ namespace GS.Lib.Components
         private void RegisterHandlers()
         {
             m_Handlers.Add("identify", HandleIdentify);
+            m_Handlers.Add("set", HandleSet);
+            m_Handlers.Add("meta_sub", HandleMetaSub);
         }
 
         public bool Connect()
@@ -86,6 +90,7 @@ namespace GS.Lib.Components
 
         private void OnDisconnected(object p_Sender, EventArgs p_EventArgs)
         {
+            UID = null;
             // TODO: Reconnection
         }
 
@@ -93,13 +98,29 @@ namespace GS.Lib.Components
         {
             Action<SharkResponseMessage> s_Handler;
 
+            Debug.WriteLine("[S -> C] " + p_Message);
+
             if (!m_Handlers.TryGetValue(p_Message.Command, out s_Handler))
             {
-                Debug.WriteLine("Received an unhandled command: {0}", p_Message.Command);
+                Debug.WriteLine(String.Format("Received an unhandled command: {0}", p_Message.Command));
                 return;
             }
 
+            //Debug.WriteLine(String.Format("Received a known command: {0}", p_Message.Command));
+
             s_Handler(p_Message);
+        }
+
+        private String GetSessionPart()
+        {
+            if (String.IsNullOrWhiteSpace(Library.User.SessionID))
+                return "";
+
+            using (var s_MD5 = MD5.Create())
+            {
+                var s_HashedPassword = s_MD5.ComputeHash(Encoding.ASCII.GetBytes(Library.User.SessionID));
+                return BitConverter.ToString(s_HashedPassword).Replace("-", "").ToLower().Substring(0, 6);
+            }
         }
     }
 }

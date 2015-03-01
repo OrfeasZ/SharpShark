@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -22,10 +23,13 @@ namespace GS.Lib.Network.Sockets
         private Socket m_Socket;
         private Processor m_Processor;
 
+        private Object m_SendLock;
+
         public Client()
         {
             m_EventArgsPool = new ObjectPool<SocketAsyncEventArgs>(1000);
             m_Connecting = false;
+            m_SendLock = new object();
         }
 
         public bool Connect(String p_HostName, UInt16 p_Port)
@@ -125,11 +129,24 @@ namespace GS.Lib.Network.Sockets
             if (p_Message == null)
                 return false;
 
-            var s_SerializedMessage = JsonConvert.SerializeObject(p_Message, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+            Debug.WriteLine(String.Format("Sending command: {0}", p_Message.Command));
 
-            var s_MessageData = Encoding.UTF8.GetBytes(s_SerializedMessage);
+            try
+            {
+                var s_SerializedMessage = JsonConvert.SerializeObject(p_Message,
+                    new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()});
+                s_SerializedMessage += '\n';
 
-            return Send(s_MessageData, 0, s_MessageData.Length);
+                Debug.WriteLine("[C -> S] " + s_SerializedMessage);
+
+                var s_MessageData = Encoding.UTF8.GetBytes(s_SerializedMessage);
+
+                return Send(s_MessageData, 0, s_MessageData.Length);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private bool Send(byte[] p_Data, int p_Offset, int p_Length)
@@ -137,24 +154,28 @@ namespace GS.Lib.Network.Sockets
             if (!m_Socket.Connected)
                 return false;
 
-            var s_Args = m_EventArgsPool.Get();
-            s_Args.Completed += Send_Completed;
-            s_Args.SetBuffer(p_Data, p_Offset, p_Length);
-
-            try
+            lock (m_SendLock)
             {
-                if (!m_Socket.SendAsync(s_Args))
-                    Send_Completed(this, s_Args);
 
-                return true;
-            }
-            catch (ObjectDisposedException)
-            {
-                s_Args.UserToken = null;
-                s_Args.Completed -= Send_Completed;
-                m_EventArgsPool.Put(s_Args);
+                var s_Args = m_EventArgsPool.Get();
+                s_Args.Completed += Send_Completed;
+                s_Args.SetBuffer(p_Data, p_Offset, p_Length);
 
-                return false;
+                try
+                {
+                    if (!m_Socket.SendAsync(s_Args))
+                        Send_Completed(this, s_Args);
+
+                    return true;
+                }
+                catch (ObjectDisposedException)
+                {
+                    s_Args.UserToken = null;
+                    s_Args.Completed -= Send_Completed;
+                    m_EventArgsPool.Put(s_Args);
+
+                    return false;
+                }
             }
         }
 

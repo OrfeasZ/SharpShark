@@ -2,7 +2,7 @@
 
 namespace GS.Lib.Network.Sockets.Messages.Responses
 {
-    class BasicResponse : SharkMessage
+    internal class BasicResponse : SharkMessage
     {
         public String Type { get; set; }
 

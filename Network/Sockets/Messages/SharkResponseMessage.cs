@@ -26,5 +26,10 @@ namespace GS.Lib.Network.Sockets.Messages
                 return null;
             }
         }
+
+        public override string ToString()
+        {
+            return m_MessageData;
+        }
     }
 }
