@@ -2,7 +2,7 @@
 {
     class QueueComponent : SharkComponent
     {
-        public QueueComponent(SharpShark p_Library)
+        internal QueueComponent(SharpShark p_Library)
             : base(p_Library)
         {
         }

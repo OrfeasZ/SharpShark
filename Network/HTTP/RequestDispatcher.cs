@@ -46,7 +46,7 @@ namespace GS.Lib.Network.HTTP
                 // Construct our request.
                 var s_Request = new SharkRequest<T>(p_Method, Library.User.SessionID,
                     Library.User.UUID, Library.User.CommunicationToken,
-                    s_SecretKey, p_Parameters);
+                    s_SecretKey, p_Parameters, Library.User.CountryData);
 
                 string s_ResponseData;
 
@@ -91,6 +91,8 @@ namespace GS.Lib.Network.HTTP
         {
             switch (p_Method)
             {
+                /*case "getStreamKeysFromSongIDs":
+                case "getStreamKeyFromFileToken":
                 case "getStreamKeyFromSongIDEx":
                 case "markSongDownloadedEx":
                 case "markSongQueueSongPlayed":
@@ -99,7 +101,7 @@ namespace GS.Lib.Network.HTTP
                 case "removeSongsFromQueue":
                 case "addSongsToQueue":
                 case "getTokens":
-                    return m_SecretKey01;
+                    return m_SecretKey01;*/
                     
                 default:
                     return m_SecretKey02;

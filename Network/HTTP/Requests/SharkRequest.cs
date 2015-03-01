@@ -22,12 +22,12 @@ namespace GS.Lib.Network.HTTP.Requests
             public String Session { get; set; }
             public String Token { get; set; }
 
-            public RequestHeader(String p_Method, String p_SessionID, Guid p_UUID, String p_CommunicationToken, String p_SecretKey)
+            public RequestHeader(String p_Method, String p_SessionID, Guid p_UUID, String p_CommunicationToken, String p_SecretKey, CountryData p_CountryData = null)
             {
                 Client = "htmlshark";
                 ClientRevision = "20130520";
                 Privacy = 0;
-                Country = new CountryData();
+                Country = p_CountryData ?? new CountryData();
                 UUID = p_UUID.ToString("D").ToUpper();
                 Session = p_SessionID;
 
@@ -49,9 +49,9 @@ namespace GS.Lib.Network.HTTP.Requests
         public String Method { get; set; }
         public T Parameters { get; set; }
 
-        public SharkRequest(String p_Method, String p_SessionID, Guid p_UUID, String p_CommunicationToken, String p_SecretKey, T p_Parameters)
+        public SharkRequest(String p_Method, String p_SessionID, Guid p_UUID, String p_CommunicationToken, String p_SecretKey, T p_Parameters, CountryData p_CountryData = null)
         {
-            Header = new RequestHeader(p_Method, p_SessionID, p_UUID, p_CommunicationToken, p_SecretKey);
+            Header = new RequestHeader(p_Method, p_SessionID, p_UUID, p_CommunicationToken, p_SecretKey, p_CountryData);
             Method = p_Method;
             Parameters = p_Parameters;
         }

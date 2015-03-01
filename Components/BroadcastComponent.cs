@@ -7,7 +7,7 @@ namespace GS.Lib.Components
 {
     public class BroadcastComponent : SharkComponent
     {
-        public BroadcastComponent(SharpShark p_Library) 
+        internal BroadcastComponent(SharpShark p_Library) 
             : base(p_Library)
         {
         }

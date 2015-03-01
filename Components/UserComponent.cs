@@ -19,19 +19,23 @@ namespace GS.Lib.Components
 
         public Guid UUID { get; set; }
 
-        public UserData User { get; set; }
+        public UserData Data { get; set; }
+
+        public CountryData CountryData { get; set; }
 
         internal UserComponent(SharpShark p_Library)
             : base(p_Library)
         {
-            User = null;
+            Data = null;
+            CountryData = null;
             UUID = Guid.Empty;
             SessionID = CommunicationToken = null;
         }
 
         public AuthenticationResult Authenticate(String p_SessionID)
         {
-            User = null;
+            Data = null;
+            CountryData = null;
             UUID = Guid.Empty;
             SessionID = CommunicationToken = null;
 
@@ -48,17 +52,19 @@ namespace GS.Lib.Components
 
             // Store required information.
             CommunicationToken = s_TokenData.GetCommunicationToken;
-            User = s_TokenData.GetGSConfig.User;
+            Data = s_TokenData.GetGSConfig.User;
             SessionID = s_TokenData.GetGSConfig.SessionID;
             UUID = s_TokenData.GetGSConfig.UUID;
             Library.Chat.ChatServers = s_TokenData.GetGSConfig.ChatServersWeighted;
+            CountryData = s_TokenData.GetGSConfig.Country;
 
             return AuthenticationResult.Success;
         }
 
         public AuthenticationResult Authenticate(String p_Username, String p_Password)
         {
-            User = null;
+            Data = null;
+            CountryData = null;
             UUID = Guid.Empty;
             SessionID = CommunicationToken = null;
 
@@ -73,6 +79,7 @@ namespace GS.Lib.Components
             SessionID = s_TokenData.GetGSConfig.SessionID;
             UUID = s_TokenData.GetGSConfig.UUID;
             Library.Chat.ChatServers = s_TokenData.GetGSConfig.ChatServersWeighted;
+            CountryData = s_TokenData.GetGSConfig.Country;
 
             var s_Request = new AuthenticationRequest
             {
@@ -89,7 +96,7 @@ namespace GS.Lib.Components
             if (String.IsNullOrWhiteSpace(s_Response.Email))
                 return AuthenticationResult.InvalidCredentials;
 
-            User = s_Response;
+            Data = s_Response;
 
             return AuthenticationResult.Success;
         }
@@ -136,7 +143,7 @@ namespace GS.Lib.Components
 
         public List<Int64> GetCollectionSongs()
         {
-            if (User == null)
+            if (Data == null)
                 return new List<long>();
 
             var s_Response = Library.RequestDispatcher.Dispatch<Dictionary<String, String>, LibrarySongIDsResponse>(
@@ -150,7 +157,7 @@ namespace GS.Lib.Components
 
         public List<Int64> GetFavoriteSongs()
         {
-            if (User == null)
+            if (Data == null)
                 return new List<long>();
 
             var s_Response = Library.RequestDispatcher.Dispatch<Dictionary<String, String>, List<Int64>>(

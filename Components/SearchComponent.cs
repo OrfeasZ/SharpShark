@@ -9,7 +9,7 @@ namespace GS.Lib.Components
 {
     public class SearchComponent : SharkComponent
     {
-        public SearchComponent(SharpShark p_Library) 
+        internal SearchComponent(SharpShark p_Library) 
             : base(p_Library)
         {
         }
@@ -129,6 +129,23 @@ namespace GS.Lib.Components
             }
 
             return s_Results;
+        }
+
+        public Dictionary<String, List<SongResultData>> GetAutocomplete(String p_Query, String p_Type = "combined")
+        {
+            var s_Request = new GetAutocompleteRequest
+            {
+                Query = p_Query,
+                Type = p_Type
+            };
+
+            var s_Response = Library.RequestDispatcher.Dispatch<GetAutocompleteRequest, Dictionary<String, List<SongResultData>>>(
+                    "getAutocompleteEx", s_Request);
+
+            if (s_Response == null)
+                return new Dictionary<String, List<SongResultData>>();
+
+            return s_Response;
         }
     }
 }

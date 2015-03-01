@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\SongsComponent.cs" />
     <Compile Include="Components\UserComponent.cs" />
     <Compile Include="Components\BroadcastComponent.cs" />
     <Compile Include="Components\ChatComponent.cs" />
@@ -56,11 +57,15 @@
     <Compile Include="Models\ChatUserData.cs" />
     <Compile Include="Models\CountryData.cs" />
     <Compile Include="Models\SongResultData.cs" />
+    <Compile Include="Models\StreamKeyData.cs" />
     <Compile Include="Models\TokenData.cs" />
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Network\HTTP\Requests\AuthenticationRequest.cs" />
+    <Compile Include="Network\HTTP\Requests\GetAutocompleteRequest.cs" />
     <Compile Include="Network\HTTP\Requests\GetFavoritesRequest.cs" />
     <Compile Include="Network\HTTP\Requests\GetResultsFromSearchRequest.cs" />
+    <Compile Include="Network\HTTP\Requests\GetStreamKeyFromSongIDRequest.cs" />
+    <Compile Include="Network\HTTP\Requests\GetStreamKeysFromSongIDsRequest.cs" />
     <Compile Include="Network\HTTP\Responses\AuthenticationResponse.cs" />
     <Compile Include="Network\HTTP\Responses\GetResultsFromSearchResponse.cs" />
     <Compile Include="Network\HTTP\Responses\LibrarySongIDsResponse.cs" />

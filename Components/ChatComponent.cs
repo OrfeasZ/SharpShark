@@ -18,9 +18,9 @@ namespace GS.Lib.Components
 
         private const UInt16 c_ServerPort = 443;
 
-        private readonly Dictionary<String, Action<SharkResponseMessage>> m_Handlers; 
+        private readonly Dictionary<String, Action<SharkResponseMessage>> m_Handlers;
 
-        public ChatComponent(SharpShark p_Library) 
+        internal ChatComponent(SharpShark p_Library) 
             : base(p_Library)
         {
             ChatServers = new Dictionary<string, int>();
@@ -43,7 +43,7 @@ namespace GS.Lib.Components
 
         public bool Connect()
         {
-            if (Library.User.User == null)
+            if (Library.User.Data == null)
                 return false;
 
             if (ChatServers.Count == 0)
@@ -79,9 +79,9 @@ namespace GS.Lib.Components
             }
 
             // TODO: Additional checks because when reconnecting we need to do thing differently.
-            m_SocketClient.SendMessage(new IdentifyRequest(Library.User.User.ChatUserData,
-                Library.User.User.ChatUserDataSig, Library.User.SessionID,
-                Library.User.UUID, false, Library.User.User.UserID));
+            m_SocketClient.SendMessage(new IdentifyRequest(Library.User.Data.ChatUserData,
+                Library.User.Data.ChatUserDataSig, Library.User.SessionID,
+                Library.User.UUID, false, Library.User.Data.UserID));
         }
 
         private void OnDisconnected(object p_Sender, EventArgs p_EventArgs)
