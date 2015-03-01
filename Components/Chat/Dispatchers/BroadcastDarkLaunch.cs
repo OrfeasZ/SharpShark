@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GS.Lib.Network.Sockets.Messages.Requests;
 
 namespace GS.Lib.Components
 {
@@ -7,7 +6,7 @@ namespace GS.Lib.Components
     {
         private void InitiateBroadcastDarkLaunch()
         {
-            // TODO: Implement
+            m_SocketClient.SendMessage(new BroadcastDarkLaunchRequest());
         }
     }
 }

@@ -22,8 +22,9 @@ namespace GS.Lib.Network.Sockets
         private readonly ObjectPool<SocketAsyncEventArgs> m_EventArgsPool;
         private Socket m_Socket;
         private Processor m_Processor;
+        private IPEndPoint m_HostEndPoint;
 
-        private Object m_SendLock;
+        private readonly Object m_SendLock;
 
         public Client()
         {
@@ -52,15 +53,15 @@ namespace GS.Lib.Network.Sockets
                 return false;
             }
 
-            var s_Endpoint = new IPEndPoint(s_Host.AddressList[s_Host.AddressList.Length - 1], p_Port);
-            m_Socket = new Socket(s_Endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp)
+            m_HostEndPoint = new IPEndPoint(s_Host.AddressList[s_Host.AddressList.Length - 1], p_Port);
+            m_Socket = new Socket(m_HostEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp)
             {
                 NoDelay = true
             };
 
             var s_Args = m_EventArgsPool.Get();
             s_Args.Completed += Connect_Completed;
-            s_Args.RemoteEndPoint = s_Endpoint;
+            s_Args.RemoteEndPoint = m_HostEndPoint;
 
             if (!m_Socket.ConnectAsync(s_Args))
                 Connect_Completed(this, s_Args);
@@ -98,7 +99,9 @@ namespace GS.Lib.Network.Sockets
             if (OnConnected != null)
                 OnConnected(this, true);
 
+            s_Args.RemoteEndPoint = m_HostEndPoint;
             s_Args.Completed += Receive_Completed;
+
             PostReceive(s_Args);
         }
 

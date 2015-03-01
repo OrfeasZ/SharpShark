@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace GS.Lib.Network.Sockets.Messages.Requests
 {
@@ -9,6 +10,7 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
         {
             public List<String> Keys { get; set; }
 
+            [JsonProperty("userid")]
             public String UserID { get; set; }
 
             public RequestParams()

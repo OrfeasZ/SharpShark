@@ -98,6 +98,7 @@
     <Compile Include="Network\Sockets\Messages\Generic\KeyValParams.cs" />
     <Compile Include="Network\Sockets\Messages\Generic\KeyVals.cs" />
     <Compile Include="Network\Sockets\Messages\Generic\PartitionedBlackbox.cs" />
+    <Compile Include="Network\Sockets\Messages\Requests\BroadcastDarkLaunchRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\ChannelSubRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\FetchUsersStatusRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\PublishRequest.cs" />
