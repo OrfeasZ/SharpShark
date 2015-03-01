@@ -2,7 +2,7 @@
 
 namespace GS.Lib.Models
 {
-    internal class CountryData : SharkObject
+    public class CountryData : SharkObject
     {
         public int ID { get; set; }
         public int CC1 { get; set; }
@@ -16,7 +16,7 @@ namespace GS.Lib.Models
         public String Zip { get; set; }
         public int IPR { get; set; }
 
-        internal CountryData()
+        public CountryData()
         {
             ID = 85;
             CC2 = 1048576;

@@ -44,10 +44,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\AuthenticatorComponent.cs" />
+    <Compile Include="Components\BroadcastComponent.cs" />
     <Compile Include="Components\ChatComponent.cs" />
     <Compile Include="Components\Chat\Handlers\Identify.cs" />
+    <Compile Include="Components\QueueComponent.cs" />
     <Compile Include="Components\SharkComponent.cs" />
     <Compile Include="Enums\AuthenticationResult.cs" />
+    <Compile Include="Models\BroadcastData.cs" />
+    <Compile Include="Models\CategoryTag.cs" />
     <Compile Include="Models\ChatUserData.cs" />
     <Compile Include="Models\CountryData.cs" />
     <Compile Include="Models\TokenData.cs" />

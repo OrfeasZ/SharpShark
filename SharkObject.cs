@@ -1,6 +1,6 @@
 ﻿namespace GS.Lib
 {
-    internal abstract class SharkObject
+    public abstract class SharkObject
     {
     }
 }
