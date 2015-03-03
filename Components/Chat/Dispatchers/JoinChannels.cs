@@ -29,7 +29,8 @@ namespace GS.Lib.Components
                 {
                     var s_ObjectDict = s_Object as Dictionary<String, Object>;
 
-                    s_Channel.Add("sub", s_ObjectDict["sub"]);
+                    if (s_ObjectDict.ContainsKey("sub"))
+                        s_Channel.Add("sub", s_ObjectDict["sub"]);
 
                     Object s_CreateWhenDone;
                     Object s_TryToOwn;

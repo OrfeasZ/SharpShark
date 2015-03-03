@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using GS.Lib.Enums;
+using GS.Lib.Events;
 using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Network.Sockets.Messages.Responses;
 using Newtonsoft.Json.Linq;
@@ -157,6 +159,13 @@ namespace GS.Lib.Components
                 if (LoggedInMaster == null)
                     PingMaster();
             }
+
+            DispatchEvent((int)ChatEvent.SubResult, new SubResultEvent()
+            {
+                ChannelParameters = s_ChannelParams,
+                Channels = s_NewChannels,
+                Blackbox = p_Blackbox ?? new Dictionary<string, JToken>()
+            });
         }
     }
 }

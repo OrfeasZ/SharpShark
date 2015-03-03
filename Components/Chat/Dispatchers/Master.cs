@@ -39,5 +39,20 @@ namespace GS.Lib.Components
 
             BroadcastMessageToSelf(LoggedInMaster, "masterPromotion");
         }
+
+        internal void ReEvaluateMastershipAndUpdate()
+        {
+            if (Library.User.Data == null || Library.User.Data.UserID == 0)
+                return;
+
+            if (LoggedInMaster != null && LoggedInMaster.UUID == UID)
+            {
+                // TODO: Check for change in playing state and PromoteSelfToMaster("evaluate_and_update_self").
+                UpdateCurrentStatus();
+                return;
+            }
+
+            // TODO: Handle idle updates
+        }
     }
 }

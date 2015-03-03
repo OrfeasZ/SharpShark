@@ -22,6 +22,7 @@ namespace GS.Lib
             RequestDispatcher = new RequestDispatcher(this, p_SecretKey01, p_SecretKey02);
 
             InitComponents();
+            RegisterEventHandlers();
         }
 
         public SharpShark(String p_SecretKey01, String p_SecretKey02, String p_BaseURL)
@@ -30,6 +31,7 @@ namespace GS.Lib
             RequestDispatcher = new RequestDispatcher(this, p_SecretKey01, p_SecretKey02);
 
             InitComponents();
+            RegisterEventHandlers();
         }
 
         private void InitComponents()
@@ -39,6 +41,15 @@ namespace GS.Lib
             Broadcast = new BroadcastComponent(this);
             Search = new SearchComponent(this);
             Songs = new SongsComponent(this);
+        }
+
+        private void RegisterEventHandlers()
+        {
+            User.RegisterEventHandlers();
+            Chat.RegisterEventHandlers();
+            Broadcast.RegisterEventHandlers();
+            Search.RegisterEventHandlers();
+            Songs.RegisterEventHandlers();
         }
     }
 }

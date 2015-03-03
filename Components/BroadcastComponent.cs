@@ -7,7 +7,7 @@ using GS.Lib.Network.HTTP.Requests;
 
 namespace GS.Lib.Components
 {
-    public class BroadcastComponent : SharkComponent
+    public partial class BroadcastComponent : EventsComponent
     {
         public String ActiveBroadcastID { get; set; }
 
@@ -16,7 +16,13 @@ namespace GS.Lib.Components
         public String CurrentBroadcast { get; set; }
         public BroadcastStatus CurrentBroadcastStatus { get; set; }
         public String CurrentBroadcastName { get; set; }
+        public String CurrentBroadcastDescription { get; set; }
         public String CurrentBroadcastPicture { get; set; }
+        public CategoryTag CurrentBroadcastCategoryTag { get; set; }
+
+        public bool ChatEnabled { get; set; }
+
+        private const double c_BroadcasterVersion = 3.91;
 
         internal BroadcastComponent(SharpShark p_Library) 
             : base(p_Library)
@@ -25,6 +31,19 @@ namespace GS.Lib.Components
 
             CurrentBroadcast = null;
             CurrentBroadcastStatus = BroadcastStatus.Idle;
+            ChatEnabled = true;
+            CurrentBroadcastCategoryTag = null;
+
+            BannedUserIDs = new List<long>();
+            OwnerUserIDs = new List<long>();
+            SuggestionsEnabled = true;
+
+            m_SuggestionChanges = new List<object>();
+        }
+
+        internal override void RegisterEventHandlers()
+        {
+            Library.Chat.RegisterEventHandler((int) ChatEvent.SubResult, HandleSubResult);
         }
 
         public List<CategoryTag> GetCategoryTags()
@@ -58,6 +77,11 @@ namespace GS.Lib.Components
             if (Library.User.Data == null)
                 return null;
 
+            BannedUserIDs.Clear();
+            OwnerUserIDs.Clear();
+
+            CurrentBroadcastCategoryTag = null;
+
             var s_Request = new CreateBroadcastRequest()
             {
                 Name = p_Name,
@@ -71,11 +95,47 @@ namespace GS.Lib.Components
 
             if (s_Response != null && s_Response.Success)
             {
+                OwnerUserIDs.Add(Library.User.Data.UserID);
+
+                CurrentBroadcastCategoryTag = p_Tag;
                 ActiveBroadcastID = s_Response.ID;
+                CurrentBroadcastName = p_Name;
+                CurrentBroadcastDescription = p_Description;
+                CurrentBroadcastPicture = null;
                 Data = s_Response.Broadcast;
+
+                Library.Chat.ActivateBroadcast(true);
             }
 
             return s_Response;
+        }
+
+        private void FinalizeActivation(bool p_Broadcasting, List<String> p_LatestChatMessages, String p_Source, Object p_Token = null)
+        {
+            //InitializeNewBroadcast(p_Broadcasting, ActiveBroadcastID, 0, -1);
+
+            m_SuggestionChanges.Clear();
+
+            if (p_Source == "takeOverBroadcast")
+            {
+                ProcessUpdates(new Dictionary<string, object>()
+                {
+                    { "suggestions", true },
+                    { "history", true },
+                    { "totalListens", true },
+                    { "broadcastIncrement", true }
+                });
+            }
+            else if (p_Broadcasting && p_Source != "startBroadcast")
+            {
+                ProcessUpdates(new Dictionary<string, object>()
+                {
+                    { "suggestions", true }
+                });
+            }
+
+            UpdateChatClientWithBroadcast();
+            GetListeners();
         }
     }
 }

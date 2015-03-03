@@ -11,7 +11,7 @@ using GS.Lib.Network.Sockets.Messages.Requests;
 
 namespace GS.Lib.Components
 {
-    public partial class ChatComponent : SharkComponent
+    public partial class ChatComponent : EventsComponent
     {
         internal Dictionary<String, int> ChatServers { get; set; }
 
@@ -23,9 +23,11 @@ namespace GS.Lib.Components
 
         private readonly Client m_SocketClient;
 
-        private const UInt16 c_ServerPort = 443;
-
         private readonly Dictionary<String, Action<SharkResponseMessage>> m_Handlers;
+
+        private const UInt16 c_ServerPort = 443;
+        private const String c_ChatServerChannelPublicPrefix = "bcast:p:";
+        private const String c_ChatServerChannelPrefix = "bcast:";
 
         internal ChatComponent(SharpShark p_Library) 
             : base(p_Library)
@@ -130,6 +132,14 @@ namespace GS.Lib.Components
                 var s_HashedPassword = s_MD5.ComputeHash(Encoding.ASCII.GetBytes(Library.User.SessionID));
                 return BitConverter.ToString(s_HashedPassword).Replace("-", "").ToLower().Substring(0, 6);
             }
+        }
+
+        internal String GetChatChannel(String p_ChannelID, bool p_Public = false)
+        {
+            if (p_ChannelID.Contains(":"))
+                p_ChannelID = p_ChannelID.Substring(0, p_ChannelID.IndexOf(":"));
+
+            return (p_Public ? c_ChatServerChannelPublicPrefix : c_ChatServerChannelPrefix) + p_ChannelID;
         }
     }
 }

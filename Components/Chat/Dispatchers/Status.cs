@@ -9,13 +9,13 @@ namespace GS.Lib.Components
 {
     public partial class ChatComponent
     {
-        private void UpdateCurrentStatus(bool p_SendVisibilityFriends = false)
+        private void UpdateCurrentStatus(bool p_SendVisibilityFriends = false, UserStatus p_Status = null)
         {
             if (Library.User.Data == null || Library.User.Data.UserID <= 0 || LoggedInMaster == null ||
                 LoggedInMaster.UUID != UID)
                 return;
 
-            var s_Status = GetCurrentPublicStatus();
+            var s_Status = p_Status ?? GetCurrentPublicStatus();
 
             var s_Key = new Dictionary<String, Object>()
             {
@@ -50,6 +50,11 @@ namespace GS.Lib.Components
 
             // Broadcast updated status.
             BroadcastMessageToSelf(s_Status, "statusUpdate");
+        }
+
+        private void SetStatusOffline()
+        {
+            UpdateCurrentStatus(false, new UserStatus() { Status = 0, Time = DateTime.UtcNow.ToUnixTimestamp() * 1000 });
         }
 
         private UserStatus GetCurrentPublicStatus(bool p_FullSong = true)

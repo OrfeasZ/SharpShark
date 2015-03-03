@@ -8,7 +8,7 @@ namespace GS.Lib.Components
 {
     public partial class ChatComponent
     {
-        private void SetSubscriptionParameters(String p_Subscription, Dictionary<String, Object> p_Params, Dictionary<String, Object> p_Blackbox = null, bool p_Silent = false)
+        internal void SetSubscriptionParameters(String p_Subscription, Dictionary<String, Object> p_Params, Dictionary<String, Object> p_Blackbox = null, bool p_Silent = false)
         {
             if (p_Blackbox == null)
             {

@@ -8,5 +8,9 @@
         {
             Library = p_Library;
         }
+
+        internal virtual void RegisterEventHandlers()
+        {
+        }
     }
 }
