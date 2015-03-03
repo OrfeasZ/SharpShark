@@ -8,7 +8,7 @@ namespace GS.Lib.Components
         private Dictionary<String, Dictionary<String, Object>> m_CurrentChannels;
         private bool m_ChannelListDirty;
 
-        private void JoinChannels(List<Object> p_Channels, Dictionary<String, Object> p_Blackbox = null, bool p_DontUpdate = false)
+        internal void JoinChannels(List<Object> p_Channels, Dictionary<String, Object> p_Blackbox = null, bool p_DontUpdate = false)
         {
             if (m_CurrentChannels == null)
             {

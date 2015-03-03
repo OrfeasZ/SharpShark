@@ -43,7 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\Broadcast\ChatSub.cs" />
+    <Compile Include="Components\Broadcast\SetResult.cs" />
+    <Compile Include="Components\Broadcast\SubResult.cs" />
     <Compile Include="Components\Broadcast\History.cs" />
     <Compile Include="Components\Broadcast\Playback.cs" />
     <Compile Include="Components\Broadcast\Suggestions.cs" />
@@ -66,10 +67,12 @@
     <Compile Include="Components\Chat\Dispatchers\UpdateUserData.cs" />
     <Compile Include="Components\Chat\Handlers\Get.cs" />
     <Compile Include="Components\Chat\Handlers\MetaSub.cs" />
+    <Compile Include="Components\Chat\Handlers\Pub.cs" />
     <Compile Include="Components\Chat\Handlers\Set.cs" />
     <Compile Include="Components\Chat\Handlers\Sub.cs" />
     <Compile Include="Components\Chat\Handlers\SubscribeToMetaUsers.cs" />
     <Compile Include="Components\EventsComponent.cs" />
+    <Compile Include="Components\RemoraComponent.cs" />
     <Compile Include="Components\SongsComponent.cs" />
     <Compile Include="Components\UserComponent.cs" />
     <Compile Include="Components\BroadcastComponent.cs" />
@@ -81,6 +84,9 @@
     <Compile Include="Enums\AuthenticationResult.cs" />
     <Compile Include="Enums\BroadcastStatus.cs" />
     <Compile Include="Enums\ChatEvent.cs" />
+    <Compile Include="Events\ChatErrorEvent.cs" />
+    <Compile Include="Events\PubResultEvent.cs" />
+    <Compile Include="Events\SetResultEvent.cs" />
     <Compile Include="Events\SharkEvent.cs" />
     <Compile Include="Events\SubResultEvent.cs" />
     <Compile Include="Models\UserIDData.cs" />

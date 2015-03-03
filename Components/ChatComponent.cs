@@ -52,6 +52,7 @@ namespace GS.Lib.Components
             m_Handlers.Add("meta_sub", HandleMetaSub);
             m_Handlers.Add("sub", HandleSub);
             m_Handlers.Add("get", HandleGet);
+            m_Handlers.Add("pub", HandlePub);
         }
 
         public bool Connect()
