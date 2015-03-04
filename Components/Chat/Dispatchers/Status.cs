@@ -57,7 +57,7 @@ namespace GS.Lib.Components
             UpdateCurrentStatus(false, new Dictionary<string, object>()
             {
                 { "status", 0 }, 
-                { "time", DateTime.UtcNow.ToUnixTimestamp() * 1000 }
+                { "time", DateTime.UtcNow.ToUnixTimestampMillis() }
             });
         }
 
@@ -78,7 +78,7 @@ namespace GS.Lib.Components
             var s_Status = new Dictionary<string, object>()
             {
                 { "status", 1 },
-                { "time", DateTime.UtcNow.ToUnixTimestamp() * 1000 },
+                { "time", DateTime.UtcNow.ToUnixTimestampMillis() },
                 { "songEx", null  } // TODO: Set song data
             };
 

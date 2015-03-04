@@ -143,7 +143,7 @@ namespace GS.Lib.Components
                 try
                 {
                     s_Data = s_Client.DownloadString(Library.BaseURL + "/preload.php?getCommunicationToken=1&hash=&" + 
-                                                DateTime.UtcNow.ToUnixTimestamp());
+                                                DateTime.UtcNow.ToUnixTimestampMillis());
                 }
                 catch
                 {

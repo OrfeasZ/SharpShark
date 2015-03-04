@@ -22,7 +22,7 @@ namespace GS.Lib.Components
                 IsBroadcasting = Library.Broadcast.CurrentBroadcastStatus == BroadcastStatus.Broadcasting ? 1 : 0,
                 CurrentBroadcast = Library.Broadcast.ActiveBroadcastID,
                 CurrentlyPlayingSong = 0,
-                LastMouseMove = DateTime.UtcNow.ToUnixTimestamp() * 1000
+                LastMouseMove = DateTime.UtcNow.ToUnixTimestampMillis()
             };
         }
 
@@ -32,7 +32,7 @@ namespace GS.Lib.Components
                 return;
 
             LoggedInMaster = GetPrivateStatus();
-            LoggedInMaster.LastUpdate = DateTime.UtcNow.ToUnixTimestamp() * 1000;
+            LoggedInMaster.LastUpdate = DateTime.UtcNow.ToUnixTimestampMillis();
             LoggedInMaster.Reason = p_Reason;
 
             UpdateCurrentStatus();

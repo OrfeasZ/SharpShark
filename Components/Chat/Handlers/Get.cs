@@ -60,9 +60,9 @@ namespace GS.Lib.Components
 
                 if (s_Values != null && s_Values.Count > 0 && s_Values[0] != null)
                 {
-                    var s_Value = s_Values[0].ToObject<Dictionary<String, Object>>();
+                    var s_Value = s_Values[0].ToObject<Dictionary<String, JToken>>();
 
-                    Object s_Remora, s_Bcast, s_BcastOwner, s_Status, s_Time, s_SongEx;
+                    JToken s_Remora, s_Bcast, s_BcastOwner, s_Status, s_Time, s_SongEx;
 
                     s_Value.TryGetValue("remora", out s_Remora);
                     s_Value.TryGetValue("bcast", out s_Bcast);
@@ -74,14 +74,14 @@ namespace GS.Lib.Components
                     if ((s_Remora == null || s_BcastOwner == null) &&
                         (s_Status == null ||
                          (s_Time != null &&
-                          ((DateTime.UtcNow.ToUnixTimestamp()*1000) - (Int64) s_Time) > (long) c_MaxOnlineIdleTime ||
+                          ((DateTime.UtcNow.ToUnixTimestampMillis()) - s_Time.ToObject<UInt64>()) > (long) c_MaxOnlineIdleTime ||
                           s_SongEx == null)))
                     {
                         PromoteSelfToMaster("last_master_idle_lower");
                     }
                     else
                     {
-                        var s_ConvertedTime = (Int64) (s_Time ?? DateTime.UtcNow.ToUnixTimestamp()*1000);
+                        var s_ConvertedTime = s_Time != null ? s_Time.ToObject<UInt64>() : DateTime.UtcNow.ToUnixTimestampMillis();
 
                         LastMasterUUID = LoggedInMaster != null ? LoggedInMaster.UUID : null;
                         LoggedInMaster = new MasterStatus()
@@ -89,13 +89,13 @@ namespace GS.Lib.Components
                             UUID = null,
                             LastMouseMove = (uint) s_ConvertedTime,
                             LastUpdate = 2500, // TODO: Implement this
-                            CurrentBroadcast = s_Bcast as String,
-                            IsBroadcasting = s_BcastOwner != null && (int) s_BcastOwner == 1 ? 1 : 0,
+                            CurrentBroadcast = s_Bcast != null ? s_Bcast.ToObject<String>() : null,
+                            IsBroadcasting = s_BcastOwner != null && s_BcastOwner.ToObject<int>() == 1 ? 1 : 0,
                             CurrentlyPlayingSong = s_SongEx != null ? 1 : 0
                         };
 
-                        if ((DateTime.UtcNow.ToUnixTimestamp()*1000) - s_ConvertedTime > 5*60*1000 ||
-                            (DateTime.UtcNow.ToUnixTimestamp()*1000) - s_ConvertedTime - s_ConvertedTime > 10*1000 &&
+                        if ((DateTime.UtcNow.ToUnixTimestampMillis()) - s_ConvertedTime > 5*60*1000 ||
+                            (DateTime.UtcNow.ToUnixTimestampMillis()) - s_ConvertedTime - s_ConvertedTime > 10*1000 &&
                             s_Remora == null)
                             PingMaster();
                         else if (LastMasterUUID != null)

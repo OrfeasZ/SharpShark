@@ -37,7 +37,7 @@ namespace GS.Lib.Components
 
             using (var s_MD5 = MD5.Create())
             {
-                var s_Hash = s_MD5.ComputeHash(Encoding.ASCII.GetBytes(Library.User.Data.UserID.ToString() + (DateTime.UtcNow.ToUnixTimestamp() * 1000).ToString()));
+                var s_Hash = s_MD5.ComputeHash(Encoding.ASCII.GetBytes(Library.User.Data.UserID.ToString() + (DateTime.UtcNow.ToUnixTimestampMillis()).ToString()));
                 ControlChannel = BitConverter.ToString(s_Hash).Replace("-", "").ToLower();
             }
 
