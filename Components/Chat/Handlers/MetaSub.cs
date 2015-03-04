@@ -5,6 +5,7 @@ using System.Linq;
 using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Network.Sockets.Messages.Generic;
 using GS.Lib.Network.Sockets.Messages.Responses;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Components
 {
@@ -25,7 +26,7 @@ namespace GS.Lib.Components
 
                 case "success":
                     {
-                        var s_Message = p_Message.As<SuccessResponse<String, PartitionedBlackbox>>();
+                        var s_Message = p_Message.As<SuccessResponse<JToken, PartitionedBlackbox>>();
 
                         if (s_Message.Blackbox != null)
                         {

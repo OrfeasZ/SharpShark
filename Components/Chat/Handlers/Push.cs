@@ -119,7 +119,18 @@ namespace GS.Lib.Components
             if (s_Message.Publish == null)
                 return false;
 
-            // TODO: Implement.
+            if (Library.User.Data != null && Library.User.Data.ArtistID > 0 &&
+                s_Message.Publish.Destination == "artist:" + Library.User.Data.ArtistID && s_Message.Publish.ID != null &&
+                ((s_Message.Publish.ID.ContainsKey("artistid") &&
+                  Int64.Parse(s_Message.Publish.ID["artistid"] as String) == Library.User.Data.ArtistID) ||
+                 (s_Message.Publish.ID.ContainsKey("sudo") && (bool) s_Message.Publish.ID["sudo"])))
+                HandleSelfMessages(s_Message);
+            else if (Library.User.Data != null && Library.User.Data.UserID > 0 &&
+                s_Message.Publish.Destination == "user:" + Library.User.Data.UserID && s_Message.Publish.ID != null &&
+                ((s_Message.Publish.ID.ContainsKey("userid") &&
+                  Int64.Parse(s_Message.Publish.ID["userid"] as String) == Library.User.Data.UserID) ||
+                 (s_Message.Publish.ID.ContainsKey("sudo") && (bool)s_Message.Publish.ID["sudo"])))
+                HandleSelfMessages(s_Message);
 
             DispatchEvent((int)ChatEvent.SubUpdate, new SubUpdateEvent()
             {

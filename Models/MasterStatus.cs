@@ -8,9 +8,9 @@ namespace GS.Lib.Models
         [JsonProperty("uuid")]
         public String UUID { get; set; }
 
-        public UInt64 LastMouseMove { get; set; }
+        public Int64 LastMouseMove { get; set; }
         
-        public UInt64 LastUpdate { get; set; }
+        public Int64 LastUpdate { get; set; }
         
         public String CurrentBroadcast { get; set; }
         

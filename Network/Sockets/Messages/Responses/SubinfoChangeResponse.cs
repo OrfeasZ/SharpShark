@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Network.Sockets.Messages.Responses
 {
@@ -13,7 +14,7 @@ namespace GS.Lib.Network.Sockets.Messages.Responses
             public Dictionary<String, Object> Params { get; set; }
 
             [JsonProperty("id")]
-            public Dictionary<String, Object> ID { get; set; }
+            public JToken ID { get; set; }
         }
 
         [JsonProperty("subinfo_change")]

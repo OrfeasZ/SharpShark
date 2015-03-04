@@ -74,14 +74,14 @@ namespace GS.Lib.Components
                     if ((s_Remora == null || s_BcastOwner == null) &&
                         (s_Status == null ||
                          (s_Time != null &&
-                          ((DateTime.UtcNow.ToUnixTimestampMillis()) - s_Time.ToObject<UInt64>()) > (long) c_MaxOnlineIdleTime ||
+                          ((DateTime.UtcNow.ToUnixTimestampMillis() + Library.TimeDifference) - s_Time.ToObject<Int64>()) > (long) c_MaxOnlineIdleTime ||
                           s_SongEx == null)))
                     {
                         PromoteSelfToMaster("last_master_idle_lower");
                     }
                     else
                     {
-                        var s_ConvertedTime = s_Time != null ? s_Time.ToObject<UInt64>() : DateTime.UtcNow.ToUnixTimestampMillis();
+                        var s_ConvertedTime = s_Time != null ? s_Time.ToObject<Int64>() : (DateTime.UtcNow.ToUnixTimestampMillis() + Library.TimeDifference);
 
                         LastMasterUUID = LoggedInMaster != null ? LoggedInMaster.UUID : null;
                         LoggedInMaster = new MasterStatus()
@@ -94,8 +94,8 @@ namespace GS.Lib.Components
                             CurrentlyPlayingSong = s_SongEx != null ? 1 : 0
                         };
 
-                        if ((DateTime.UtcNow.ToUnixTimestampMillis()) - s_ConvertedTime > 5*60*1000 ||
-                            (DateTime.UtcNow.ToUnixTimestampMillis()) - s_ConvertedTime - s_ConvertedTime > 10*1000 &&
+                        if ((DateTime.UtcNow.ToUnixTimestampMillis() + Library.TimeDifference) - s_ConvertedTime > 5*60*1000 ||
+                            (DateTime.UtcNow.ToUnixTimestampMillis() + Library.TimeDifference) - s_ConvertedTime - s_ConvertedTime > 10*1000 &&
                             s_Remora == null)
                             PingMaster();
                         else if (LastMasterUUID != null)

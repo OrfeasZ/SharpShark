@@ -13,6 +13,7 @@ namespace GS.Lib.Models
             public CountryData Country { get; set; }
             public Dictionary<String, int> ChatServersWeighted { get; set; }
             public String RemoraTestingChannel { get; set; }
+            public Int64 Timestamp { get; set; }
 
             [JsonProperty("uuid")]
             public String UUID { get; set; }

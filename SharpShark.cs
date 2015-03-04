@@ -17,6 +17,8 @@ namespace GS.Lib
 
         public String BaseURL { get; private set; }
 
+        internal Int64 TimeDifference { get; set; }
+
         public SharpShark(String p_SecretKey01, String p_SecretKey02)
         {
             BaseURL = "http://grooveshark.com";

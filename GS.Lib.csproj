@@ -71,6 +71,7 @@
     <Compile Include="Components\Chat\Handlers\MetaSub.cs" />
     <Compile Include="Components\Chat\Handlers\Pub.cs" />
     <Compile Include="Components\Chat\Handlers\Push.cs" />
+    <Compile Include="Components\Chat\Handlers\SelfMessages.cs" />
     <Compile Include="Components\Chat\Handlers\Set.cs" />
     <Compile Include="Components\Chat\Handlers\Sub.cs" />
     <Compile Include="Components\Chat\Handlers\SubscribeToMetaUsers.cs" />
