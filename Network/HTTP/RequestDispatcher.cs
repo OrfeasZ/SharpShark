@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using GS.Lib.Network.HTTP.Requests;
 using GS.Lib.Network.HTTP.Responses;
+using GS.Lib.Util;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -70,7 +71,7 @@ namespace GS.Lib.Network.HTTP
             try
             {
                 // Send our request and download the response.
-                var s_SerializedRequest = JsonConvert.SerializeObject(p_Request, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+                var s_SerializedRequest = JsonConvert.SerializeObject(p_Request, new JsonSerializerSettings() { ContractResolver = new CamelCaseResolver() });
 
                 var s_URL = Library.BaseURL + "/more.php?" + p_Method;
 

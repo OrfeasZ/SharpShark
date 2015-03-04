@@ -43,10 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Broadcast\Remora.cs" />
     <Compile Include="Components\Broadcast\SetResult.cs" />
     <Compile Include="Components\Broadcast\SubResult.cs" />
     <Compile Include="Components\Broadcast\History.cs" />
     <Compile Include="Components\Broadcast\Playback.cs" />
+    <Compile Include="Components\Broadcast\SubUpdate.cs" />
     <Compile Include="Components\Broadcast\Suggestions.cs" />
     <Compile Include="Components\Broadcast\Takeover.cs" />
     <Compile Include="Components\Broadcast\Updates.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="Components\Chat\Handlers\Get.cs" />
     <Compile Include="Components\Chat\Handlers\MetaSub.cs" />
     <Compile Include="Components\Chat\Handlers\Pub.cs" />
+    <Compile Include="Components\Chat\Handlers\Push.cs" />
     <Compile Include="Components\Chat\Handlers\Set.cs" />
     <Compile Include="Components\Chat\Handlers\Sub.cs" />
     <Compile Include="Components\Chat\Handlers\SubscribeToMetaUsers.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="Events\SetResultEvent.cs" />
     <Compile Include="Events\SharkEvent.cs" />
     <Compile Include="Events\SubResultEvent.cs" />
+    <Compile Include="Events\SubUpdateEvent.cs" />
     <Compile Include="Models\UserIDData.cs" />
     <Compile Include="Models\BroadcastCreationData.cs" />
     <Compile Include="Models\BroadcastData.cs" />
@@ -139,7 +143,11 @@
     <Compile Include="Network\Sockets\Messages\Responses\ErrorResponse.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\IdentifyRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Responses\IdentifyResponse.cs" />
+    <Compile Include="Network\Sockets\Messages\Responses\KeyChangeResponse.cs" />
+    <Compile Include="Network\Sockets\Messages\Responses\PublishResponse.cs" />
     <Compile Include="Network\Sockets\Messages\Responses\ReturnResponse.cs" />
+    <Compile Include="Network\Sockets\Messages\Responses\SubinfoChangeResponse.cs" />
+    <Compile Include="Network\Sockets\Messages\Responses\SubRenameResponse.cs" />
     <Compile Include="Network\Sockets\Messages\Responses\SubscribeToMetaUsersResponse.cs" />
     <Compile Include="Network\Sockets\Messages\Responses\SubscriptionResponse.cs" />
     <Compile Include="Network\Sockets\Messages\Responses\SuccessResponse.cs" />
@@ -153,6 +161,7 @@
     <Compile Include="Network\HTTP\Responses\SharkResponse.cs" />
     <Compile Include="SharpShark.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\CamelCaseResolver.cs" />
     <Compile Include="Util\Extensions.cs" />
   </ItemGroup>
   <ItemGroup>

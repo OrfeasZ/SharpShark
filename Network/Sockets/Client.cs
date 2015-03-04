@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using GS.Lib.Network.Sockets.Messages;
+using GS.Lib.Util;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -137,7 +138,7 @@ namespace GS.Lib.Network.Sockets
             try
             {
                 var s_SerializedMessage = JsonConvert.SerializeObject(p_Message,
-                    new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()});
+                    new JsonSerializerSettings {ContractResolver = new CamelCaseResolver()});
                 s_SerializedMessage += '\n';
 
                 Debug.WriteLine("[C -> S] " + s_SerializedMessage);

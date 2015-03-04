@@ -58,6 +58,7 @@ namespace GS.Lib.Components
             UUID = s_TokenData.GetGSConfig.UUID;
             Library.Chat.ChatServers = s_TokenData.GetGSConfig.ChatServersWeighted;
             CountryData = s_TokenData.GetGSConfig.Country;
+            Library.Remora.TestingChannel = s_TokenData.GetGSConfig.RemoraTestingChannel;
 
             return AuthenticationResult.Success;
         }
@@ -81,6 +82,7 @@ namespace GS.Lib.Components
             UUID = s_TokenData.GetGSConfig.UUID;
             Library.Chat.ChatServers = s_TokenData.GetGSConfig.ChatServersWeighted;
             CountryData = s_TokenData.GetGSConfig.Country;
+            Library.Remora.TestingChannel = s_TokenData.GetGSConfig.RemoraTestingChannel;
 
             var s_Request = new AuthenticationRequest
             {
@@ -121,6 +123,7 @@ namespace GS.Lib.Components
             UUID = s_TokenData.GetGSConfig.UUID;
             Library.Chat.ChatServers = s_TokenData.GetGSConfig.ChatServersWeighted;
             CountryData = s_TokenData.GetGSConfig.Country;
+            Library.Remora.TestingChannel = s_TokenData.GetGSConfig.RemoraTestingChannel;
 
             return true;
         }

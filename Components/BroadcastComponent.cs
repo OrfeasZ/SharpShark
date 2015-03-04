@@ -44,6 +44,8 @@ namespace GS.Lib.Components
         internal override void RegisterEventHandlers()
         {
             Library.Chat.RegisterEventHandler((int) ChatEvent.SubResult, HandleSubResult);
+            Library.Chat.RegisterEventHandler((int) ChatEvent.SetResult, HandleSetResult);
+            Library.Chat.RegisterEventHandler((int) ChatEvent.SubUpdate, HandleSubUpdate);
         }
 
         public List<CategoryTag> GetCategoryTags()
@@ -103,6 +105,8 @@ namespace GS.Lib.Components
                 CurrentBroadcastDescription = p_Description;
                 CurrentBroadcastPicture = null;
                 Data = s_Response.Broadcast;
+
+                Library.Remora.JoinControlChannels();
 
                 Library.Chat.ActivateBroadcast(true);
             }

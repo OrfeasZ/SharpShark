@@ -233,10 +233,24 @@ namespace GS.Lib.Components
                 s_Blackbox.Add("token", p_Token);
 
             if (s_PublicInstances > 0)
+            {
+                if (s_Blackbox.ContainsKey("channelType"))
+                    s_Blackbox["channelType"] = "public";
+                else
+                    s_Blackbox.Add("channelType", "public");
+
                 Library.Chat.SetSubscriptionParameters(Library.Chat.GetChatChannel(ActiveBroadcastID, true), s_PublicSubParams, s_Blackbox);
-            
+            }
+
             if (s_PrivateInstances > 0)
+            {
+                if (s_Blackbox.ContainsKey("channelType"))
+                    s_Blackbox["channelType"] = "private";
+                else
+                    s_Blackbox.Add("channelType", "private");
+
                 Library.Chat.SetSubscriptionParameters(Library.Chat.GetChatChannel(ActiveBroadcastID), s_PrivateSubParams, s_Blackbox);
+            }
         }
 
         private void ProcessUpdates(Dictionary<String, Object> p_ChangedProps, bool p_Unknown = true, String p_Source = null)

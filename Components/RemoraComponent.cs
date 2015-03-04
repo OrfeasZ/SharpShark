@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Security.Policy;
 using System.Text;
-using System.Threading.Tasks;
 using GS.Lib.Events;
 using GS.Lib.Models;
 using GS.Lib.Util;
@@ -15,15 +12,20 @@ namespace GS.Lib.Components
     {
         public String ControlChannel { get; set; }
 
+        public String TestingChannel { get; set; }
+
         private readonly Queue<Object> m_QueuedMessages;
 
         private bool m_Created;
+        private bool m_PendingCreation;
 
         public RemoraComponent(SharpShark p_Library) 
             : base(p_Library)
         {
             m_QueuedMessages = new Queue<object>();
+
             m_Created = false;
+            m_PendingCreation = false;
         }
 
         internal void JoinControlChannels()
@@ -73,12 +75,77 @@ namespace GS.Lib.Components
 
         internal bool HandleSetResult(SetResultEvent p_Event)
         {
-            
+            if (!m_Created)
+                return false;
+
+            if (!p_Event.Success)
+                return false;
+
+            if (p_Event.Blackbox == null)
+                return false;
+
+            if (!p_Event.Blackbox.ContainsKey("source"))
+                return false;
+
+            if (p_Event.Blackbox["source"] as String != "takeoverControlChannel")
+                return false;
+
+            Library.Chat.PublishToChannels(new List<string>() { TestingChannel }, new Dictionary<String, String>()
+            {
+                { "setup", ControlChannel }
+            });
+
+            return true;
         }
 
-        internal bool HandlePublish(PubResultEvent p_Event)
+        internal bool HandlePublish(SubUpdateEvent p_Event)
         {
-            
+            if (p_Event.Sub != ControlChannel)
+                return false;
+
+            if (p_Event.Value == null)
+                return true;
+
+            if (!m_Created && !m_PendingCreation)
+            {
+                if (p_Event.ID.ContainsKey("sudo") && (bool) p_Event.ID["sudo"] &&
+                    p_Event.Value.ContainsKey("available"))
+                {
+                    m_PendingCreation = true;
+
+                    var s_Params = Library.Broadcast.GetParamsForRemora();
+                    s_Params.Add("queueChannel", ControlChannel);
+                    s_Params.Add("isGhostBroadcast", true);
+
+                    Library.Chat.PublishToChannels(new List<string>() { TestingChannel }, new Dictionary<String, Object>()
+                    {
+                        { "setupQueue", ControlChannel },
+                        { "ownerID", p_Event.Value["available"] },
+                        { "queue", s_Params }
+                    });
+                }
+
+                return true;
+            }
+
+            if (!p_Event.Value.ContainsKey("action"))
+                return true;
+
+            if (p_Event.Value["action"] as String == "setupQueueSuccess")
+            {
+                if (!p_Event.Value.ContainsKey("broadcast") || p_Event.Value["broadcast"] == null)
+                    return true;
+
+                m_Created = true;
+                m_PendingCreation = false;
+
+                while (m_QueuedMessages.Count > 0)
+                    Library.Chat.PublishToChannels(new List<string>() { ControlChannel }, m_QueuedMessages.Dequeue());
+
+                return true;
+            }
+
+            return true;
         }
     }
 }

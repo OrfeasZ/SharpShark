@@ -12,6 +12,7 @@ namespace GS.Lib.Models
             public UserData User { get; set; }
             public CountryData Country { get; set; }
             public Dictionary<String, int> ChatServersWeighted { get; set; }
+            public String RemoraTestingChannel { get; set; }
 
             [JsonProperty("uuid")]
             public Guid UUID { get; set; }

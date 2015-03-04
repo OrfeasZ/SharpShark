@@ -53,6 +53,7 @@ namespace GS.Lib.Components
             m_Handlers.Add("sub", HandleSub);
             m_Handlers.Add("get", HandleGet);
             m_Handlers.Add("pub", HandlePub);
+            m_Handlers.Add("push", HandlePush);
         }
 
         public bool Connect()
@@ -137,6 +138,9 @@ namespace GS.Lib.Components
 
         internal String GetChatChannel(String p_ChannelID, bool p_Public = false)
         {
+            if (p_ChannelID == null)
+                p_ChannelID = "";
+
             if (p_ChannelID.Contains(":"))
                 p_ChannelID = p_ChannelID.Substring(0, p_ChannelID.IndexOf(":"));
 
