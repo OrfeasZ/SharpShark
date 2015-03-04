@@ -78,7 +78,7 @@ namespace GS.Lib.Components
 
         internal bool HandleSetResult(SetResultEvent p_Event)
         {
-            if (!m_Created)
+            if (m_Created)
                 return false;
 
             if (!p_Event.Success)
