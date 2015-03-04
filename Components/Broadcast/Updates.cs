@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GS.Lib.Enums;
 using GS.Lib.Events;
 using GS.Lib.Network.Sockets.Messages.Requests;
 
@@ -276,6 +277,11 @@ namespace GS.Lib.Components
 
         private void UpdateChatClientWithBroadcast()
         {
+            // TODO: Properly set this.
+            CurrentBroadcastStatus = String.IsNullOrWhiteSpace(ActiveBroadcastID)
+                ? BroadcastStatus.Idle
+                : BroadcastStatus.Broadcasting;
+
             Library.Chat.ReEvaluateMastershipAndUpdate();
         }
     }

@@ -47,6 +47,9 @@ namespace GS.Lib.Components
             if (!p_OwnBroadcast)
                 p_TryToOwn = false;
 
+            Library.Remora.PublishInitialQueue();
+            Library.Remora.PublishActiveSong();
+
             if (p_Source == null)
                 p_Source = p_OwnBroadcast ? "startBroadcast" : "joinBroadcast";
 

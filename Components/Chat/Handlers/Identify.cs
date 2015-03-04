@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Network.Sockets.Messages.Requests;
 using GS.Lib.Network.Sockets.Messages.Responses;
@@ -63,6 +64,7 @@ namespace GS.Lib.Components
                     if (!m_CurrentChannels.ContainsKey("broadcastDarkLaunch"))
                         InitiateBroadcastDarkLaunch();
 
+                    // TODO: Do we really need to do this?
                     Library.User.StoreChatIdentity();
 
                     // CHAT_READY

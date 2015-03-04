@@ -145,10 +145,27 @@ namespace GS.Lib.Components
                 while (m_QueuedMessages.Count > 0)
                     Library.Chat.PublishToChannels(new List<string>() { ControlChannel }, m_QueuedMessages.Dequeue());
 
+                Library.Chat.UpdateCurrentStatus();
+
                 return true;
             }
 
             return true;
+        }
+
+        internal void PublishInitialQueue()
+        {
+            Send(new Dictionary<String, Object>()
+            {
+                { "action", "resetQueue" },
+                { "songIDs", new List<Int64>() },
+                { "queueSongIDs", new List<Int64>() }
+            });
+        }
+
+        internal void PublishActiveSong()
+        {
+            
         }
     }
 }

@@ -33,7 +33,7 @@ namespace GS.Lib.Network.HTTP
         {
             // Check if we're authenticated.
             if (String.IsNullOrWhiteSpace(Library.User.SessionID) ||
-                Library.User.UUID == Guid.Empty)
+                String.IsNullOrWhiteSpace(Library.User.UUID))
                 return default(Z);
 
             using (var s_Client = new WebClient())

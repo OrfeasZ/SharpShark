@@ -23,13 +23,13 @@ namespace GS.Lib.Network.HTTP.Requests
             public String Session { get; set; }
             public String Token { get; set; }
 
-            public RequestHeader(String p_Method, String p_SessionID, Guid p_UUID, String p_CommunicationToken, String p_SecretKey, CountryData p_CountryData = null)
+            public RequestHeader(String p_Method, String p_SessionID, String p_UUID, String p_CommunicationToken, String p_SecretKey, CountryData p_CountryData = null)
             {
                 Client = "htmlshark";
                 ClientRevision = "20130520";
                 Privacy = 0;
                 Country = p_CountryData ?? new CountryData();
-                UUID = p_UUID.ToString("D").ToUpper();
+                UUID = p_UUID;
                 Session = p_SessionID;
 
                 var s_Randomizer = "abcdefghijklmnopqrstuvwxyz0123456789".SecureRandom(6);
@@ -50,7 +50,7 @@ namespace GS.Lib.Network.HTTP.Requests
         public String Method { get; set; }
         public T Parameters { get; set; }
 
-        public SharkRequest(String p_Method, String p_SessionID, Guid p_UUID, String p_CommunicationToken, String p_SecretKey, T p_Parameters, CountryData p_CountryData = null)
+        public SharkRequest(String p_Method, String p_SessionID, String p_UUID, String p_CommunicationToken, String p_SecretKey, T p_Parameters, CountryData p_CountryData = null)
         {
             Header = new RequestHeader(p_Method, p_SessionID, p_UUID, p_CommunicationToken, p_SecretKey, p_CountryData);
             Method = p_Method;

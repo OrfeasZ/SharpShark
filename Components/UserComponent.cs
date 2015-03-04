@@ -18,7 +18,7 @@ namespace GS.Lib.Components
 
         public String CommunicationToken { get; set; }
 
-        public Guid UUID { get; set; }
+        public String UUID { get; set; }
 
         public UserData Data { get; set; }
 
@@ -29,7 +29,7 @@ namespace GS.Lib.Components
         {
             Data = null;
             CountryData = null;
-            UUID = Guid.Empty;
+            UUID = null;
             SessionID = CommunicationToken = null;
         }
 
@@ -37,7 +37,7 @@ namespace GS.Lib.Components
         {
             Data = null;
             CountryData = null;
-            UUID = Guid.Empty;
+            UUID = null;
             SessionID = CommunicationToken = null;
 
             // Try to fetch token data.
@@ -67,7 +67,7 @@ namespace GS.Lib.Components
         {
             Data = null;
             CountryData = null;
-            UUID = Guid.Empty;
+            UUID = null;
             SessionID = CommunicationToken = null;
 
             // Try to fetch token data.
@@ -108,7 +108,7 @@ namespace GS.Lib.Components
         {
             Data = null;
             CountryData = null;
-            UUID = Guid.Empty;
+            UUID = null;
             SessionID = CommunicationToken = null;
 
             // Try to fetch token data.

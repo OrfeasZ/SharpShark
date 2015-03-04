@@ -9,7 +9,7 @@ namespace GS.Lib.Components
 {
     public partial class ChatComponent
     {
-        private void UpdateCurrentStatus(bool p_SendVisibilityFriends = false, Dictionary<String, Object> p_Status = null)
+        internal void UpdateCurrentStatus(bool p_SendVisibilityFriends = false, Dictionary<String, Object> p_Status = null)
         {
             if (Library.User.Data == null || Library.User.Data.UserID <= 0 || LoggedInMaster == null ||
                 LoggedInMaster.UUID != UID)

@@ -15,7 +15,7 @@ namespace GS.Lib.Models
             public String RemoraTestingChannel { get; set; }
 
             [JsonProperty("uuid")]
-            public Guid UUID { get; set; }
+            public String UUID { get; set; }
         }
 
         public String GetCommunicationToken { get; set; }

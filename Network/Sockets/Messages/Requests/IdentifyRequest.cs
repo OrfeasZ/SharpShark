@@ -35,7 +35,7 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
         
         public Object Blackbox { get; set; }
 
-        public IdentifyRequest(ChatUserData p_ChatData, String p_ChatSignature, String p_SessionID, Guid p_UUID, bool p_Invisible, Int64 p_UserID) 
+        public IdentifyRequest(ChatUserData p_ChatData, String p_ChatSignature, String p_SessionID, String p_UUID, bool p_Invisible, Int64 p_UserID) 
             : base("identify")
         {
             Params = new IdentifyParams()
@@ -43,7 +43,7 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
                 AppData = p_ChatData,
                 AppSig = p_ChatSignature,
                 SessionID = p_SessionID,
-                UUID = p_UUID.ToString("D").ToUpper(),
+                UUID = p_UUID,
                 Invisible = p_Invisible,
                 UserID = p_UserID.ToString()
             };
