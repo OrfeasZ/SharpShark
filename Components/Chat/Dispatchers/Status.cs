@@ -9,7 +9,7 @@ namespace GS.Lib.Components
 {
     public partial class ChatComponent
     {
-        private void UpdateCurrentStatus(bool p_SendVisibilityFriends = false, UserStatus p_Status = null)
+        private void UpdateCurrentStatus(bool p_SendVisibilityFriends = false, Dictionary<String, Object> p_Status = null)
         {
             if (Library.User.Data == null || Library.User.Data.UserID <= 0 || LoggedInMaster == null ||
                 LoggedInMaster.UUID != UID)
@@ -54,10 +54,14 @@ namespace GS.Lib.Components
 
         private void SetStatusOffline()
         {
-            UpdateCurrentStatus(false, new UserStatus() { Status = 0, Time = DateTime.UtcNow.ToUnixTimestamp() * 1000 });
+            UpdateCurrentStatus(false, new Dictionary<string, object>()
+            {
+                { "status", 0 }, 
+                { "time", DateTime.UtcNow.ToUnixTimestamp() * 1000 }
+            });
         }
 
-        private UserStatus GetCurrentPublicStatus(bool p_FullSong = true)
+        private Dictionary<String, Object> GetCurrentPublicStatus(bool p_FullSong = true)
         {
             StatusSongData s_Song = null;
 
@@ -71,27 +75,27 @@ namespace GS.Lib.Components
                 // TODO: Set song data
             }
 
-            var s_Status = new UserStatus()
+            var s_Status = new Dictionary<string, object>()
             {
-                Status = 1,
-                Time = DateTime.UtcNow.ToUnixTimestamp() * 1000,
-                SongEx = null // TODO: Set song data
+                { "status", 1 },
+                { "time", DateTime.UtcNow.ToUnixTimestamp() * 1000 },
+                { "songEx", null  } // TODO: Set song data
             };
 
             if (p_FullSong)
-                s_Status.Song = s_Song;
+                s_Status.Add("song", s_Song);
 
             if (!String.IsNullOrEmpty(Library.Broadcast.ActiveBroadcastID))
             {
-                s_Status.Bcast = Library.Broadcast.ActiveBroadcastID;
-                s_Status.BcastName = Library.Broadcast.CurrentBroadcastName;
-                s_Status.BcastPic = Library.Broadcast.CurrentBroadcastPicture;
-                s_Status.BcastOwner = Library.Broadcast.CurrentBroadcastStatus == BroadcastStatus.Broadcasting ? 1 : 0;
+                s_Status.Add("bcast", Library.Broadcast.ActiveBroadcastID);
+                s_Status.Add("bcastName", Library.Broadcast.CurrentBroadcastName);
+                s_Status.Add("bcastPic", Library.Broadcast.CurrentBroadcastPicture);
+                s_Status.Add("bcastOwner", Library.Broadcast.CurrentBroadcastStatus == BroadcastStatus.Broadcasting ? 1 : 0);
 
                 if (Library.Broadcast.CurrentBroadcastStatus == BroadcastStatus.Listening)
                 {
                     // TODO: Set owner info.
-                    s_Status.BcastOwnerInfo = new object();
+                    s_Status.Add("bcastOwnerInfo", new object());
                 }
             }
 

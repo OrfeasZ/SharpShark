@@ -274,5 +274,10 @@ namespace GS.Lib.Components
 
             return s_Users;
         }
+
+        internal void StoreChatIdentity()
+        {
+            Library.RequestDispatcher.Dispatch<Object, Object>("storeChatIdentity", null);
+        }
     }
 }

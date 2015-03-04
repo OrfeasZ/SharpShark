@@ -41,7 +41,7 @@ namespace GS.Lib.Components
             }
         }
 
-        internal void ActivateBroadcast(bool p_OwnBroadcast = false, bool p_TryToOwn = false, String p_Source = null,
+        internal void ActivateBroadcast(bool p_OwnBroadcast = false, bool p_TryToOwn = true, String p_Source = null,
             Object p_Token = null, String p_PendingBroadcastID = null)
         {
             if (!p_OwnBroadcast)

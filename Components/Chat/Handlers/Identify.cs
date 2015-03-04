@@ -63,6 +63,8 @@ namespace GS.Lib.Components
                     if (!m_CurrentChannels.ContainsKey("broadcastDarkLaunch"))
                         InitiateBroadcastDarkLaunch();
 
+                    Library.User.StoreChatIdentity();
+
                     // CHAT_READY
 
                     BroadcastMessageToSelf("statusRequest");

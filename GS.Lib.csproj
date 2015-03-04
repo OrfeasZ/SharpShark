@@ -109,7 +109,6 @@
     <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\TokenData.cs" />
     <Compile Include="Models\UserData.cs" />
-    <Compile Include="Models\UserStatus.cs" />
     <Compile Include="Models\UserSubscription.cs" />
     <Compile Include="Network\HTTP\Requests\AuthenticationRequest.cs" />
     <Compile Include="Network\HTTP\Requests\CreateBroadcastRequest.cs" />

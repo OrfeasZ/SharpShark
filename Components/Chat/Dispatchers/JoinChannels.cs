@@ -38,7 +38,7 @@ namespace GS.Lib.Components
                     if (s_ObjectDict.TryGetValue("create_when_dne", out s_CreateWhenDone) &&
                         s_ObjectDict.TryGetValue("try_to_own", out s_TryToOwn))
                     {
-                        if (!(bool) s_CreateWhenDone || !(bool) s_TryToOwn)
+                        if (!((bool) s_CreateWhenDone) || !((bool) s_TryToOwn))
                         {
                             s_Channel.Add("create_when_dne", false);
                             s_Channel.Add("try_to_own", false);
@@ -53,6 +53,11 @@ namespace GS.Lib.Components
                     if (!m_CurrentChannels.ContainsKey(s_Channel["sub"] as String))
                     {
                         m_CurrentChannels.Add(s_Channel["sub"] as String, s_Channel);
+                        m_ChannelListDirty = true;
+                    }
+                    else
+                    {
+                        m_CurrentChannels[s_Channel["sub"] as String] = s_Channel;
                         m_ChannelListDirty = true;
                     }
                 }

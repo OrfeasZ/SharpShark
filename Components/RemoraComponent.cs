@@ -49,6 +49,9 @@ namespace GS.Lib.Components
                     { "overwrite_params", false },
                     { "create_when_dne", true }
                 }
+            }, new Dictionary<string, object>()
+            {
+                { "source", "userChangeReconnect" } // NOTE: This is hacky and not how it's normally done
             });
 
             Library.Chat.SetSubscriptionParameters(ControlChannel, new Dictionary<string, object>()

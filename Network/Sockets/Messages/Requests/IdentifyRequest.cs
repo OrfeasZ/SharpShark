@@ -43,7 +43,7 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
                 AppData = p_ChatData,
                 AppSig = p_ChatSignature,
                 SessionID = p_SessionID,
-                UUID = p_UUID.ToString("D"),
+                UUID = p_UUID.ToString("D").ToUpper(),
                 Invisible = p_Invisible,
                 UserID = p_UserID.ToString()
             };
