@@ -10,7 +10,7 @@ namespace GS.Lib.Models
         [JsonProperty("id")]
         public String ID { get; set; }
 
-        public UInt32 Created { get; set; }
+        public UInt64 Created { get; set; }
 
         public bool Success { get; set; }
     }

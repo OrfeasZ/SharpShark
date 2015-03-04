@@ -81,9 +81,9 @@ namespace GS.Lib.Components
             if (p_FullSong)
                 s_Status.Song = s_Song;
 
-            if (!String.IsNullOrEmpty(Library.Broadcast.CurrentBroadcast))
+            if (!String.IsNullOrEmpty(Library.Broadcast.ActiveBroadcastID))
             {
-                s_Status.Bcast = Library.Broadcast.CurrentBroadcast;
+                s_Status.Bcast = Library.Broadcast.ActiveBroadcastID;
                 s_Status.BcastName = Library.Broadcast.CurrentBroadcastName;
                 s_Status.BcastPic = Library.Broadcast.CurrentBroadcastPicture;
                 s_Status.BcastOwner = Library.Broadcast.CurrentBroadcastStatus == BroadcastStatus.Broadcasting ? 1 : 0;

@@ -7,7 +7,7 @@ namespace GS.Lib.Network.HTTP.Responses
     {
         public bool FromSongs { get; set; }
 
-        public UInt32 TSModifier { get; set; }
+        public UInt64 TSModifier { get; set; }
 
         public List<Int64> SongIDs { get; set; } 
     }

@@ -7,7 +7,7 @@ namespace GS.Lib.Models
         public Object SongEx { get; set; }
         public Object Song { get; set; }
         public int Status { get; set; }
-        public UInt32 Time { get; set; }
+        public UInt64 Time { get; set; }
 
         public String Bcast { get; set; }
         public String BcastPic { get; set; }

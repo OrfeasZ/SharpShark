@@ -12,7 +12,7 @@ namespace GS.Lib.Models
         public String FileToken { get; set; }
 
         [JsonProperty("ts")]
-        public UInt32 Timestamp { get; set; }
+        public UInt64 Timestamp { get; set; }
 
         public bool IsMobile { get; set; }
 
@@ -20,13 +20,13 @@ namespace GS.Lib.Models
 
         public String StreamKey { get; set; }
 
-        public UInt32 Expires { get; set; }
+        public UInt64 Expires { get; set; }
 
         public Int64 StreamServerID { get; set; }
 
         [JsonProperty("ip")]
         public String IP { get; set; }
 
-        public UInt32 RequestTS { get; set; }
+        public UInt64 RequestTS { get; set; }
     }
 }

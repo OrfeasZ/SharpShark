@@ -19,9 +19,9 @@ namespace GS.Lib.Components
             return new MasterStatus()
             {
                 UUID = UID,
-                IsBroadcasting = Library.Broadcast.CurrentBroadcastStatus == BroadcastStatus.Broadcasting,
-                CurrentBroadcast = Library.Broadcast.CurrentBroadcast,
-                CurrentlyPlayingSong = false,
+                IsBroadcasting = Library.Broadcast.CurrentBroadcastStatus == BroadcastStatus.Broadcasting ? 1 : 0,
+                CurrentBroadcast = Library.Broadcast.ActiveBroadcastID,
+                CurrentlyPlayingSong = 0,
                 LastMouseMove = DateTime.UtcNow.ToUnixTimestamp() * 1000
             };
         }
@@ -47,7 +47,15 @@ namespace GS.Lib.Components
 
             if (LoggedInMaster != null && LoggedInMaster.UUID == UID)
             {
-                // TODO: Check for change in playing state and PromoteSelfToMaster("evaluate_and_update_self").
+                // TODO: Also check for songplaying
+                if (LoggedInMaster.CurrentBroadcast != Library.Broadcast.ActiveBroadcastID ||
+                    (LoggedInMaster.IsBroadcasting != 1) !=
+                    (Library.Broadcast.CurrentBroadcastStatus == BroadcastStatus.Broadcasting))
+                {
+                    PromoteSelfToMaster("evaluate_and_update_self");
+                    return;
+                }
+
                 UpdateCurrentStatus();
                 return;
             }

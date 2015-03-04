@@ -13,7 +13,6 @@ namespace GS.Lib.Components
 
         public BroadcastData Data { get; set; }
 
-        public String CurrentBroadcast { get; set; }
         public BroadcastStatus CurrentBroadcastStatus { get; set; }
         public String CurrentBroadcastName { get; set; }
         public String CurrentBroadcastDescription { get; set; }
@@ -29,7 +28,6 @@ namespace GS.Lib.Components
         {
             Data = null;
 
-            CurrentBroadcast = null;
             CurrentBroadcastStatus = BroadcastStatus.Idle;
             ChatEnabled = true;
             CurrentBroadcastCategoryTag = null;

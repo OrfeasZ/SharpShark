@@ -10,7 +10,7 @@ namespace GS.Lib.Components
 {
     public partial class ChatComponent
     {
-        private const  UInt32 c_MaxOnlineIdleTime = 900 * 1000;
+        private const  UInt64 c_MaxOnlineIdleTime = 900 * 1000;
 
         private void HandleGet(SharkResponseMessage p_Message)
         {
@@ -74,7 +74,7 @@ namespace GS.Lib.Components
                     if ((s_Remora == null || s_BcastOwner == null) &&
                         (s_Status == null ||
                          (s_Time != null &&
-                          ((DateTime.UtcNow.ToUnixTimestamp()*1000) - (Int64) s_Time) > c_MaxOnlineIdleTime ||
+                          ((DateTime.UtcNow.ToUnixTimestamp()*1000) - (Int64) s_Time) > (long) c_MaxOnlineIdleTime ||
                           s_SongEx == null)))
                     {
                         PromoteSelfToMaster("last_master_idle_lower");
@@ -88,12 +88,10 @@ namespace GS.Lib.Components
                         {
                             UUID = null,
                             LastMouseMove = (uint) s_ConvertedTime,
-                            LastUpdate =
-                                (uint) ((DateTime.UtcNow.ToUnixTimestamp()*1000) -
-                                        ((DateTime.UtcNow.ToUnixTimestamp()*1000) - s_ConvertedTime)),
+                            LastUpdate = 2500, // TODO: Implement this
                             CurrentBroadcast = s_Bcast as String,
-                            IsBroadcasting = s_BcastOwner != null && (int) s_BcastOwner == 1,
-                            CurrentlyPlayingSong = s_SongEx != null
+                            IsBroadcasting = s_BcastOwner != null && (int) s_BcastOwner == 1 ? 1 : 0,
+                            CurrentlyPlayingSong = s_SongEx != null ? 1 : 0
                         };
 
                         if ((DateTime.UtcNow.ToUnixTimestamp()*1000) - s_ConvertedTime > 5*60*1000 ||
