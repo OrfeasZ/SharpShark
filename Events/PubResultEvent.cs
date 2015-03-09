@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Events
 {
@@ -11,11 +12,11 @@ namespace GS.Lib.Events
 
         public String Sub { get; set; }
 
-        public Dictionary<String, Object> Blackbox { get; set; }
+        public Dictionary<String, JToken> Blackbox { get; set; }
 
         public PubResultEvent()
         {
-            Blackbox = new Dictionary<string, object>();
+            Blackbox = new Dictionary<string, JToken>();
         }
     }
 }

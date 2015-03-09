@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using GS.Lib.Models;
 using GS.Lib.Network.Sockets.Messages.Requests;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Components
 {
     public partial class ChatComponent
     {
-        internal void SetSubscriptionParameters(String p_Subscription, Dictionary<String, Object> p_Params, Dictionary<String, Object> p_Blackbox = null, bool p_Silent = false)
+        internal void SetSubscriptionParameters(String p_Subscription, Dictionary<String, Object> p_Params, Dictionary<String, JToken> p_Blackbox = null, bool p_Silent = false)
         {
             if (p_Blackbox == null)
             {
-                p_Blackbox = new Dictionary<string, object>()
+                p_Blackbox = new Dictionary<string, JToken>()
                 {
                     { "source", "setSubParams" },
                     { "sub", p_Subscription }

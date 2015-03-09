@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Network.Sockets.Messages.Requests
 {
@@ -7,9 +8,7 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
     {
         public Dictionary<String, String> Params { get; set; }
 
-        public Dictionary<String, Object> Blackbox { get; set; } 
-
-        public GetSubscriberListRequest(String p_SubList, bool p_WithExtra, Dictionary<String, Object> p_Blackbox) 
+        public GetSubscriberListRequest(String p_SubList, bool p_WithExtra, Dictionary<String, JToken> p_Blackbox) 
             : base("info")
         {
             if (p_WithExtra)

@@ -6,6 +6,7 @@ using System.Threading;
 using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Network.Sockets.Messages.Requests;
 using GS.Lib.Network.Sockets.Messages.Responses;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Components
 {
@@ -57,8 +58,8 @@ namespace GS.Lib.Components
                         s_ChannelsToJoin.Add("user:" + Library.User.Data.UserID);
                     
                     // TODO: Start a timer to force status updates every ~5 minutes.
-                    
-                    JoinChannels(s_ChannelsToJoin, new Dictionary<string, object> {{ "newUser", true }});
+
+                    JoinChannels(s_ChannelsToJoin, new Dictionary<string, JToken> { { "newUser", true } });
                     SendRestoreLookup();
 
                     if (!m_CurrentChannels.ContainsKey("broadcastDarkLaunch"))

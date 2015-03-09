@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Network.Sockets.Messages.Requests
 {
@@ -15,11 +16,9 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
             }
         }
 
-        public Dictionary<String, Object> Blackbox { get; set; }
-
         public RequestParams Params { get; set; }
 
-        public ChannelSubRequest(List<Dictionary<String, Object>> p_Channels, Dictionary<String, Object> p_Blackbox = null) 
+        public ChannelSubRequest(List<Dictionary<String, Object>> p_Channels, Dictionary<String, JToken> p_Blackbox = null) 
             : base("sub")
         {
             Params = new RequestParams()
@@ -27,7 +26,7 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
                 Subs = p_Channels
             };
 
-            Blackbox = p_Blackbox ?? new Dictionary<string, object>();
+            Blackbox = p_Blackbox ?? new Dictionary<string, JToken>();
         }
     }
 }

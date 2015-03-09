@@ -36,7 +36,7 @@ namespace GS.Lib.Components
                         Source =
                             s_ReturnResponse.Blackbox != null
                                 ? (s_ReturnResponse.Blackbox.ContainsKey("source")
-                                    ? s_ReturnResponse.Blackbox["source"] as String
+                                    ? s_ReturnResponse.Blackbox["source"].Value<String>()
                                     : "")
                                 : "",
                         Sub = s_ReturnValue.ContainsKey("name") ? s_ReturnValue["name"] as String : "",
@@ -60,7 +60,7 @@ namespace GS.Lib.Components
                     Source =
                         s_ReturnResponse.Blackbox != null
                             ? (s_ReturnResponse.Blackbox.ContainsKey("source")
-                                ? s_ReturnResponse.Blackbox["source"] as String
+                                ? s_ReturnResponse.Blackbox["source"].Value<String>()
                                 : "")
                             : "",
                     Command = "Pub"

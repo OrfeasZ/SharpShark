@@ -6,8 +6,6 @@ namespace GS.Lib.Network.Sockets.Messages.Responses
 {
     internal class ReturnResponse : SharkMessage
     {
-        public Dictionary<String, Object> Blackbox { get; set; }
-
         public String Type { get; set; }
 
         public JToken Return { get; set; }

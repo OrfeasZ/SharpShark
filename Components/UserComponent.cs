@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -61,6 +62,8 @@ namespace GS.Lib.Components
             Library.Remora.TestingChannel = s_TokenData.GetGSConfig.RemoraTestingChannel;
             Library.TimeDifference = s_TokenData.GetGSConfig.Timestamp * 1000 - DateTime.UtcNow.ToUnixTimestampMillis();
 
+            Debug.WriteLine("Time difference calculated to {0}ms.", Library.TimeDifference);
+
             return AuthenticationResult.Success;
         }
 
@@ -85,6 +88,8 @@ namespace GS.Lib.Components
             CountryData = s_TokenData.GetGSConfig.Country;
             Library.Remora.TestingChannel = s_TokenData.GetGSConfig.RemoraTestingChannel;
             Library.TimeDifference = s_TokenData.GetGSConfig.Timestamp * 1000 - DateTime.UtcNow.ToUnixTimestampMillis();
+
+            Debug.WriteLine("Time difference calculated to {0}ms.", Library.TimeDifference);
 
             var s_Request = new AuthenticationRequest
             {
@@ -126,7 +131,9 @@ namespace GS.Lib.Components
             Library.Chat.ChatServers = s_TokenData.GetGSConfig.ChatServersWeighted;
             CountryData = s_TokenData.GetGSConfig.Country;
             Library.Remora.TestingChannel = s_TokenData.GetGSConfig.RemoraTestingChannel;
-            Library.TimeDifference = (long)(s_TokenData.GetGSConfig.Timestamp * 1000 - DateTime.UtcNow.ToUnixTimestampMillis());
+            Library.TimeDifference = s_TokenData.GetGSConfig.Timestamp * 1000 - DateTime.UtcNow.ToUnixTimestampMillis();
+
+            Debug.WriteLine("Time difference calculated to {0}ms.", Library.TimeDifference);
 
             return true;
         }

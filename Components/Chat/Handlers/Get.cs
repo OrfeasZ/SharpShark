@@ -87,7 +87,7 @@ namespace GS.Lib.Components
                         LoggedInMaster = new MasterStatus()
                         {
                             UUID = null,
-                            LastMouseMove = (uint) s_ConvertedTime,
+                            LastMouseMove = s_ConvertedTime,
                             LastUpdate = 2500, // TODO: Implement this
                             CurrentBroadcast = s_Bcast != null ? s_Bcast.ToObject<String>() : null,
                             IsBroadcasting = s_BcastOwner != null && s_BcastOwner.ToObject<int>() == 1 ? 1 : 0,

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GS.Lib.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Network.Sockets.Messages.Requests
 {
@@ -15,20 +16,7 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
             public List<UserSubscription> KeyData { get; set; }
         }
 
-        internal class RequestBlackbox
-        {
-            public String Type { get; set; }
-
-            public String Source { get; set; }
-
-            public bool Initial { get; set; }
-
-            public bool Retried { get; set; }
-        }
-
         public RequestParameters Params { get; set; }
-
-        public RequestBlackbox Blackbox { get; set; }
 
         public SubscribeToMetaUsersKeysRequest(List<UserSubscription> p_KeyData, bool p_Initial, bool p_Retried)
             : base("meta_sub")
@@ -39,12 +27,12 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
                 KeyData = p_KeyData
             };
 
-            Blackbox = new RequestBlackbox()
+            Blackbox = new Dictionary<string, JToken>()
             {
-                Source = "subscribeToMetaUsersKeys",
-                Type = "Users",
-                Initial = p_Initial,
-                Retried = p_Retried
+                { "source", "subscribeToMetaUsersKeys" },
+                { "type", "Users" },
+                { "initial", p_Initial },
+                { "retried", p_Retried }
             };
         }
     }

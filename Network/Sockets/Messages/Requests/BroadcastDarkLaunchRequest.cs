@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Network.Sockets.Messages.Requests
 {
@@ -18,8 +19,6 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
 
         public RequestParameters Params { get; set; }
 
-        public Dictionary<String, String> Blackbox { get; set; } 
-
         public BroadcastDarkLaunchRequest() 
             : base("get")
         {
@@ -29,7 +28,7 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
                 Keys = new List<String>() {"eligPer", "broadPer", "broadFreq", "largeChPer", "maxRandCh"}
             };
 
-            Blackbox = new Dictionary<string, string>()
+            Blackbox = new Dictionary<string, JToken>()
             {
                 {"source", "broadcastDarkLaunch"}
             };

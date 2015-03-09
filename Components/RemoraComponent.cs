@@ -5,6 +5,7 @@ using System.Text;
 using GS.Lib.Events;
 using GS.Lib.Models;
 using GS.Lib.Util;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Components
 {
@@ -49,7 +50,7 @@ namespace GS.Lib.Components
                     { "overwrite_params", false },
                     { "create_when_dne", true }
                 }
-            }, new Dictionary<string, object>()
+            }, new Dictionary<string, JToken>()
             {
                 { "source", "userChangeReconnect" } // NOTE: This is hacky and not how it's normally done
             });
@@ -59,7 +60,7 @@ namespace GS.Lib.Components
                 { "sub_alert", true },
                 { "owners", new List<UserIDData>() { new UserIDData(Library.User.Data.UserID) }},
             },
-            new Dictionary<string, object>()
+            new Dictionary<string, JToken>()
             {
                 { "source", "takeoverControlChannel" }
             });

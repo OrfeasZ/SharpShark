@@ -26,14 +26,14 @@ namespace GS.Lib.Components
             
             m_PendingOnlineUsers.AddRange(s_OnlineUsers);
 
-            if (s_Message.Blackbox.PartID >= s_Message.Blackbox.PartsTotal)
+            if (s_Message.Blackbox.ContainsKey("partID") && s_Message.Blackbox.ContainsKey("partsTotal") && (int) s_Message.Blackbox["partID"] >= (int) s_Message.Blackbox["partsTotal"])
             {
                 //FetchUsersStatus(m_PendingOnlineUsers, true, s_Message.Blackbox.Initial);
                 m_PendingOnlineUsers.Clear();
             }
 
             if (s_OnlineUsers.Count > 0)
-                FetchUsersStatuses(m_PendingOnlineUsers, true, s_Message.Blackbox.Initial);
+                FetchUsersStatuses(m_PendingOnlineUsers, true, s_Message.Blackbox.ContainsKey("initial") && (bool) s_Message.Blackbox["initial"]);
         }
     }
 }

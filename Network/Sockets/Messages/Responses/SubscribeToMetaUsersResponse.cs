@@ -8,8 +8,6 @@ namespace GS.Lib.Network.Sockets.Messages.Responses
     {
         public List<MetaUserData> Success { get; set; }
 
-        public PartitionedBlackbox Blackbox { get; set; }
-
         public SubscribeToMetaUsersResponse(string p_Command)
             : base(p_Command)
         {

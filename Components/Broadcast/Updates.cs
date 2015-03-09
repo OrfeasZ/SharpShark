@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GS.Lib.Enums;
 using GS.Lib.Events;
 using GS.Lib.Network.Sockets.Messages.Requests;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Components
 {
@@ -224,14 +225,14 @@ namespace GS.Lib.Components
 
             //
 
-            var s_Blackbox = new Dictionary<String, Object>()
+            var s_Blackbox = new Dictionary<String, JToken>()
             {
                 { "source", p_Source },
-                { "changedProps", p_ChangedProps }
+                { "changedProps", JToken.FromObject(p_ChangedProps) }
             };
 
             if (p_Token != null)
-                s_Blackbox.Add("token", p_Token);
+                s_Blackbox.Add("token", JToken.FromObject(p_Token));
 
             if (s_PublicInstances > 0)
             {

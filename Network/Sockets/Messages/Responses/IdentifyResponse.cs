@@ -29,14 +29,7 @@ namespace GS.Lib.Network.Sockets.Messages.Responses
             public bool LoggedIn { get; set; }
         }
 
-        internal class IdentifyBlackbox
-        {
-            public bool Retried { get; set; }
-        }
-
         public IdentifySuccess Success { get; set; }
-
-        public IdentifyBlackbox Blackbox { get; set; }
 
         public IdentifyResponse(string p_Command) 
             : base(p_Command)

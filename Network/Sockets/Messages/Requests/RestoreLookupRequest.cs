@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Network.Sockets.Messages.Requests
 {
@@ -19,14 +20,12 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
             }
         }
 
-        public Dictionary<String, String> Blackbox { get; set; }
-
         public RequestParams Params { get; set; }
 
         public RestoreLookupRequest(Int64 p_UserID) 
             : base("get")
         {
-            Blackbox = new Dictionary<string, string>()
+            Blackbox = new Dictionary<string, JToken>()
             {
                 { "source", "restore" }
             };

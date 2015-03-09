@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GS.Lib.Models;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Network.Sockets.Messages.Requests
 {
@@ -17,8 +18,6 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
 
         public RequestParameters Params { get; set; }
 
-        public Dictionary<String, Object> Blackbox { get; set; } 
-
         public PublishRequest(List<Subscription> p_Subs, Object p_Value, bool p_Async, bool p_Persist, String p_Source = null, Object p_ExtraData = null) 
             : base("pub")
         {
@@ -31,13 +30,13 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
                 Persist = p_Persist
             };
 
-            Blackbox = new Dictionary<string, object>();
+            Blackbox = new Dictionary<string, JToken>();
 
             if (!String.IsNullOrWhiteSpace(p_Source))
                 Blackbox.Add("source", p_Source);
 
             if (p_ExtraData != null)
-                Blackbox.Add("extraData", p_ExtraData);
+                Blackbox.Add("extraData", JToken.FromObject(p_ExtraData));
         }
     }
 }

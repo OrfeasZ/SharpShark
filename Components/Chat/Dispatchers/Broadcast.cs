@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Components
 {
@@ -70,11 +71,11 @@ namespace GS.Lib.Components
                     { "try_to_own", p_TryToOwn }
                 }
             },
-            new Dictionary<String, Object>
+            new Dictionary<String, JToken>
             {
                 { "source", p_Source },
                 { "broadcastID", Library.Broadcast.ActiveBroadcastID },
-                { "token", p_Token },
+                { "token", JToken.FromObject(p_Token) },
                 { "isBroadcasting", p_OwnBroadcast },
                 { "pendingNewBroadcastID", p_PendingBroadcastID }
             });

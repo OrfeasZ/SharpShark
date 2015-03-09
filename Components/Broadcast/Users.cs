@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GS.Lib.Models;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Components
 {
@@ -35,7 +36,7 @@ namespace GS.Lib.Components
 
         private void GetListeners()
         {
-            Library.Chat.GetSubscriberList(Library.Chat.GetChatChannel(ActiveBroadcastID), true, new Dictionary<string, object>()
+            Library.Chat.GetSubscriberList(Library.Chat.GetChatChannel(ActiveBroadcastID), true, new Dictionary<string, JToken>()
             {
                 { "source", "broadcast" },
                 { "broadcastID", ActiveBroadcastID }

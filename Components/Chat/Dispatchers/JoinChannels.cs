@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Components
 {
@@ -8,7 +9,7 @@ namespace GS.Lib.Components
         private Dictionary<String, Dictionary<String, Object>> m_CurrentChannels;
         private bool m_ChannelListDirty;
 
-        internal void JoinChannels(List<Object> p_Channels, Dictionary<String, Object> p_Blackbox = null, bool p_DontUpdate = false)
+        internal void JoinChannels(List<Object> p_Channels, Dictionary<String, JToken> p_Blackbox = null, bool p_DontUpdate = false)
         {
             if (m_CurrentChannels == null)
             {

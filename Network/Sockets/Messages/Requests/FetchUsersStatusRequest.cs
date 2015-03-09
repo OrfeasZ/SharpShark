@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GS.Lib.Models;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Network.Sockets.Messages.Requests
 {
@@ -13,8 +14,6 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
 
         public RequestParameters Params { get; set; }
 
-        public Dictionary<String, String> Blackbox { get; set; } 
-
         public FetchUsersStatusRequest(List<UserSubscription> p_KeyData) 
             : base("multiget")
         {
@@ -23,7 +22,7 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
                 Multikeys = p_KeyData
             };
 
-            Blackbox = new Dictionary<string, string>()
+            Blackbox = new Dictionary<string, JToken>()
             {
                 { "source", "fetchUsersStatuses" }
             };

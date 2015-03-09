@@ -1,11 +1,6 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Linq;
-using GS.Lib.Enums;
-using GS.Lib.Events;
 using GS.Lib.Models;
-using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Network.Sockets.Messages.Responses;
 using GS.Lib.Util;
 
@@ -15,7 +10,7 @@ namespace GS.Lib.Components
     {
         private void HandleSelfMessages(PublishResponse p_Message)
         {
-            if (UID == p_Message.Publish.ID["uid"] as String || p_Message.Publish.Value == null)
+            if (UID != p_Message.Publish.ID["uid"] as String || p_Message.Publish.Value == null)
                 return;
 
             var s_Params = p_Message.Publish.Value["params"] as Dictionary<String, Object>;
