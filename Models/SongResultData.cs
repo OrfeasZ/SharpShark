@@ -8,6 +8,8 @@ namespace GS.Lib.Models
 
         public String ArtistID { get; set; }
 
+        public String SongID { get; set; }
+
         public String SongName { get; set; }
 
         public String AlbumName { get; set; }
