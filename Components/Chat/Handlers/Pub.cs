@@ -14,7 +14,7 @@ namespace GS.Lib.Components
         {
             var s_BasicResponse = p_Message.As<BasicResponse>();
             var s_ReturnResponse = p_Message.As<ReturnResponse>();
-            var s_ErrorResponse = p_Message.As<ErrorResponse<Object>>();
+            var s_ErrorResponse = p_Message.As<ErrorResponse>();
 
             if (s_BasicResponse.Type == "return" && s_ReturnResponse != null && s_ReturnResponse.Return != null &&
                 s_ReturnResponse.Return.Type == JTokenType.Array && s_ReturnResponse.Return.ToObject<JArray>().Count > 0)

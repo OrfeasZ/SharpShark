@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Network.Sockets.Messages
 {
     internal sealed class SharkResponseMessage
     {
         public String Command { get; set; }
+
+        public Dictionary<String, JToken> Blackbox { get; set; } 
 
         private String m_MessageData;
 

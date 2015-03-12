@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
@@ -6,6 +7,7 @@ using System.Text;
 using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Util;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
 namespace GS.Lib.Network.Sockets
@@ -27,11 +29,17 @@ namespace GS.Lib.Network.Sockets
 
         private readonly Object m_SendLock;
 
+        private UInt16 m_PacketCounter;
+
+        private Dictionary<UInt16, Action<SharkResponseMessage>> m_PacketCallbacks; 
+
         public Client()
         {
+            m_PacketCallbacks = new Dictionary<ushort, Action<SharkResponseMessage>>();
             m_EventArgsPool = new ObjectPool<SocketAsyncEventArgs>(1000);
             m_Connecting = false;
             m_SendLock = new object();
+            m_PacketCounter = 0;
         }
 
         public bool Connect(String p_HostName, UInt16 p_Port)
@@ -39,8 +47,10 @@ namespace GS.Lib.Network.Sockets
             if (m_Connecting || IsConnected)
                 return false;
 
+            m_PacketCallbacks = new Dictionary<ushort, Action<SharkResponseMessage>>();
+            m_PacketCounter = 0;
             m_Processor = new Processor();
-            m_Processor.OnMessageProcessed += OnMessageProcessed;
+            m_Processor.OnMessageProcessed += OnMessageProcessedInternal;
 
             m_Connecting = true;
 
@@ -151,6 +161,85 @@ namespace GS.Lib.Network.Sockets
             {
                 return false;
             }
+        }
+
+        public bool SendMessage(SharkMessage p_Message, Action<SharkResponseMessage> p_Callback)
+        {
+            if (p_Message == null)
+                return false;
+
+            if (p_Callback == null)
+                return SendMessage(p_Message);
+
+            Debug.WriteLine(String.Format("Sending command: {0}", p_Message.Command));
+
+            if (p_Message.Blackbox == null)
+                p_Message.Blackbox = new Dictionary<string, JToken>();
+
+            lock (m_PacketCallbacks)
+            {
+                var s_PacketID = m_PacketCounter++;
+                p_Message.Blackbox.Add("__gspid", s_PacketID);
+
+                if (m_PacketCounter >= 65530)
+                    m_PacketCounter = 0;
+
+                m_PacketCallbacks.Add(s_PacketID, p_Callback);
+            }
+
+            // TODO: Implement a timeout
+
+            try
+            {
+                var s_SerializedMessage = JsonConvert.SerializeObject(p_Message,
+                    new JsonSerializerSettings { ContractResolver = new CamelCaseResolver() });
+                s_SerializedMessage += '\n';
+
+                Debug.WriteLine("[C -> S] " + s_SerializedMessage);
+
+                var s_MessageData = Encoding.UTF8.GetBytes(s_SerializedMessage);
+
+                return Send(s_MessageData, 0, s_MessageData.Length);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private void OnMessageProcessedInternal(object p_Sender, SharkResponseMessage p_SharkResponseMessage)
+        {
+            Debug.WriteLine("Received Message:");
+            Debug.WriteLine("[S -> C] " + p_SharkResponseMessage);
+            Debug.WriteLine("");
+
+            if (p_SharkResponseMessage.Blackbox == null || !p_SharkResponseMessage.Blackbox.ContainsKey("__gspid"))
+            {
+                if (OnMessageProcessed != null)
+                    OnMessageProcessed(this, p_SharkResponseMessage);
+
+                return;
+            }
+
+            var s_PacketID = p_SharkResponseMessage.Blackbox["__gspid"].Value<UInt16>();
+
+            Action<SharkResponseMessage> s_Callback;
+
+            lock (m_PacketCallbacks)
+            {
+                if (!m_PacketCallbacks.ContainsKey(s_PacketID))
+                {
+                    if (OnMessageProcessed != null)
+                        OnMessageProcessed(this, p_SharkResponseMessage);
+
+                    return;
+                }
+
+                s_Callback = m_PacketCallbacks[s_PacketID];
+                m_PacketCallbacks.Remove(s_PacketID);
+            }
+
+            s_Callback(p_SharkResponseMessage);
         }
 
         private bool Send(byte[] p_Data, int p_Offset, int p_Length)

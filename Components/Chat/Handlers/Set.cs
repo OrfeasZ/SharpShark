@@ -14,13 +14,13 @@ namespace GS.Lib.Components
         private void HandleSet(SharkResponseMessage p_Message)
         {
             var s_BasicResponse = p_Message.As<BasicResponse>();
-            var s_SuccessResponse = p_Message.As<SuccessResponse<String, Dictionary<String, Object>>>();
+            var s_SuccessResponse = p_Message.As<SuccessResponse<String>>();
 
             switch (s_BasicResponse.Type)
             {
                 case "error":
                     {
-                        Debug.WriteLine(String.Format("Set failed. Error: {0}", p_Message.As<ErrorResponse<Object>>().Error));
+                        Debug.WriteLine(String.Format("Set failed. Error: {0}", p_Message.As<ErrorResponse>().Error));
                         break;
                     }
 

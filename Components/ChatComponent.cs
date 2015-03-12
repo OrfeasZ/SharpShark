@@ -110,9 +110,7 @@ namespace GS.Lib.Components
         private void OnMessageProcessed(object p_Sender, SharkResponseMessage p_Message)
         {
             Action<SharkResponseMessage> s_Handler;
-
-            Debug.WriteLine("[S -> C] " + p_Message);
-
+            
             if (!m_Handlers.TryGetValue(p_Message.Command, out s_Handler))
             {
                 Debug.WriteLine(String.Format("Received an unhandled command: {0}", p_Message.Command));

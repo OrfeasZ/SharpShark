@@ -15,7 +15,7 @@ namespace GS.Lib.Components
             {
                 case "error":
                     {
-                        Debug.WriteLine(String.Format("Set failed. Error: {0}", p_Message.As<ErrorResponse<Object>>().Error));
+                        Debug.WriteLine(String.Format("Set failed. Error: {0}", p_Message.As<ErrorResponse>().Error));
 
                         // TODO: Retry request if we have enough data.
 
@@ -24,11 +24,11 @@ namespace GS.Lib.Components
 
                 case "success":
                     {
-                        var s_Message = p_Message.As<SuccessResponse<JToken, PartitionedBlackbox>>();
+                        var s_Message = p_Message.As<SuccessResponse<JToken>>();
 
                         if (s_Message.Blackbox != null)
                         {
-                            if (s_Message.Blackbox.Source == "subscribeToMetaUsers")
+                            if (s_Message.Blackbox.ContainsKey("source") && s_Message.Blackbox["source"].Value<String>() == "subscribeToMetaUsers")
                             {
                                 HandleSubscribeToMetaUsers(p_Message);
                                 break;

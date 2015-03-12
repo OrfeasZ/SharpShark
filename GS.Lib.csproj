@@ -45,7 +45,6 @@
   <ItemGroup>
     <Compile Include="Components\Broadcast\Remora.cs" />
     <Compile Include="Components\Broadcast\SetResult.cs" />
-    <Compile Include="Components\Broadcast\SubResult.cs" />
     <Compile Include="Components\Broadcast\Playback.cs" />
     <Compile Include="Components\Broadcast\SubUpdate.cs" />
     <Compile Include="Components\Broadcast\Suggestions.cs" />

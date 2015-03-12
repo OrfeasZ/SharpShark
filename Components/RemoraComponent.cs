@@ -91,7 +91,7 @@ namespace GS.Lib.Components
             if (!p_Event.Blackbox.ContainsKey("source"))
                 return false;
 
-            if (p_Event.Blackbox["source"] as String != "takeoverControlChannel")
+            if (p_Event.Blackbox["source"].Value<String>() != "takeoverControlChannel")
                 return false;
 
             Library.Chat.PublishToChannels(new List<string>() { TestingChannel }, new Dictionary<String, String>()

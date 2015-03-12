@@ -41,7 +41,6 @@ namespace GS.Lib.Components
 
         internal override void RegisterEventHandlers()
         {
-            Library.Chat.RegisterEventHandler((int) ChatEvent.SubResult, HandleSubResult);
             Library.Chat.RegisterEventHandler((int) ChatEvent.SetResult, HandleSetResult);
             Library.Chat.RegisterEventHandler((int) ChatEvent.SubUpdate, HandleSubUpdate);
         }
