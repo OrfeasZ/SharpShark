@@ -46,15 +46,12 @@
     <Compile Include="Components\Broadcast\Remora.cs" />
     <Compile Include="Components\Broadcast\SetResult.cs" />
     <Compile Include="Components\Broadcast\SubResult.cs" />
-    <Compile Include="Components\Broadcast\History.cs" />
     <Compile Include="Components\Broadcast\Playback.cs" />
     <Compile Include="Components\Broadcast\SubUpdate.cs" />
     <Compile Include="Components\Broadcast\Suggestions.cs" />
-    <Compile Include="Components\Broadcast\Takeover.cs" />
     <Compile Include="Components\Broadcast\Updates.cs" />
     <Compile Include="Components\Broadcast\Users.cs" />
     <Compile Include="Components\Chat\Dispatchers\Broadcast.cs" />
-    <Compile Include="Components\Chat\Dispatchers\BroadcastDarkLaunch.cs" />
     <Compile Include="Components\Chat\Dispatchers\FetchUserStatuses.cs" />
     <Compile Include="Components\Chat\Dispatchers\JoinChannels.cs" />
     <Compile Include="Components\Chat\Dispatchers\Master.cs" />
@@ -126,7 +123,6 @@
     <Compile Include="Network\Sockets\Messages\Generic\KeyValParams.cs" />
     <Compile Include="Network\Sockets\Messages\Generic\KeyVals.cs" />
     <Compile Include="Network\Sockets\Messages\Generic\PartitionedBlackbox.cs" />
-    <Compile Include="Network\Sockets\Messages\Requests\BroadcastDarkLaunchRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\ChannelSubRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\FetchUsersStatusRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\GetSubscriberListRequest.cs" />

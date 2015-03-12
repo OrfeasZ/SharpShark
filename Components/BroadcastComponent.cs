@@ -105,39 +105,9 @@ namespace GS.Lib.Components
                 Data = s_Response.Broadcast;
 
                 Library.Remora.JoinControlChannels();
-
-                Library.Chat.ActivateBroadcast(true);
             }
 
             return s_Response;
-        }
-
-        private void FinalizeActivation(bool p_Broadcasting, List<String> p_LatestChatMessages, String p_Source, Object p_Token = null)
-        {
-            //InitializeNewBroadcast(p_Broadcasting, ActiveBroadcastID, 0, -1);
-
-            m_SuggestionChanges.Clear();
-
-            if (p_Source == "takeOverBroadcast")
-            {
-                ProcessUpdates(new Dictionary<string, object>()
-                {
-                    { "suggestions", true },
-                    { "history", true },
-                    { "totalListens", true },
-                    { "broadcastIncrement", true }
-                });
-            }
-            else if (p_Broadcasting && p_Source != "startBroadcast")
-            {
-                ProcessUpdates(new Dictionary<string, object>()
-                {
-                    { "suggestions", true }
-                });
-            }
-
-            UpdateChatClientWithBroadcast();
-            GetListeners();
         }
     }
 }

@@ -62,9 +62,6 @@ namespace GS.Lib.Components
                     JoinChannels(s_ChannelsToJoin, new Dictionary<string, JToken> { { "newUser", true } });
                     SendRestoreLookup();
 
-                    if (!m_CurrentChannels.ContainsKey("broadcastDarkLaunch"))
-                        InitiateBroadcastDarkLaunch();
-
                     // TODO: Do we really need to do this?
                     Library.User.StoreChatIdentity();
 

@@ -56,6 +56,7 @@ namespace GS.Lib.Components
             if (s_Message.Blackbox != null && s_Message.Blackbox.ContainsKey("source") &&
                 (String) s_Message.Blackbox["source"] == "restore")
             {
+                // TODO: Implement restore
                 m_ReceivedRestore = true;
 
                 if (s_Values != null && s_Values.Count > 0 && s_Values[0] != null)
