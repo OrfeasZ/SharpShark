@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GS.Lib.Enums;
 using GS.Lib.Events;
 using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Network.Sockets.Messages.Responses;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Components
 {
@@ -129,6 +131,32 @@ namespace GS.Lib.Components
                   Int64.Parse(s_Message.Publish.ID["userid"] as String) == Library.User.Data.UserID) ||
                  (s_Message.Publish.ID.ContainsKey("sudo") && (bool)s_Message.Publish.ID["sudo"])))
                 HandleSelfMessages(s_Message);
+
+            // Is this a chat message?
+            var s_Value = s_Message.Publish.Value;
+
+            if (s_Value.ContainsKey("type") && s_Value["type"] as String == "chat")
+            {
+                var s_ID = s_Message.Publish.ID ?? new Dictionary<string, object>();
+
+                var s_ChatMessage = s_Value["data"] as String;
+
+                var s_UserID = s_ID.ContainsKey("userid") ? Int64.Parse(s_ID["userid"] as String ?? "0") : 0;
+                var s_UserAppData = s_ID.ContainsKey("app_data") ? s_ID["app_data"] as JToken : null;
+
+                String s_UserName = null;
+
+                if (s_UserAppData != null)
+                    s_UserName = s_UserAppData["n"].Value<String>();
+
+                Library.DispatchEvent(ClientEvent.ChatMessage, new ChatMessageEvent()
+                {
+                    DestinationChannel = s_Message.Publish.Destination,
+                    UserID = s_UserID,
+                    UserName = s_UserName,
+                    ChatMessage = s_ChatMessage
+                });
+            }
 
             DispatchEvent((int)ChatEvent.SubUpdate, new SubUpdateEvent()
             {

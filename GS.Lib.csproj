@@ -87,6 +87,7 @@
     <Compile Include="Events\AuthenticationFailureEvent.cs" />
     <Compile Include="Events\BroadcastCreationEvent.cs" />
     <Compile Include="Events\ChatErrorEvent.cs" />
+    <Compile Include="Events\ChatMessageEvent.cs" />
     <Compile Include="Events\PubResultEvent.cs" />
     <Compile Include="Events\SetResultEvent.cs" />
     <Compile Include="Events\SharkEvent.cs" />

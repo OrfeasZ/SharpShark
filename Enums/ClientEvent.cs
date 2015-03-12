@@ -5,6 +5,7 @@
         AuthenticationFailed,
         Authenticated,
         BroadcastCreationFailed,
-        BroadcastCreated
+        BroadcastCreated,
+        ChatMessage,
     }
 }
