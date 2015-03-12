@@ -119,13 +119,13 @@ namespace GS.Lib.Components
 
             if (Library.User.Data != null && Library.User.Data.ArtistID > 0 &&
                 s_Message.Publish.Destination == "artist:" + Library.User.Data.ArtistID && s_Message.Publish.ID != null &&
-                ((s_Message.Publish.ID.ContainsKey("artistid") &&
+                ((s_Message.Publish.ID.ContainsKey("artistid") && s_Message.Publish.ID["artistid"] is String &&
                   Int64.Parse(s_Message.Publish.ID["artistid"] as String) == Library.User.Data.ArtistID) ||
                  (s_Message.Publish.ID.ContainsKey("sudo") && (bool) s_Message.Publish.ID["sudo"])))
                 HandleSelfMessages(s_Message);
             else if (Library.User.Data != null && Library.User.Data.UserID > 0 &&
                 s_Message.Publish.Destination == "user:" + Library.User.Data.UserID && s_Message.Publish.ID != null &&
-                ((s_Message.Publish.ID.ContainsKey("userid") &&
+                ((s_Message.Publish.ID.ContainsKey("userid") && s_Message.Publish.ID["userid"] is String &&
                   Int64.Parse(s_Message.Publish.ID["userid"] as String) == Library.User.Data.UserID) ||
                  (s_Message.Publish.ID.ContainsKey("sudo") && (bool)s_Message.Publish.ID["sudo"])))
                 HandleSelfMessages(s_Message);

@@ -21,7 +21,7 @@ namespace GS.Lib.Components
                 { "tag", s_Tag },
                 { "version", 4 },
                 { "vipUsers", new List<Int64>() }, // TODO: VIP Users 
-                { "bannedUsers", new List<Int64>() }, // TODO: Banned Users
+                { "bannedUserIDs", new List<Int64>() }, // TODO: Banned Users
                 { "attachType", "user" },
                 { "attachID", Library.User.Data.UserID },
                 { "settings", 
@@ -31,7 +31,9 @@ namespace GS.Lib.Components
                         {  "chatEnabled", ChatEnabled }
                     } 
                 },
-                { "isBroadcast", true }
+                { "isBroadcast", true },
+                { "isRandomName", false },
+                { "clientVersion", "1.1" },
             };
         }
     }

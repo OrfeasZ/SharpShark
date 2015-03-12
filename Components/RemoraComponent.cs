@@ -4,6 +4,8 @@ using System.Security.Cryptography;
 using System.Text;
 using GS.Lib.Events;
 using GS.Lib.Models;
+using GS.Lib.Network.Sockets.Messages;
+using GS.Lib.Network.Sockets.Messages.Responses;
 using GS.Lib.Util;
 using Newtonsoft.Json.Linq;
 
@@ -13,7 +15,7 @@ namespace GS.Lib.Components
     {
         public String ControlChannel { get; set; }
 
-        public String TestingChannel { get; set; }
+        public String Channel { get; set; }
 
         private readonly Queue<Object> m_QueuedMessages;
 
@@ -50,20 +52,16 @@ namespace GS.Lib.Components
                     { "overwrite_params", false },
                     { "create_when_dne", true }
                 }
-            }, new Dictionary<string, JToken>()
+            }, p_Callback: p_Message =>
             {
-                { "source", "userChangeReconnect" } // NOTE: This is hacky and not how it's normally done
+                Library.Chat.SetSubscriptionParameters(ControlChannel, new Dictionary<string, object>()
+                {
+                    { "sub_alert", true },
+                    { "owners", new List<UserIDData>() { new UserIDData(Library.User.Data.UserID) }},
+                }, new Dictionary<string, JToken>(), p_Callback: HandleSetResult);
             });
 
-            Library.Chat.SetSubscriptionParameters(ControlChannel, new Dictionary<string, object>()
-            {
-                { "sub_alert", true },
-                { "owners", new List<UserIDData>() { new UserIDData(Library.User.Data.UserID) }},
-            },
-            new Dictionary<string, JToken>()
-            {
-                { "source", "takeoverControlChannel" }
-            });
+            
         }
 
         internal void Send(Object p_Message)
@@ -77,29 +75,23 @@ namespace GS.Lib.Components
             Library.Chat.PublishToChannels(new List<string>() { ControlChannel }, p_Message);
         }
 
-        internal bool HandleSetResult(SetResultEvent p_Event)
+        internal void HandleSetResult(SharkResponseMessage p_Message)
         {
             if (m_Created)
-                return false;
+                return;
 
-            if (!p_Event.Success)
-                return false;
+            var s_Message = p_Message.As<SuccessResponse<String>>();
 
-            if (p_Event.Blackbox == null)
-                return false;
+            if (s_Message == null)
+                return;
 
-            if (!p_Event.Blackbox.ContainsKey("source"))
-                return false;
+            if (s_Message.Success == null || s_Message.Success != "set")
+                return;
 
-            if (p_Event.Blackbox["source"].Value<String>() != "takeoverControlChannel")
-                return false;
-
-            Library.Chat.PublishToChannels(new List<string>() { TestingChannel }, new Dictionary<String, String>()
+            Library.Chat.PublishToChannels(new List<string>() { Channel }, new Dictionary<String, String>()
             {
                 { "setup", ControlChannel }
             });
-
-            return true;
         }
 
         internal bool HandlePublish(SubUpdateEvent p_Event)
@@ -112,16 +104,15 @@ namespace GS.Lib.Components
 
             if (!m_Created && !m_PendingCreation)
             {
-                if (p_Event.ID.ContainsKey("sudo") && (bool) p_Event.ID["sudo"] &&
+                if (p_Event.ID.ContainsKey("sudo") && (bool)p_Event.ID["sudo"] &&
                     p_Event.Value.ContainsKey("available"))
                 {
                     m_PendingCreation = true;
 
                     var s_Params = Library.Broadcast.GetParamsForRemora();
                     s_Params.Add("queueChannel", ControlChannel);
-                    s_Params.Add("isGhostBroadcast", true);
 
-                    Library.Chat.PublishToChannels(new List<string>() { TestingChannel }, new Dictionary<String, Object>()
+                    Library.Chat.PublishToChannels(new List<string>() { Channel }, new Dictionary<String, Object>()
                     {
                         { "setupQueue", ControlChannel },
                         { "ownerID", p_Event.Value["available"] },

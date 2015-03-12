@@ -8,6 +8,8 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
     {
         internal class RequestParams
         {
+            public bool Add { get; set; }
+
             public List<Dictionary<String, Object>> Subs { get; set; }
 
             public RequestParams()
@@ -23,7 +25,8 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
         {
             Params = new RequestParams()
             {
-                Subs = p_Channels
+                Subs = p_Channels,
+                Add = true
             };
 
             Blackbox = p_Blackbox ?? new Dictionary<string, JToken>();

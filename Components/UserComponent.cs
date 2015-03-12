@@ -54,7 +54,7 @@ namespace GS.Lib.Components
             SessionID = s_TokenData.GetGSConfig.SessionID;
             Library.Chat.ChatServers = s_TokenData.GetGSConfig.ChatServersWeighted;
             CountryData = s_TokenData.GetGSConfig.Country;
-            Library.Remora.TestingChannel = s_TokenData.GetGSConfig.RemoraTestingChannel;
+            Library.Remora.Channel = s_TokenData.GetGSConfig.RemoraChannel;
             Library.TimeDifference = s_TokenData.GetGSConfig.Timestamp * 1000 - DateTime.UtcNow.ToUnixTimestampMillis();
 
             Debug.WriteLine("Time difference calculated to {0}ms.", Library.TimeDifference);
@@ -79,7 +79,7 @@ namespace GS.Lib.Components
             SessionID = s_TokenData.GetGSConfig.SessionID;
             Library.Chat.ChatServers = s_TokenData.GetGSConfig.ChatServersWeighted;
             CountryData = s_TokenData.GetGSConfig.Country;
-            Library.Remora.TestingChannel = s_TokenData.GetGSConfig.RemoraTestingChannel;
+            Library.Remora.Channel = s_TokenData.GetGSConfig.RemoraChannel;
             Library.TimeDifference = s_TokenData.GetGSConfig.Timestamp * 1000 - DateTime.UtcNow.ToUnixTimestampMillis();
 
             Debug.WriteLine("Time difference calculated to {0}ms.", Library.TimeDifference);
@@ -121,7 +121,7 @@ namespace GS.Lib.Components
             SessionID = s_TokenData.GetGSConfig.SessionID;
             Library.Chat.ChatServers = s_TokenData.GetGSConfig.ChatServersWeighted;
             CountryData = s_TokenData.GetGSConfig.Country;
-            Library.Remora.TestingChannel = s_TokenData.GetGSConfig.RemoraTestingChannel;
+            Library.Remora.Channel = s_TokenData.GetGSConfig.RemoraChannel;
             Library.TimeDifference = s_TokenData.GetGSConfig.Timestamp * 1000 - DateTime.UtcNow.ToUnixTimestampMillis();
 
             Debug.WriteLine("Time difference calculated to {0}ms.", Library.TimeDifference);

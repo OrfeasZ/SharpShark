@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Network.Sockets.Messages.Requests;
 using Newtonsoft.Json.Linq;
 
@@ -8,12 +9,12 @@ namespace GS.Lib.Components
 {
     public partial class ChatComponent
     {
-        private void UpdateChannelList(Dictionary<String, JToken> p_Blackbox = null)
+        private void UpdateChannelList(Dictionary<String, JToken> p_Blackbox = null, Action<SharkResponseMessage> p_Callback = null)
         {
             if (!m_ChannelListDirty)
                 return;
 
-            m_SocketClient.SendMessage(GetChannelSubData(p_Blackbox));
+            m_SocketClient.SendMessage(GetChannelSubData(p_Blackbox), p_Callback);
             m_ChannelListDirty = false;
         }
 

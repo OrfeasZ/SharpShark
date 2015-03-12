@@ -32,8 +32,6 @@ namespace GS.Lib.Components
             ChatEnabled = true;
             CurrentBroadcastCategoryTag = null;
 
-            BannedUserIDs = new List<long>();
-            OwnerUserIDs = new List<long>();
             SuggestionsEnabled = true;
 
             m_SuggestionChanges = new List<object>();
@@ -71,42 +69,27 @@ namespace GS.Lib.Components
             return s_Response;
         }
 
-        public BroadcastCreationData CreateBroadcast(String p_Name, String p_Description, CategoryTag p_Tag)
+        public void CreateBroadcast(String p_Name, String p_Description, CategoryTag p_Tag)
         {
             if (Library.User.Data == null)
-                return null;
+                return;
 
-            BannedUserIDs.Clear();
-            OwnerUserIDs.Clear();
+            CurrentBroadcastName = p_Name;
+            CurrentBroadcastDescription = p_Description;
+            CurrentBroadcastCategoryTag = p_Tag;
+            ActiveBroadcastID = null;
+            Data = null;
 
-            CurrentBroadcastCategoryTag = null;
+            var s_LastBroadcast = GetLastBroadcast();
 
-            var s_Request = new CreateBroadcastRequest()
+            if (s_LastBroadcast != null)
             {
-                Name = p_Name,
-                Description = p_Description,
-                Tag = p_Tag,
-                IsRandomName = false
-            };
-
-            var s_Response = Library.RequestDispatcher.Dispatch<CreateBroadcastRequest, BroadcastCreationData>(
-                    "createBroadcastFromLast", s_Request);
-
-            if (s_Response != null && s_Response.Success)
-            {
-                OwnerUserIDs.Add(Library.User.Data.UserID);
-
-                CurrentBroadcastCategoryTag = p_Tag;
-                ActiveBroadcastID = s_Response.ID;
-                CurrentBroadcastName = p_Name;
-                CurrentBroadcastDescription = p_Description;
+                ActiveBroadcastID = s_LastBroadcast.BroadcastID;
                 CurrentBroadcastPicture = null;
-                Data = s_Response.Broadcast;
-
-                Library.Remora.JoinControlChannels();
+                Data = s_LastBroadcast;
             }
 
-            return s_Response;
+            Library.Remora.JoinControlChannels();
         }
     }
 }

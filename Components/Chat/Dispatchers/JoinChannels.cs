@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GS.Lib.Network.Sockets.Messages;
 using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Components
@@ -9,7 +10,7 @@ namespace GS.Lib.Components
         private Dictionary<String, Dictionary<String, Object>> m_CurrentChannels;
         private bool m_ChannelListDirty;
 
-        internal void JoinChannels(List<Object> p_Channels, Dictionary<String, JToken> p_Blackbox = null, bool p_DontUpdate = false)
+        internal void JoinChannels(List<Object> p_Channels, Dictionary<String, JToken> p_Blackbox = null, bool p_DontUpdate = false, Action<SharkResponseMessage> p_Callback = null)
         {
             if (m_CurrentChannels == null)
             {
@@ -65,7 +66,7 @@ namespace GS.Lib.Components
             }
             
             if (!p_DontUpdate)
-                UpdateChannelList(p_Blackbox);
+                UpdateChannelList(p_Blackbox, p_Callback);
         }
     }
 }
