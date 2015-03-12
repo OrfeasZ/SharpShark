@@ -126,6 +126,15 @@ namespace GS.Lib.Components
             if (!p_Event.Value.ContainsKey("action"))
                 return true;
 
+            if (p_Event.Value["action"] as String == "setupQueueFailed")
+            {
+                m_PendingCreation = false;
+                m_Created = false;
+                
+                // TODO: Dispatch failure event.
+                return true;
+            }
+
             if (p_Event.Value["action"] as String == "setupQueueSuccess")
             {
                 if (!p_Event.Value.ContainsKey("broadcast") || p_Event.Value["broadcast"] == null)
@@ -134,10 +143,17 @@ namespace GS.Lib.Components
                 m_Created = true;
                 m_PendingCreation = false;
 
+                var s_Broadcast = p_Event.Value["broadcast"] as JToken;
+
+                Library.Broadcast.ActiveBroadcastID = s_Broadcast["BroadcastID"].Value<String>();
+                Library.Broadcast.CurrentBroadcastName = s_Broadcast["Name"].Value<String>();
+
                 while (m_QueuedMessages.Count > 0)
                     Library.Chat.PublishToChannels(new List<string>() { ControlChannel }, m_QueuedMessages.Dequeue());
 
                 Library.Chat.UpdateCurrentStatus();
+
+                Library.Chat.SubscribeToBroadcastStatuses();
 
                 return true;
             }

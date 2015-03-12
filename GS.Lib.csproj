@@ -89,6 +89,7 @@
     <Compile Include="Events\SharkEvent.cs" />
     <Compile Include="Events\SubResultEvent.cs" />
     <Compile Include="Events\SubUpdateEvent.cs" />
+    <Compile Include="Models\SubscriptionKeys.cs" />
     <Compile Include="Models\UserIDData.cs" />
     <Compile Include="Models\BroadcastCreationData.cs" />
     <Compile Include="Models\BroadcastData.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="Network\Sockets\Messages\Requests\RestoreLookupRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\SetSubscriptionParamsRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\SubscribeToMetaArtistsRequest.cs" />
+    <Compile Include="Network\Sockets\Messages\Requests\SubscribeToMetaSubKeysRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\SubscribeToMetaUsersKeysRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\SubscribeToMetaUsersRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\UpdateUserDataRequest.cs" />

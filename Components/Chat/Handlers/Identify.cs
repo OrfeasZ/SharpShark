@@ -126,7 +126,9 @@ namespace GS.Lib.Components
                         }
 
                         var s_LocalTime = DateTime.UtcNow.ToUnixTimestampMillis() + Library.TimeDifference;
-                        var s_RestoreTime = s_RestoreValue["time"].Value<Int64>();
+                        var s_RestoreTime = s_RestoreValue.ContainsKey("time")
+                            ? s_RestoreValue["time"].Value<Int64>()
+                            : s_LocalTime;
 
                         if ((!s_RestoreValue.ContainsKey("bcastOwner") || s_RestoreValue["bcastOwner"].Value<int>() == 0) &&
                             ((!s_RestoreValue.ContainsKey("status") || s_RestoreValue["status"].Value<int>() == 0) ||
