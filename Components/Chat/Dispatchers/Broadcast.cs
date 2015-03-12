@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using GS.Lib.Enums;
+using GS.Lib.Events;
 using GS.Lib.Models;
 using GS.Lib.Network.Sockets.Messages.Requests;
 using GS.Lib.Network.Sockets.Messages.Responses;
@@ -102,7 +104,8 @@ namespace GS.Lib.Components
 
                 if (s_Response == null || s_Response.Type != "success")
                 {
-                    // TODO: Broadcast status subscription failed. Destroy broadcast and notify client.
+                    Library.Broadcast.DestroyBroadcast();
+                    Library.DispatchEvent(ClientEvent.BroadcastCreationFailed, null);
                     return;
                 }
 
@@ -132,8 +135,12 @@ namespace GS.Lib.Components
             }, p_Callback: p_Message =>
             {
                 // Subscription successful.
-                // TODO: Dispatch event, start pinging remora.
                 Library.Remora.StartPing();
+
+                Library.DispatchEvent(ClientEvent.BroadcastCreated, new BroadcastCreationEvent()
+                {
+                    BroadcastID = Library.Broadcast.ActiveBroadcastID
+                });
             });
         }
 

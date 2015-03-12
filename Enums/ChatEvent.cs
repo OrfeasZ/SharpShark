@@ -1,6 +1,6 @@
 ﻿namespace GS.Lib.Enums
 {
-    public enum ChatEvent : int
+    internal enum ChatEvent
     {
         ChatError,
         RemoteResult,

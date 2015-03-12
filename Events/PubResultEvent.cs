@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Events
 {
-    public class PubResultEvent : SharkEvent
+    internal class PubResultEvent : SharkEvent
     {
         public bool Success { get; set; }
 

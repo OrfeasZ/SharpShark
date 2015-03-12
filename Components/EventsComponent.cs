@@ -14,7 +14,7 @@ namespace GS.Lib.Components
             m_EventHandlers = new Dictionary<int, List<Action<SharkEvent>>>();
         }
 
-        public void RegisterEventHandler(int p_Event, Action<SharkEvent> p_Callback)
+        internal void RegisterEventHandler(int p_Event, Action<SharkEvent> p_Callback)
         {
             if (!m_EventHandlers.ContainsKey(p_Event))
                 m_EventHandlers.Add(p_Event, new List<Action<SharkEvent>>());
@@ -25,7 +25,7 @@ namespace GS.Lib.Components
             m_EventHandlers[p_Event].Add(p_Callback);
         }
 
-        public void RemoveEventHandler(int p_Event, Action<SharkEvent> p_Callback)
+        internal void RemoveEventHandler(int p_Event, Action<SharkEvent> p_Callback)
         {
             if (!m_EventHandlers.ContainsKey(p_Event))
                 return;
@@ -33,7 +33,7 @@ namespace GS.Lib.Components
             m_EventHandlers[p_Event].Remove(p_Callback);
         }
 
-        public void RemoveEventHandlers(int p_Event)
+        internal void RemoveEventHandlers(int p_Event)
         {
             if (!m_EventHandlers.ContainsKey(p_Event))
                 return;

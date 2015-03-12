@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using GS.Lib.Enums;
+using GS.Lib.Events;
 using GS.Lib.Models;
 using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Network.Sockets.Messages.Requests;
@@ -23,6 +25,11 @@ namespace GS.Lib.Components
                 case "error":
                 {
                     Debug.WriteLine(String.Format("Failed to identify with the Chat Service. Error: {0}", p_Message.As<ErrorResponse>().Error));
+                    Library.DispatchEvent(ClientEvent.AuthenticationFailed, new AuthenticationFailureEvent()
+                    {
+                        Error = p_Message.As<ErrorResponse>().Error
+                    });
+
                     break;
                 }
 
@@ -90,8 +97,6 @@ namespace GS.Lib.Components
             // NOTE: One would assume that we should be able to create a broadcast after we successfully restore
             // our previous state and performing a master promotion.
 
-            // TODO: Dispatch an event of some sorts to allow GrooveCaster to start a broadcast.
-
             m_SocketClient.SendMessage(
                 new RestoreLookupRequest(Library.User.Data.ArtistID != 0
                     ? Library.User.Data.ArtistID
@@ -102,6 +107,8 @@ namespace GS.Lib.Components
                             Debug.WriteLine("Restore command failed.");
                             return;
                         }
+
+                        Library.DispatchEvent(ClientEvent.Authenticated, null);
 
                         var s_Message = p_Message.As<ReturnResponse>();
 

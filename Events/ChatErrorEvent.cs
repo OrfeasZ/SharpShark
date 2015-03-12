@@ -2,7 +2,7 @@
 
 namespace GS.Lib.Events
 {
-    public class ChatErrorEvent : SharkEvent
+    internal class ChatErrorEvent : SharkEvent
     {
         public String Error { get; set; }
 

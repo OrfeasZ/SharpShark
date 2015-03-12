@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Events
 {
-    public class SubResultEvent : SharkEvent
+    internal class SubResultEvent : SharkEvent
     {
         public Dictionary<String, Object> ChannelParameters { get; set; }
 

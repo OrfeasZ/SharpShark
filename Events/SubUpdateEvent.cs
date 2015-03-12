@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GS.Lib.Events
 {
-    public class SubUpdateEvent : SharkEvent
+    internal class SubUpdateEvent : SharkEvent
     {
         public String Type { get; set; }
 

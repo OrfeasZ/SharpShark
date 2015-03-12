@@ -91,5 +91,10 @@ namespace GS.Lib.Components
 
             Library.Remora.JoinControlChannels();
         }
+
+        public void DestroyBroadcast()
+        {
+            
+        }
     }
 }
