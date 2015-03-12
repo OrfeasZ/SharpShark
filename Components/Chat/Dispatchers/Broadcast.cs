@@ -133,6 +133,7 @@ namespace GS.Lib.Components
             {
                 // Subscription successful.
                 // TODO: Dispatch event, start pinging remora.
+                Library.Remora.StartPing();
             });
         }
 

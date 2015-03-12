@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using System.Timers;
 using GS.Lib.Events;
 using GS.Lib.Models;
 using GS.Lib.Network.Sockets.Messages;
@@ -21,6 +22,8 @@ namespace GS.Lib.Components
 
         private bool m_Created;
         private bool m_PendingCreation;
+
+        private Timer m_PingTimer;
 
         public RemoraComponent(SharpShark p_Library) 
             : base(p_Library)
@@ -161,19 +164,39 @@ namespace GS.Lib.Components
             return true;
         }
 
-        internal void PublishInitialQueue()
+        internal void StartPing()
+        {
+            if (m_PingTimer != null)
+                m_PingTimer.Dispose();
+
+            m_PingTimer = new Timer
+            {
+                Interval = 45000, 
+                AutoReset = true
+            };
+
+            m_PingTimer.Elapsed += Ping;
+
+            m_PingTimer.Start();
+        }
+
+        internal void StopPing()
+        {
+            if (m_PingTimer == null)
+                return;
+
+            m_PingTimer.Dispose();
+            m_PingTimer = null;
+        }
+
+        internal void Ping(object p_Sender, ElapsedEventArgs p_Args)
         {
             Send(new Dictionary<String, Object>()
             {
-                { "action", "resetQueue" },
-                { "songIDs", new List<Int64>() },
-                { "queueSongIDs", new List<Int64>() }
+                { "action", "ping" },
+                { "idle", false },
+                { "away", false }
             });
-        }
-
-        internal void PublishActiveSong()
-        {
-            
         }
     }
 }
