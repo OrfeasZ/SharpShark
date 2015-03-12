@@ -98,7 +98,7 @@ namespace GS.Lib.Components
             // TODO: Additional checks because when reconnecting we need to do thing differently.
             m_SocketClient.SendMessage(new IdentifyRequest(Library.User.Data.ChatUserData,
                 Library.User.Data.ChatUserDataSig, Library.User.SessionID,
-                Library.User.UUID, false, Library.User.Data.UserID));
+                false, Library.User.Data.UserID));
         }
 
         private void OnDisconnected(object p_Sender, EventArgs p_EventArgs)

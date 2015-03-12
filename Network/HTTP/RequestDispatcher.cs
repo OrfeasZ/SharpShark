@@ -32,8 +32,7 @@ namespace GS.Lib.Network.HTTP
         private Z DispatchInternal<T, Z>(String p_Method, T p_Parameters, bool p_UseHTTPS)
         {
             // Check if we're authenticated.
-            if (String.IsNullOrWhiteSpace(Library.User.SessionID) ||
-                String.IsNullOrWhiteSpace(Library.User.UUID))
+            if (String.IsNullOrWhiteSpace(Library.User.SessionID))
                 return default(Z);
 
             using (var s_Client = new WebClient())
@@ -49,15 +48,13 @@ namespace GS.Lib.Network.HTTP
                 {
                     // Construct our request.
                     var s_EmptyRequest = new SharkRequest<Dictionary<String, String>>(p_Method, Library.User.SessionID,
-                        Library.User.UUID, Library.User.CommunicationToken,
-                        s_SecretKey, new Dictionary<string, string>(), Library.User.CountryData);
+                        Library.User.CommunicationToken, s_SecretKey, new Dictionary<string, string>(), Library.User.CountryData);
 
                     return RequestInternal<Dictionary<String, String>, Z>(s_Client, p_Method, new Dictionary<string, string>(), p_UseHTTPS, s_EmptyRequest);
                 }
 
                 // Construct our request.
-                var s_Request = new SharkRequest<T>(p_Method, Library.User.SessionID,
-                    Library.User.UUID, Library.User.CommunicationToken,
+                var s_Request = new SharkRequest<T>(p_Method, Library.User.SessionID, Library.User.CommunicationToken,
                     s_SecretKey, p_Parameters, Library.User.CountryData);
 
                 return RequestInternal<T, Z>(s_Client, p_Method, p_Parameters, p_UseHTTPS, s_Request);

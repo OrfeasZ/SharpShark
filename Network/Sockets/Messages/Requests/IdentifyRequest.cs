@@ -19,9 +19,6 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
             [JsonProperty("sessionid")]
             public String SessionID { get; set; }
 
-            [JsonProperty("uid")]
-            public String UUID { get; set; }
-
             public bool Invisible { get; set; }
 
             [JsonProperty("userid")]
@@ -30,7 +27,7 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
 
         public Object Params { get; set; }
         
-        public IdentifyRequest(ChatUserData p_ChatData, String p_ChatSignature, String p_SessionID, String p_UUID, bool p_Invisible, Int64 p_UserID) 
+        public IdentifyRequest(ChatUserData p_ChatData, String p_ChatSignature, String p_SessionID, bool p_Invisible, Int64 p_UserID) 
             : base("identify")
         {
             Params = new IdentifyParams()
@@ -38,7 +35,6 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
                 AppData = p_ChatData,
                 AppSig = p_ChatSignature,
                 SessionID = p_SessionID,
-                UUID = p_UUID,
                 Invisible = p_Invisible,
                 UserID = p_UserID.ToString()
             };

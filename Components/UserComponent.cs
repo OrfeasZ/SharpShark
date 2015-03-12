@@ -19,8 +19,6 @@ namespace GS.Lib.Components
 
         public String CommunicationToken { get; set; }
 
-        public String UUID { get; set; }
-
         public UserData Data { get; set; }
 
         public CountryData CountryData { get; set; }
@@ -30,7 +28,6 @@ namespace GS.Lib.Components
         {
             Data = null;
             CountryData = null;
-            UUID = null;
             SessionID = CommunicationToken = null;
         }
 
@@ -38,7 +35,6 @@ namespace GS.Lib.Components
         {
             Data = null;
             CountryData = null;
-            UUID = null;
             SessionID = CommunicationToken = null;
 
             // Try to fetch token data.
@@ -56,7 +52,6 @@ namespace GS.Lib.Components
             CommunicationToken = s_TokenData.GetCommunicationToken;
             Data = s_TokenData.GetGSConfig.User;
             SessionID = s_TokenData.GetGSConfig.SessionID;
-            UUID = s_TokenData.GetGSConfig.UUID;
             Library.Chat.ChatServers = s_TokenData.GetGSConfig.ChatServersWeighted;
             CountryData = s_TokenData.GetGSConfig.Country;
             Library.Remora.TestingChannel = s_TokenData.GetGSConfig.RemoraTestingChannel;
@@ -71,7 +66,6 @@ namespace GS.Lib.Components
         {
             Data = null;
             CountryData = null;
-            UUID = null;
             SessionID = CommunicationToken = null;
 
             // Try to fetch token data.
@@ -83,7 +77,6 @@ namespace GS.Lib.Components
             // Store required information.
             CommunicationToken = s_TokenData.GetCommunicationToken;
             SessionID = s_TokenData.GetGSConfig.SessionID;
-            UUID = s_TokenData.GetGSConfig.UUID;
             Library.Chat.ChatServers = s_TokenData.GetGSConfig.ChatServersWeighted;
             CountryData = s_TokenData.GetGSConfig.Country;
             Library.Remora.TestingChannel = s_TokenData.GetGSConfig.RemoraTestingChannel;
@@ -115,7 +108,6 @@ namespace GS.Lib.Components
         {
             Data = null;
             CountryData = null;
-            UUID = null;
             SessionID = CommunicationToken = null;
 
             // Try to fetch token data.
@@ -127,7 +119,6 @@ namespace GS.Lib.Components
             // Store required information.
             CommunicationToken = s_TokenData.GetCommunicationToken;
             SessionID = s_TokenData.GetGSConfig.SessionID;
-            UUID = s_TokenData.GetGSConfig.UUID;
             Library.Chat.ChatServers = s_TokenData.GetGSConfig.ChatServersWeighted;
             CountryData = s_TokenData.GetGSConfig.Country;
             Library.Remora.TestingChannel = s_TokenData.GetGSConfig.RemoraTestingChannel;

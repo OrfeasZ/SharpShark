@@ -15,7 +15,7 @@ namespace GS.Lib.Components
                 {
                     { "p", Library.User.Data.ChatUserData.Picture },
                     { "n", Library.User.Data.ChatUserData.Username },
-                    { "y", Library.User.Data.ChatUserData.Unknown != "0" }
+                    { "y", Library.User.Data.ChatUserData.Unknown01 != "0" }
                 };
             }
 
