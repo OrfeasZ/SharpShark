@@ -11,6 +11,12 @@ namespace GS.Lib.Models
         [JsonProperty("n")]
         public String Name { get; set; }
 
+        public CategoryTag()
+        {
+            Index = 0;
+            Name = "multi-genre";
+        }
+
         public CategoryTag(String p_Index, String p_Name)
         {
             Index = Int32.Parse(p_Index);

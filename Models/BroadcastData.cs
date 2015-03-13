@@ -21,5 +21,7 @@ namespace GS.Lib.Models
         public int IsRandomName { get; set; }
 
         public int PlayCount { get; set; }
+
+        public CategoryTag Tag { get; set; }
     }
 }
