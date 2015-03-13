@@ -24,20 +24,20 @@ namespace GS.Lib
 
         private readonly Dictionary<ClientEvent, List<Action<SharkEvent>>> m_EventHandlers; 
 
-        public SharpShark(String p_SecretKey01, String p_SecretKey02)
+        public SharpShark(String p_SecretKey)
         {
             BaseURL = "http://grooveshark.com";
-            RequestDispatcher = new RequestDispatcher(this, p_SecretKey01, p_SecretKey02);
+            RequestDispatcher = new RequestDispatcher(this, p_SecretKey);
             m_EventHandlers = new Dictionary<ClientEvent, List<Action<SharkEvent>>>();
 
             InitComponents();
             RegisterEventHandlers();
         }
 
-        public SharpShark(String p_SecretKey01, String p_SecretKey02, String p_BaseURL)
+        public SharpShark(String p_SecretKey, String p_BaseURL)
         {
             BaseURL = p_BaseURL;
-            RequestDispatcher = new RequestDispatcher(this, p_SecretKey01, p_SecretKey02);
+            RequestDispatcher = new RequestDispatcher(this, p_SecretKey);
 
             InitComponents();
             RegisterEventHandlers();
