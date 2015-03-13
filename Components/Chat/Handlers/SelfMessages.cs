@@ -10,13 +10,13 @@ namespace GS.Lib.Components
     {
         private void HandleSelfMessages(PublishResponse p_Message)
         {
-            if (UID != p_Message.Publish.ID["uid"] as String || p_Message.Publish.Value == null)
+            if (UID != p_Message.Publish.ID["uid"].ToObject<String>() || p_Message.Publish.Value == null)
                 return;
 
-            var s_Params = p_Message.Publish.Value["params"] as Dictionary<String, Object>;
-            var s_UID = p_Message.Publish.ID["uid"] as String;
+            var s_Params = p_Message.Publish.Value["params"].ToObject<Dictionary<String, Object>>();
+            var s_UID = p_Message.Publish.ID["uid"].ToObject<String>();
 
-            switch (p_Message.Publish.Value["type"] as String)
+            switch (p_Message.Publish.Value["type"].ToObject<String>())
             {
                 case "statusRequest":
                     BroadcastMessageToSelf(GetCurrentPublicStatus(), "statusReply");

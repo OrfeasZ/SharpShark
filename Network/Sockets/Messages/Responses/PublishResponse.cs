@@ -16,10 +16,10 @@ namespace GS.Lib.Network.Sockets.Messages.Responses
             [JsonProperty("destination_type")]
             public String DestinationType { get; set; }
 
-            public Dictionary<String, Object> Value { get; set; }
+            public Dictionary<String, JToken> Value { get; set; }
 
             [JsonProperty("id")]
-            public Dictionary<String, Object> ID { get; set; } 
+            public Dictionary<String, JToken> ID { get; set; } 
         }
 
         public PublishData Publish { get; set; }

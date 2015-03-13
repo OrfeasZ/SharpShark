@@ -121,28 +121,28 @@ namespace GS.Lib.Components
 
             if (Library.User.Data != null && Library.User.Data.ArtistID > 0 &&
                 s_Message.Publish.Destination == "artist:" + Library.User.Data.ArtistID && s_Message.Publish.ID != null &&
-                ((s_Message.Publish.ID.ContainsKey("artistid") && s_Message.Publish.ID["artistid"] is String &&
-                  Int64.Parse(s_Message.Publish.ID["artistid"] as String) == Library.User.Data.ArtistID) ||
+                ((s_Message.Publish.ID.ContainsKey("artistid") && s_Message.Publish.ID["artistid"].Value<String>() != "False" &&
+                  Int64.Parse(s_Message.Publish.ID["artistid"].Value<String>() ?? "0") == Library.User.Data.ArtistID) ||
                  (s_Message.Publish.ID.ContainsKey("sudo") && (bool) s_Message.Publish.ID["sudo"])))
                 HandleSelfMessages(s_Message);
             else if (Library.User.Data != null && Library.User.Data.UserID > 0 &&
                 s_Message.Publish.Destination == "user:" + Library.User.Data.UserID && s_Message.Publish.ID != null &&
-                ((s_Message.Publish.ID.ContainsKey("userid") && s_Message.Publish.ID["userid"] is String &&
-                  Int64.Parse(s_Message.Publish.ID["userid"] as String) == Library.User.Data.UserID) ||
+                ((s_Message.Publish.ID.ContainsKey("userid") && s_Message.Publish.ID["userid"].Value<String>() != "False" &&
+                  Int64.Parse(s_Message.Publish.ID["userid"].Value<String>() ?? "0") == Library.User.Data.UserID) ||
                  (s_Message.Publish.ID.ContainsKey("sudo") && (bool)s_Message.Publish.ID["sudo"])))
                 HandleSelfMessages(s_Message);
 
             // Is this a chat message?
             var s_Value = s_Message.Publish.Value;
 
-            if (s_Value.ContainsKey("type") && s_Value["type"] as String == "chat")
+            if (s_Value.ContainsKey("type") && s_Value["type"].Value<String>() == "chat")
             {
-                var s_ID = s_Message.Publish.ID ?? new Dictionary<string, object>();
+                var s_ID = s_Message.Publish.ID ?? new Dictionary<string, JToken>();
 
-                var s_ChatMessage = s_Value["data"] as String;
+                var s_ChatMessage = s_Value["data"].Value<String>();
 
-                var s_UserID = s_ID.ContainsKey("userid") ? Int64.Parse(s_ID["userid"] as String ?? "0") : 0;
-                var s_UserAppData = s_ID.ContainsKey("app_data") ? s_ID["app_data"] as JToken : null;
+                var s_UserID = s_ID.ContainsKey("userid") ? Int64.Parse(s_ID["userid"].Value<String>() ?? "0") : 0;
+                var s_UserAppData = s_ID.ContainsKey("app_data") ? s_ID["app_data"] : null;
 
                 String s_UserName = null;
 

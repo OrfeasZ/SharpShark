@@ -11,7 +11,7 @@ namespace GS.Lib.Network.Sockets.Messages.Responses
         {
             public String Sub { get; set; }
 
-            public Dictionary<String, Object> Params { get; set; }
+            public Dictionary<String, JToken> Params { get; set; }
 
             [JsonProperty("id")]
             public JToken ID { get; set; }

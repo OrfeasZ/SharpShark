@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Models
 {
@@ -6,6 +7,6 @@ namespace GS.Lib.Models
     {
         public String Key { get; set; }
 
-        public Object Value { get; set; }
+        public JToken Value { get; set; }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using GS.Lib.Enums;
-using GS.Lib.Events;
-using GS.Lib.Network.Sockets.Messages.Requests;
-using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Components
 {

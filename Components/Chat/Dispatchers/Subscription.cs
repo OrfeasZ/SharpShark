@@ -21,7 +21,7 @@ namespace GS.Lib.Components
                 };
             }
 
-            var s_KeyVals = p_Params.Select(p_Pair => new KeyValData() { Key = p_Pair.Key, Value = p_Pair.Value }).ToList();
+            var s_KeyVals = p_Params.Select(p_Pair => new KeyValData() { Key = p_Pair.Key, Value = JToken.FromObject(p_Pair.Value) }).ToList();
 
             m_SocketClient.SendMessage(new SetSubscriptionParamsRequest(p_Subscription, s_KeyVals, p_Blackbox, p_Silent), p_Callback);
         }

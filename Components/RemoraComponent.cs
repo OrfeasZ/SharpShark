@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using System.Timers;
+using GS.Lib.Enums;
 using GS.Lib.Events;
 using GS.Lib.Models;
 using GS.Lib.Network.Sockets.Messages;
@@ -25,7 +26,7 @@ namespace GS.Lib.Components
 
         private Timer m_PingTimer;
 
-        public RemoraComponent(SharpShark p_Library) 
+        public RemoraComponent(SharpShark p_Library)
             : base(p_Library)
         {
             m_QueuedMessages = new Queue<object>();
@@ -64,7 +65,7 @@ namespace GS.Lib.Components
                 }, new Dictionary<string, JToken>(), p_Callback: HandleSetResult);
             });
 
-            
+
         }
 
         internal void Send(Object p_Message)
@@ -129,16 +130,19 @@ namespace GS.Lib.Components
             if (!p_Event.Value.ContainsKey("action"))
                 return true;
 
-            if (p_Event.Value["action"] as String == "setupQueueFailed")
+            if (p_Event.Value["action"].Value<String>() == "setupQueueFailed")
             {
                 m_PendingCreation = false;
                 m_Created = false;
-                
-                // TODO: Dispatch failure event.
+
+                Library.Broadcast.CurrentBroadcastStatus = BroadcastStatus.Idle;
+                Library.Broadcast.ActiveBroadcastID = null;
+
+                Library.DispatchEvent(ClientEvent.BroadcastCreationFailed, null);
                 return true;
             }
 
-            if (p_Event.Value["action"] as String == "setupQueueSuccess")
+            if (p_Event.Value["action"].Value<String>() == "setupQueueSuccess")
             {
                 if (!p_Event.Value.ContainsKey("broadcast") || p_Event.Value["broadcast"] == null)
                     return true;
@@ -146,10 +150,11 @@ namespace GS.Lib.Components
                 m_Created = true;
                 m_PendingCreation = false;
 
-                var s_Broadcast = p_Event.Value["broadcast"] as JToken;
+                var s_Broadcast = p_Event.Value["broadcast"];
 
                 Library.Broadcast.ActiveBroadcastID = s_Broadcast["BroadcastID"].Value<String>();
                 Library.Broadcast.CurrentBroadcastName = s_Broadcast["Name"].Value<String>();
+                Library.Broadcast.CurrentBroadcastStatus = BroadcastStatus.Broadcasting;
 
                 while (m_QueuedMessages.Count > 0)
                     Library.Chat.PublishToChannels(new List<string>() { ControlChannel }, m_QueuedMessages.Dequeue());
@@ -171,7 +176,7 @@ namespace GS.Lib.Components
 
             m_PingTimer = new Timer
             {
-                Interval = 45000, 
+                Interval = 45000,
                 AutoReset = true
             };
 

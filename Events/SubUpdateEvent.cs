@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Events
 {
@@ -9,11 +10,11 @@ namespace GS.Lib.Events
 
         public String Sub { get; set; }
 
-        public Dictionary<String, Object> Params { get; set; }
+        public Dictionary<String, JToken> Params { get; set; }
 
-        public Dictionary<String, Object> ID { get; set; }
+        public Dictionary<String, JToken> ID { get; set; }
 
-        public Dictionary<String, Object> Value { get; set; }
+        public Dictionary<String, JToken> Value { get; set; }
 
         public String NewName { get; set; }
     }

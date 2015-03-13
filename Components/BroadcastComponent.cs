@@ -3,25 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using GS.Lib.Enums;
 using GS.Lib.Models;
-using GS.Lib.Network.HTTP.Requests;
 
 namespace GS.Lib.Components
 {
     public partial class BroadcastComponent : EventsComponent
     {
-        public String ActiveBroadcastID { get; set; }
+        public String ActiveBroadcastID { get; internal set; }
 
-        public BroadcastData Data { get; set; }
+        public BroadcastData Data { get; internal set; }
 
-        public BroadcastStatus CurrentBroadcastStatus { get; set; }
-        public String CurrentBroadcastName { get; set; }
-        public String CurrentBroadcastDescription { get; set; }
-        public String CurrentBroadcastPicture { get; set; }
-        public CategoryTag CurrentBroadcastCategoryTag { get; set; }
+        public BroadcastStatus CurrentBroadcastStatus { get; internal set; }
+        public String CurrentBroadcastName { get; internal set; }
+        public String CurrentBroadcastDescription { get; internal set; }
+        public String CurrentBroadcastPicture { get; internal set; }
+        public CategoryTag CurrentBroadcastCategoryTag { get; internal set; }
 
-        public bool ChatEnabled { get; set; }
+        public Int64 PlayingSongID { get; internal set; }
+        public String PlayingSongName { get; internal set; }
+        public String PlayingSongArtist { get; internal set; }
+        public String PlayingSongAlbum { get; internal set; }
 
-        private const double c_BroadcasterVersion = 3.91;
+        public List<Int64> SpecialGuests { get; internal set; }
+
+        public bool ChatEnabled { get; internal set; }
 
         private Int64 m_QueuedSongs;
         
@@ -30,6 +34,7 @@ namespace GS.Lib.Components
         {
             Data = null;
             m_QueuedSongs = 0;
+            SpecialGuests = new List<long>();
 
             CurrentBroadcastStatus = BroadcastStatus.Idle;
             ChatEnabled = true;
@@ -77,6 +82,7 @@ namespace GS.Lib.Components
             if (Library.User.Data == null)
                 return;
 
+            SpecialGuests.Clear();
             m_QueuedSongs = 0;
             CurrentBroadcastName = p_Name;
             CurrentBroadcastDescription = p_Description;
@@ -98,11 +104,15 @@ namespace GS.Lib.Components
 
         public void DestroyBroadcast()
         {
+            SpecialGuests.Clear();
             m_QueuedSongs = 0;
         }
 
         public Dictionary<Int64, Int64> AddSongs(IEnumerable<Int64> p_SongIDs, int p_Index)
         {
+            if (ActiveBroadcastID == null || CurrentBroadcastStatus != BroadcastStatus.Broadcasting)
+                return new Dictionary<long, long>();
+
             var s_SongIDs = p_SongIDs.ToList();
             var s_QueueSongIDs = new List<Int64>();
             var s_QueueSongData = new Dictionary<Int64, Int64>();
@@ -127,6 +137,9 @@ namespace GS.Lib.Components
 
         public void PlaySong(Int64 p_SongID, Int64 p_QueueID, double p_Position = 0.0)
         {
+            if (ActiveBroadcastID == null || CurrentBroadcastStatus != BroadcastStatus.Broadcasting)
+                return;
+
             Library.Remora.Send(new Dictionary<String, Object>
             {
                 { "action", "playSong" },
@@ -156,6 +169,9 @@ namespace GS.Lib.Components
 
         public void MoveSongs(IEnumerable<Int64> p_QueueIDs, int p_Index)
         {
+            if (ActiveBroadcastID == null || CurrentBroadcastStatus != BroadcastStatus.Broadcasting)
+                return;
+
             Library.Remora.Send(new Dictionary<String, Object>
             {
                 { "action", "moveSongs" },
@@ -166,6 +182,9 @@ namespace GS.Lib.Components
 
         public void DisableMobileCompliance()
         {
+            if (ActiveBroadcastID == null || CurrentBroadcastStatus != BroadcastStatus.Broadcasting)
+                return;
+
             Library.Remora.Send(new Dictionary<String, Object>
             {
                 { "action", "disableMobileCompliance" }
@@ -174,10 +193,59 @@ namespace GS.Lib.Components
 
         public void SeekCurrentSong(double p_Position)
         {
+            if (ActiveBroadcastID == null || CurrentBroadcastStatus != BroadcastStatus.Broadcasting)
+                return;
+
             Library.Remora.Send(new Dictionary<String, Object>
             {
                 { "action", "seek" },
                 { "position", p_Position }
+            });
+        }
+
+        public void AddSpecialGuest(Int64 p_UserID, VIPPermissions p_Permissions)
+        {
+            if (ActiveBroadcastID == null || CurrentBroadcastStatus != BroadcastStatus.Broadcasting)
+                return;
+
+            Library.Remora.Send(new Dictionary<String, Object>
+            {
+                { "action", "addSpecialGuest" },
+                { "userID", p_UserID },
+                { "permission", p_Permissions }
+            });
+
+            lock (SpecialGuests)
+            {
+                if (!SpecialGuests.Contains(p_UserID))
+                    SpecialGuests.Add(p_UserID);
+            }
+        }
+
+        public void RemoveSpecialGuest(Int64 p_UserID)
+        {
+            if (ActiveBroadcastID == null || CurrentBroadcastStatus != BroadcastStatus.Broadcasting)
+                return;
+
+            Library.Remora.Send(new Dictionary<String, Object>
+            {
+                { "action", "removeSpecialGuest" },
+                { "userID", p_UserID }
+            });
+
+            lock (SpecialGuests)
+                SpecialGuests.Remove(p_UserID);
+        }
+
+        public void ApproveSuggestion(Int64 p_SongID)
+        {
+            if (ActiveBroadcastID == null || CurrentBroadcastStatus != BroadcastStatus.Broadcasting)
+                return;
+
+            Library.Remora.Send(new Dictionary<String, Object>
+            {
+                { "action", "approveSuggestion" },
+                { "songID", p_SongID }
             });
         }
     }

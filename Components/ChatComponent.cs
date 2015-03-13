@@ -144,5 +144,20 @@ namespace GS.Lib.Components
 
             return (p_Public ? c_ChatServerChannelPublicPrefix : c_ChatServerChannelPrefix) + p_ChannelID;
         }
+
+        public void SendChatMessage(string p_Message)
+        {
+            if (Library.User.Data == null || Library.User.Data.UserID <= 0 ||
+                Library.Broadcast.ActiveBroadcastID == null)
+                return;
+
+            PublishToChannels(new List<string>() { GetChatChannel(Library.Broadcast.ActiveBroadcastID, true) }, new Dictionary<String, Object>()
+            {
+                { "type", "chat" },
+                { "data", p_Message },
+                { "ignoreTag", false },
+                { "playingSongID", Library.Broadcast.PlayingSongID }
+            });
+        }
     }
 }
