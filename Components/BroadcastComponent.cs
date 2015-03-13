@@ -23,6 +23,7 @@ namespace GS.Lib.Components
         public CategoryTag CurrentBroadcastCategoryTag { get; internal set; }
 
         public Int64 PlayingSongID { get; internal set; }
+        public Int64 PlayingSongQueueID { get; internal set; }
         public String PlayingSongName { get; internal set; }
         public String PlayingSongArtist { get; internal set; }
         public String PlayingSongAlbum { get; internal set; }
@@ -196,6 +197,18 @@ namespace GS.Lib.Components
             });
 
             return s_QueueSongData;
+        }
+
+        public void RemoveSongs(IEnumerable<Int64> p_QueueIDs)
+        {
+            if (ActiveBroadcastID == null || CurrentBroadcastStatus != BroadcastStatus.Broadcasting)
+                return;
+            
+            Library.Remora.Send(new Dictionary<String, Object>
+            {
+                { "action", "removeSongs" },
+                { "queueSongIDs", p_QueueIDs.ToList() }
+            });
         }
 
         public void PlaySong(Int64 p_SongID, Int64 p_QueueID, double p_Position = 0.0)

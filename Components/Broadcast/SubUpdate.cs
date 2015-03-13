@@ -66,6 +66,7 @@ namespace GS.Lib.Components
             if (p_Data == null || p_Data.Active == null || p_Data.Active.Data == null)
             {
                 PlayingSongID = 0;
+                PlayingSongQueueID = 0;
                 PlayingSongName = PlayingSongAlbum = PlayingSongArtist = null;
                 return;
             }
@@ -73,6 +74,7 @@ namespace GS.Lib.Components
             var s_LastPlayingSong = PlayingSongID;
 
             PlayingSongID = p_Data.Active.Data.SongID;
+            PlayingSongQueueID = p_Data.Active.QueueSongID;
             PlayingSongName = p_Data.Active.Data.SongName;
             PlayingSongAlbum = p_Data.Active.Data.AlbumName;
             PlayingSongArtist = p_Data.Active.Data.ArtistName;

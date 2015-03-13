@@ -106,6 +106,7 @@ namespace GS.Lib.Components
             LoggedInMaster = null;
             Library.Broadcast.ActiveBroadcastID = null;
             Library.Broadcast.PlayingSongID = 0;
+            Library.Broadcast.PlayingSongQueueID = 0;
 
             // TODO: Verify re-connection works.
             Connect();
