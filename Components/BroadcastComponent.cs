@@ -28,6 +28,7 @@ namespace GS.Lib.Components
 
         public List<Int64> SpecialGuests { get; internal set; }
 
+        public bool SuggestionsEnabled { get; internal set; }
         public bool ChatEnabled { get; internal set; }
 
         private Int64 m_QueuedSongs;
@@ -44,8 +45,6 @@ namespace GS.Lib.Components
             CurrentBroadcastCategoryTag = null;
 
             SuggestionsEnabled = true;
-
-            m_SuggestionChanges = new List<object>();
         }
 
         internal override void RegisterEventHandlers()

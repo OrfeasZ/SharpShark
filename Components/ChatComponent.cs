@@ -95,7 +95,6 @@ namespace GS.Lib.Components
                 Console.WriteLine("Connection to the chat service failed.");
             }
 
-            // TODO: Additional checks because when reconnecting we need to do thing differently.
             m_SocketClient.SendMessage(new IdentifyRequest(Library.User.Data.ChatUserData,
                 Library.User.Data.ChatUserDataSig, Library.User.SessionID,
                 false, Library.User.Data.UserID));
@@ -104,7 +103,12 @@ namespace GS.Lib.Components
         private void OnDisconnected(object p_Sender, EventArgs p_EventArgs)
         {
             UID = null;
-            // TODO: Reconnection
+            LoggedInMaster = null;
+            Library.Broadcast.ActiveBroadcastID = null;
+            Library.Broadcast.PlayingSongID = 0;
+
+            // TODO: Verify re-connection works.
+            Connect();
         }
 
         private void OnMessageProcessed(object p_Sender, SharkResponseMessage p_Message)

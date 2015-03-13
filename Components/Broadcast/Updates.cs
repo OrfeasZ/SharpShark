@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using GS.Lib.Enums;
 
 namespace GS.Lib.Components
 {
@@ -47,15 +46,5 @@ namespace GS.Lib.Components
             { "ban_groups", new []{ "bcast_chat"} },
             { "store_latest", true }
         };
-
-        private void UpdateChatClientWithBroadcast()
-        {
-            // TODO: Properly set this.
-            CurrentBroadcastStatus = String.IsNullOrWhiteSpace(ActiveBroadcastID)
-                ? BroadcastStatus.Idle
-                : BroadcastStatus.Broadcasting;
-
-            Library.Chat.ReEvaluateMastershipAndUpdate();
-        }
     }
 }
