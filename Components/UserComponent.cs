@@ -280,5 +280,28 @@ namespace GS.Lib.Components
         {
             Library.RequestDispatcher.Dispatch<Object, Object>("storeChatIdentity", null);
         }
+
+        public void AddSongToLibrary(Int64 p_SongID)
+        {
+            var s_Response = Library.RequestDispatcher.Dispatch<Dictionary<String, Object>, Object>("userAddSongsToLibrary", new Dictionary<String, object>()
+            {
+                { "songs", new List<Object>
+                {
+                    new
+                    {
+                        songID = p_SongID
+                    }
+                }}
+            });
+        }
+
+        public void RemoveSongFromLibrary(Int64 p_SongID)
+        {
+            var s_Response = Library.RequestDispatcher.Dispatch<Dictionary<String, Object>, Object>("userAddSongsToLibrary", new Dictionary<String, object>()
+            {
+                { "songIDs", new List<Int64> { p_SongID } },
+                { "userID", Library.User.Data.UserID }
+            });
+        }
     }
 }

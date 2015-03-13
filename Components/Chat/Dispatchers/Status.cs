@@ -64,22 +64,55 @@ namespace GS.Lib.Components
         private Dictionary<String, Object> GetCurrentPublicStatus(bool p_FullSong = true)
         {
             StatusSongData s_Song = null;
+            Dictionary<String, Object> s_SongEx = null;
 
             // if (SongPlaying)
-            if (true)
+            if (Library.Broadcast.PlayingSongID != 0)
             {
-                s_Song = null;
-            }
-            else
-            {
-                // TODO: Set song data
+                s_Song = new StatusSongData()
+                {
+                    AlbumID = Library.Broadcast.PlayingAlbumID,
+                    AlbumName = Library.Broadcast.PlayingSongAlbum,
+                    ArtistID = Library.Broadcast.PlayingArtistID,
+                    ArtistName = Library.Broadcast.PlayingSongArtist,
+                    CoverArtFilename = null,
+                    EstimateDuration = 1000,
+                    Flags = 0,
+                    SongID = Library.Broadcast.PlayingSongID,
+                    SongName = Library.Broadcast.PlayingSongName,
+                    TrackNum = 0
+                };
+
+                s_SongEx = new Dictionary<string, object>()
+                {
+                    {
+                        "b", new Dictionary<String, Object>()
+                        {
+                            { "sN", Library.Broadcast.PlayingSongName },
+                            { "art", null },
+                            { "cID", 0 },
+                            { "f", 0 },
+                            { "estD", 1000 },
+                            { "arID", Library.Broadcast.PlayingArtistID },
+                            { "t", 0 },
+                            { "arN", Library.Broadcast.PlayingSongArtist },
+                            { "tags", null },
+                            { "arCl", -1 },
+                            { "alID", Library.Broadcast.PlayingAlbumID },
+                            { "tk", "" },
+                            { "alN", Library.Broadcast.PlayingSongAlbum },
+                            { "sID", Library.Broadcast.PlayingSongID },
+                            { "uID", 0 }
+                        }
+                    }
+                };
             }
 
             var s_Status = new Dictionary<string, object>()
             {
                 { "status", 1 },
                 { "time", DateTime.UtcNow.ToUnixTimestampMillis() + Library.TimeDifference },
-                { "songEx", null  } // TODO: Set song data
+                { "songEx", s_SongEx  }
             };
 
             if (p_FullSong)

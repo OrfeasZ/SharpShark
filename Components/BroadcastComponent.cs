@@ -24,6 +24,8 @@ namespace GS.Lib.Components
 
         public Int64 PlayingSongID { get; internal set; }
         public Int64 PlayingSongQueueID { get; internal set; }
+        public Int64 PlayingArtistID { get; internal set; }
+        public Int64 PlayingAlbumID { get; internal set; }
         public String PlayingSongName { get; internal set; }
         public String PlayingSongArtist { get; internal set; }
         public String PlayingSongAlbum { get; internal set; }

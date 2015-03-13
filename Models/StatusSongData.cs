@@ -15,13 +15,16 @@ namespace GS.Lib.Models
         public int EstimateDuration { get; set; }
 
         [JsonProperty("AlbumID")]
-        public int AlbumID { get; set; }
+        public Int64 AlbumID { get; set; }
 
         [JsonProperty("AlbumName")]
         public String AlbumName { get; set; }
 
+        [JsonProperty("ArtistName")]
+        public String ArtistName { get; set; }
+
         [JsonProperty("SongID")]
-        public int SongID { get; set; }
+        public Int64 SongID { get; set; }
 
         [JsonProperty("SongName")]
         public String SongName { get; set; }
@@ -30,6 +33,6 @@ namespace GS.Lib.Models
         public int Flags { get; set; }
 
         [JsonProperty("ArtistID")]
-        public int ArtistID { get; set; }
+        public Int64 ArtistID { get; set; }
     }
 }
