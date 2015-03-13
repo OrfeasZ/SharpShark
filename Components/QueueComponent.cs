@@ -39,7 +39,7 @@ namespace GS.Lib.Components
         internal QueueSongData AddToQueue(Int64 p_SongID, Int64 p_QueueID, int p_Index = -1)
         {
             if (p_Index == -1 || p_Index > CurrentIndex)
-                p_Index = CurrentIndex++;
+                p_Index = CurrentIndex + 1;
 
             var s_SongData = new QueueSongData()
             {
@@ -58,7 +58,7 @@ namespace GS.Lib.Components
                 for (var i = s_InsertionIndex + 2; i < CurrentQueue.Count; ++i)
                     CurrentQueue[i].Index += 1;
 
-                CurrentIndex = CurrentQueue[CurrentQueue.Count - 1].Index;
+                CurrentIndex = CurrentQueue[CurrentQueue.Count - 1].Index + 1;
             }
 
             return s_SongData;
