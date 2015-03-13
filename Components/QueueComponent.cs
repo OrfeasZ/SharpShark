@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GS.Lib.Enums;
+using GS.Lib.Events;
 using GS.Lib.Models;
 
 namespace GS.Lib.Components
@@ -15,6 +17,23 @@ namespace GS.Lib.Components
             : base(p_Library)
         {
             CurrentQueue = new List<QueueSongData>();
+        }
+
+        internal override void RegisterEventHandlers()
+        {
+            Library.RegisterEventHandler(ClientEvent.SongVote, OnSongVote);
+        }
+
+        private void OnSongVote(SharkEvent p_SharkEvent)
+        {
+            var s_Event = (SongVoteEvent) p_SharkEvent;
+
+            var s_SongData = CurrentQueue.FirstOrDefault(p_Item => p_Item.QueueID == s_Event.QueueSongID);
+
+            if (s_SongData == null)
+                return;
+
+            s_SongData.Votes = s_Event.CurrentVote;
         }
 
         internal QueueSongData AddToQueue(Int64 p_SongID, Int64 p_QueueID, int p_Index = -1)

@@ -70,6 +70,8 @@ namespace GS.Lib.Components
                 return;
             }
 
+            var s_LastPlayingSong = PlayingSongID;
+
             PlayingSongID = p_Data.Active.Data.SongID;
             PlayingSongName = p_Data.Active.Data.SongName;
             PlayingSongAlbum = p_Data.Active.Data.AlbumName;
