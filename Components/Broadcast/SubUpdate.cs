@@ -74,6 +74,8 @@ namespace GS.Lib.Components
             PlayingSongName = p_Data.Active.Data.SongName;
             PlayingSongAlbum = p_Data.Active.Data.AlbumName;
             PlayingSongArtist = p_Data.Active.Data.ArtistName;
+
+            Library.Queue.SetCurrentPlayingSong(p_Data.Active.QueueSongID);
         }
 
         private void HandleVIPRequest(JToken p_Request)

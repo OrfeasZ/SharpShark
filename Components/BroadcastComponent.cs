@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GS.Lib.Enums;
 using GS.Lib.Models;
+using GS.Lib.Network.HTTP.Requests;
 using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Network.Sockets.Messages.Responses;
 using Newtonsoft.Json.Linq;
@@ -170,7 +171,7 @@ namespace GS.Lib.Components
             m_QueuedSongs = 0;
         }
 
-        public Dictionary<Int64, Int64> AddSongs(IEnumerable<Int64> p_SongIDs, int p_Index)
+        public Dictionary<Int64, Int64> AddSongs(IEnumerable<Int64> p_SongIDs, int p_Index = -1)
         {
             if (ActiveBroadcastID == null || CurrentBroadcastStatus != BroadcastStatus.Broadcasting)
                 return new Dictionary<long, long>();
@@ -189,7 +190,7 @@ namespace GS.Lib.Components
             Library.Remora.Send(new Dictionary<String, Object>
             {
                 { "action", "addSongs" },
-                { "index", p_Index },
+                { "index", p_Index == -1 || p_Index > Library.Queue.CurrentIndex ? Library.Queue.CurrentIndex : p_Index },
                 { "songIDs", s_SongIDs },
                 { "queueSongIDs", s_QueueSongIDs }
             });
@@ -309,6 +310,66 @@ namespace GS.Lib.Components
                 { "action", "approveSuggestion" },
                 { "songID", p_SongID }
             });
+        }
+
+        public void UpdateBroadcastName(String p_Name)
+        {
+            if (Library.User.Data == null || ActiveBroadcastID == null)
+                return;
+
+            CurrentBroadcastName = p_Name;
+
+            Library.Remora.Send(new Dictionary<String, Object>
+            {
+                { "action", "updateSettings" },
+                {
+                    "settings", new Dictionary<String, Object>()
+                    {
+                        { "name", p_Name }
+                    }
+                }
+            });
+
+            Library.RequestDispatcher.Dispatch<BroadcastUpdateExtraDataRequest, Object>("broadcastUpdateExtraData",
+                new BroadcastUpdateExtraDataRequest()
+                {
+                    BroadcastID = ActiveBroadcastID,
+                    Name = CurrentBroadcastName,
+                    Description = CurrentBroadcastDescription,
+                    Image = CurrentBroadcastPicture,
+                    Privacy = null,
+                    Tag = CurrentBroadcastCategoryTag
+                });
+        }
+
+        public void UpdateBroadcastDescription(String p_Description)
+        {
+            if (Library.User.Data == null || ActiveBroadcastID == null)
+                return;
+
+            CurrentBroadcastDescription = p_Description;
+
+            Library.Remora.Send(new Dictionary<String, Object>
+            {
+                { "action", "updateSettings" },
+                {
+                    "settings", new Dictionary<String, Object>()
+                    {
+                        { "description", p_Description }
+                    }
+                }
+            });
+
+            Library.RequestDispatcher.Dispatch<BroadcastUpdateExtraDataRequest, Object>("broadcastUpdateExtraData",
+                new BroadcastUpdateExtraDataRequest()
+                {
+                    BroadcastID = ActiveBroadcastID,
+                    Name = CurrentBroadcastName,
+                    Description = CurrentBroadcastDescription,
+                    Image = CurrentBroadcastPicture,
+                    Privacy = null,
+                    Tag = CurrentBroadcastCategoryTag
+                });
         }
     }
 }

@@ -190,7 +190,48 @@ namespace GS.Lib.Components
                 return true;
             }
 
+            if (p_Event.Value["action"].Value<String>() == "queueUpdate")
+            {
+                HandleQueueUpdate(p_Event.Value);
+                return true;
+            }
+
             return true;
+        }
+
+        private void HandleQueueUpdate(Dictionary<String, JToken> p_Values)
+        {
+            var s_UpdateType = p_Values["type"].Value<String>();
+
+            if (s_UpdateType == "add")
+            {
+                var s_Songs = p_Values["songs"].ToObject<JArray>();
+
+                var s_StartIndex = p_Values["options"]["index"].Value<int>();
+
+                foreach (var s_Song in s_Songs)
+                {
+                    var s_SongData = s_Song.ToObject<PlaybackStatusData.ActiveBroadcastData>();
+                    Library.Queue.AddToQueue(s_SongData.Data.SongID, s_SongData.QueueSongID, s_StartIndex++);
+                }
+
+                if (Library.Broadcast.PlayingSongID == 0)
+                    Library.Broadcast.PlaySong(Library.Queue.CurrentQueue[0].SongID, Library.Queue.CurrentQueue[0].QueueID);
+
+                return;
+            }
+
+            if (s_UpdateType == "move")
+            {
+                // TODO: Implement.
+                return;
+            }
+
+            if (s_UpdateType == "remove")
+            {
+                // TODO: Implement.
+                return;
+            }
         }
 
         internal void StartPing()

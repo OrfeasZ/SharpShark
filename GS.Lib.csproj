@@ -94,6 +94,7 @@
     <Compile Include="Events\SubResultEvent.cs" />
     <Compile Include="Events\SubUpdateEvent.cs" />
     <Compile Include="Models\PlaybackStatusData.cs" />
+    <Compile Include="Models\QueueSongData.cs" />
     <Compile Include="Models\SubscriptionKeys.cs" />
     <Compile Include="Models\UserIDData.cs" />
     <Compile Include="Models\BroadcastCreationData.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Models\UserSubscription.cs" />
     <Compile Include="Network\HTTP\Requests\AuthenticationRequest.cs" />
+    <Compile Include="Network\HTTP\Requests\BroadcastUpdateExtraDataRequest.cs" />
     <Compile Include="Network\HTTP\Requests\CreateBroadcastRequest.cs" />
     <Compile Include="Network\HTTP\Requests\GetAutocompleteRequest.cs" />
     <Compile Include="Network\HTTP\Requests\GetFavoritesRequest.cs" />

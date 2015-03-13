@@ -16,6 +16,7 @@ namespace GS.Lib
         public BroadcastComponent Broadcast { get; private set; }
         public SearchComponent Search { get; private set; }
         public SongsComponent Songs { get; private set; }
+        public QueueComponent Queue { get; private set; }
         internal RemoraComponent Remora { get; private set; }
 
         public String BaseURL { get; private set; }
@@ -50,6 +51,7 @@ namespace GS.Lib
             Broadcast = new BroadcastComponent(this);
             Search = new SearchComponent(this);
             Songs = new SongsComponent(this);
+            Queue = new QueueComponent(this);
             Remora = new RemoraComponent(this);
         }
 
@@ -60,6 +62,7 @@ namespace GS.Lib
             Broadcast.RegisterEventHandlers();
             Search.RegisterEventHandlers();
             Songs.RegisterEventHandlers();
+            Queue.RegisterEventHandlers();
             Remora.RegisterEventHandlers();
         }
 
