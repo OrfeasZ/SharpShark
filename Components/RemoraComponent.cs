@@ -212,7 +212,9 @@ namespace GS.Lib.Components
                 foreach (var s_Song in s_Songs)
                 {
                     var s_SongData = s_Song.ToObject<PlaybackStatusData.ActiveBroadcastData>();
-                    Library.Queue.AddToQueue(s_SongData.Data.SongID, s_SongData.QueueSongID, s_StartIndex++);
+                    Library.Queue.AddToQueue(s_SongData.Data.SongID, s_SongData.QueueSongID, s_SongData.Data.SongName,
+                        s_SongData.Data.ArtistID, s_SongData.Data.ArtistName, s_SongData.Data.AlbumID,
+                        s_SongData.Data.AlbumName, s_StartIndex++);
                 }
 
                 if (Library.Broadcast.PlayingSongID == 0)
@@ -223,13 +225,33 @@ namespace GS.Lib.Components
 
             if (s_UpdateType == "move")
             {
-                // TODO: Implement.
+                var s_Songs = p_Values["songs"].ToObject<JArray>();
+
+                var s_NewIndex = p_Values["options"]["index"].Value<int>();
+
+                foreach (var s_Song in s_Songs)
+                {
+                    var s_SongData = s_Song.ToObject<PlaybackStatusData.ActiveBroadcastData>();
+                    Library.Queue.MoveSong(s_SongData.QueueSongID, s_NewIndex);
+                }
+
+                Library.DispatchEvent(ClientEvent.QueueUpdated, null);
+
                 return;
             }
 
             if (s_UpdateType == "remove")
             {
-                // TODO: Implement.
+                var s_Songs = p_Values["songs"].ToObject<JArray>();
+                
+                foreach (var s_Song in s_Songs)
+                {
+                    var s_SongData = s_Song.ToObject<PlaybackStatusData.ActiveBroadcastData>();
+                    Library.Queue.RemoveSongFromQueue(s_SongData.QueueSongID);
+                }
+                
+                Library.DispatchEvent(ClientEvent.QueueUpdated, null);
+
                 return;
             }
         }

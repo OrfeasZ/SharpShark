@@ -36,7 +36,7 @@ namespace GS.Lib.Components
             s_SongData.Votes = s_Event.CurrentVote;
         }
 
-        internal QueueSongData AddToQueue(Int64 p_SongID, Int64 p_QueueID, int p_Index = -1)
+        internal QueueSongData AddToQueue(Int64 p_SongID, Int64 p_QueueID, String p_SongName, Int64 p_ArtistID, String p_ArtistName, Int64 p_AlbumID, String p_AlbumName, int p_Index = -1)
         {
             if (p_Index == -1 || p_Index > CurrentIndex)
                 p_Index = CurrentIndex + 1;
@@ -46,6 +46,11 @@ namespace GS.Lib.Components
                 Index = p_Index,
                 QueueID = p_QueueID,
                 SongID = p_SongID,
+                SongName = p_SongName,
+                ArtistID = p_AlbumID,
+                ArtistName = p_ArtistName,
+                AlbumID = p_AlbumID,
+                AlbumName = p_AlbumName,
                 Votes = 0
             };
 
@@ -64,6 +69,26 @@ namespace GS.Lib.Components
             return s_SongData;
         }
 
+        internal QueueSongData AddToQueue(QueueSongData p_SongData, int p_Index)
+        {
+            if (p_Index == -1 || p_Index > CurrentIndex)
+                p_Index = CurrentIndex + 1;
+
+            lock (CurrentQueue)
+            {
+                var s_InsertionIndex = CurrentQueue.FindLastIndex(p_Item => p_Item.Index < p_Index);
+
+                CurrentQueue.Insert(s_InsertionIndex + 1, p_SongData);
+
+                /*for (var i = s_InsertionIndex + 2; i < CurrentQueue.Count; ++i)
+                    CurrentQueue[i].Index += 1;*/
+
+                CurrentIndex = CurrentQueue[CurrentQueue.Count - 1].Index + 1;
+            }
+
+            return p_SongData;
+        }
+
         internal void RemoveFromQueue(int p_Index)
         {
             lock (CurrentQueue)
@@ -74,25 +99,35 @@ namespace GS.Lib.Components
                     return;
 
                 CurrentQueue.RemoveAt(s_SongIndex);
-
-                for (var i = s_SongIndex; i < CurrentQueue.Count; ++i)
-                    CurrentQueue[i].Index -= 1;
             }
         }
 
-        internal void RemoveSongFromQueue(Int64 p_SongID)
+        internal void RemoveSongFromQueue(Int64 p_QueueID)
         {
             lock (CurrentQueue)
             {
-                var s_SongIndex = CurrentQueue.FindIndex(p_Item => p_Item.SongID == p_SongID);
+                var s_SongIndex = CurrentQueue.FindIndex(p_Item => p_Item.QueueID == p_QueueID);
 
                 if (s_SongIndex == -1)
                     return;
 
                 CurrentQueue.RemoveAt(s_SongIndex);
+            }
+        }
 
-                for (var i = s_SongIndex; i < CurrentQueue.Count; ++i)
-                    CurrentQueue[i].Index -= 1;
+        internal void MoveSong(Int64 p_QueueID, int p_Index)
+        {
+            lock (CurrentQueue)
+            {
+                var s_SongIndex = CurrentQueue.FindIndex(p_Item => p_Item.QueueID == p_QueueID);
+
+                if (s_SongIndex == -1)
+                    return;
+
+                var s_SongData = CurrentQueue[s_SongIndex];
+                CurrentQueue.RemoveAt(s_SongIndex);
+
+                AddToQueue(s_SongData, p_Index);
             }
         }
 

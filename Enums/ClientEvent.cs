@@ -9,5 +9,6 @@
         ChatMessage,
         SongVote,
         SongPlaying,
+        QueueUpdated,
     }
 }
