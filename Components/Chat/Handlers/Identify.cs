@@ -71,6 +71,22 @@ namespace GS.Lib.Components
                     JoinChannels(s_ChannelsToJoin, new Dictionary<string, JToken> { { "newUser", true } });
                     SendRestoreLookup();
 
+                    SetSubscriptionParameters("user:" + Library.User.Data.UserID, new Dictionary<string, object>()
+                    {
+                        {"unsub_alert", true},
+                        {"sub_alert", true},
+                        {
+                            "owners", new List<Dictionary<String, String>>()
+                            {
+                                new Dictionary<string, string>()
+                                {
+                                    {"type", "userid"},
+                                    {"name", Library.User.Data.UserID.ToString()}
+                                }
+                            }
+                        }
+                    });
+
                     // TODO: Do we really need to do this?
                     Library.User.StoreChatIdentity();
 

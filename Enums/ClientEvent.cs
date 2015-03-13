@@ -7,5 +7,6 @@
         BroadcastCreationFailed,
         BroadcastCreated,
         ChatMessage,
+        SongVote,
     }
 }

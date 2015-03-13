@@ -12,9 +12,9 @@ namespace GS.Lib.Models
 
         public String Description { get; set; }
 
-        public UInt64 TSModified { get; set; }
+        public Int64 TSModified { get; set; }
 
-        public UInt64 TSCreated { get; set; }
+        public Int64 TSCreated { get; set; }
 
         public int Privacy { get; set; }
 

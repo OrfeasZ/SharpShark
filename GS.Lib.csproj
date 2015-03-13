@@ -92,6 +92,7 @@
     <Compile Include="Events\PubResultEvent.cs" />
     <Compile Include="Events\SetResultEvent.cs" />
     <Compile Include="Events\SharkEvent.cs" />
+    <Compile Include="Events\SongVoteEvent.cs" />
     <Compile Include="Events\SubResultEvent.cs" />
     <Compile Include="Events\SubUpdateEvent.cs" />
     <Compile Include="Models\PlaybackStatusData.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="Network\Sockets\Messages\Requests\ChannelSubRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\FetchUsersStatusRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\GetSubscriberListRequest.cs" />
+    <Compile Include="Network\Sockets\Messages\Requests\GetSubscriptionDataRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\ParameterizedRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\PublishRequest.cs" />
     <Compile Include="Network\Sockets\Messages\Requests\RestoreLookupRequest.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GS.Lib.Enums;
 using GS.Lib.Events;
 using GS.Lib.Models;
 using Newtonsoft.Json.Linq;
@@ -35,6 +36,23 @@ namespace GS.Lib.Components
                     if (s_Event.Value["type"].Value<String>() == "vipRequest")
                     {
                         HandleVIPRequest(s_Event.Value["data"]);
+                        return;
+                    }
+                }
+            }
+
+            if (s_Event.Sub == Library.Chat.GetChatChannel(ActiveBroadcastID, true))
+            {
+                if (s_Event.Value != null && s_Event.Value.ContainsKey("type"))
+                {
+                    if (s_Event.Value["type"].Value<String>() == "activeSongVote")
+                    {
+                        var s_Vote = s_Event.Value["data"]["vote"].Value<int>();
+                        var s_QueueSongID = s_Event.Value["data"]["queueSongID"].Value<Int64>();
+
+                        Library.DispatchEvent(ClientEvent.SongVote,
+                            new SongVoteEvent() {CurrentVote = s_Vote, QueueSongID = s_QueueSongID});
+
                         return;
                     }
                 }

@@ -35,9 +35,35 @@ namespace GS.Lib.Components
             m_PendingCreation = false;
         }
 
-        internal void JoinControlChannels()
+        internal void DestroyQueue()
+        {
+            if (Library.User.Data == null || m_PendingCreation || !m_Created)
+                return;
+
+            Library.Chat.PublishToChannels(new List<string>() { ControlChannel }, new Dictionary<String, Object>()
+            {
+                { "action", "destroyQueue" }
+            });
+
+            ControlChannel = null;
+            m_Created = false;
+            StopPing();
+        }
+
+        internal void DestroyQueue(String p_QueueChannel)
         {
             if (Library.User.Data == null)
+                return;
+
+            Library.Chat.PublishToChannels(new List<string>() { p_QueueChannel }, new Dictionary<String, Object>()
+            {
+                { "action", "destroyQueue" }
+            });
+        }
+
+        internal void JoinControlChannels()
+        {
+            if (Library.User.Data == null || m_Created || m_PendingCreation || ControlChannel != null)
                 return;
 
             m_QueuedMessages.Clear();
@@ -64,8 +90,6 @@ namespace GS.Lib.Components
                     { "owners", new List<UserIDData>() { new UserIDData(Library.User.Data.UserID) }},
                 }, new Dictionary<string, JToken>(), p_Callback: HandleSetResult);
             });
-
-
         }
 
         internal void Send(Object p_Message)

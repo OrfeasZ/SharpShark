@@ -25,5 +25,11 @@ namespace GS.Lib.Components
 
             m_SocketClient.SendMessage(new SetSubscriptionParamsRequest(p_Subscription, s_KeyVals, p_Blackbox, p_Silent), p_Callback);
         }
+
+        internal void GetSubscriptionData(String p_Subscription, IEnumerable<String> p_Keys,
+            Action<SharkResponseMessage> p_Callback)
+        {
+            m_SocketClient.SendMessage(new GetSubscriptionDataRequest(p_Subscription, p_Keys), p_Callback);
+        }
     }
 }

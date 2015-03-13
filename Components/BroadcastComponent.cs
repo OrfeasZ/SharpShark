@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using GS.Lib.Enums;
 using GS.Lib.Models;
+using GS.Lib.Network.Sockets.Messages;
+using GS.Lib.Network.Sockets.Messages.Responses;
+using Newtonsoft.Json.Linq;
 
 namespace GS.Lib.Components
 {
@@ -97,14 +100,67 @@ namespace GS.Lib.Components
                 ActiveBroadcastID = s_LastBroadcast.BroadcastID;
                 CurrentBroadcastPicture = null;
                 Data = s_LastBroadcast;
+
+                // Check if broadcast still exists.
+                Library.Chat.GetSubscriptionData(Library.Chat.GetChatChannel(ActiveBroadcastID), new List<String>()
+                {
+                    "s",
+                    "h",
+                    "owners",
+                    "n",
+                    "t",
+                    "owner_subscribed",
+                    "i",
+                    "d",
+                    "tl",
+                    "py",
+                    "qc"
+                }, OnBroadcastSubscriptionData);
+                return;
             }
 
+            Library.Remora.JoinControlChannels();
+        }
+
+        private void OnBroadcastSubscriptionData(SharkResponseMessage p_SharkResponseMessage)
+        {
+            var s_Response = p_SharkResponseMessage.As<ReturnResponse>();
+
+            if (s_Response == null || s_Response.Return == null || s_Response.Return["values"] == null)
+            {
+                // Proceed with channel creation.
+                Library.Remora.JoinControlChannels();
+                return;
+            }
+
+            var s_Values = s_Response.Return["values"].ToObject<JArray>();
+
+            if (s_Values.Count != 11)
+            {
+                // Proceed with channel creation.
+                Library.Remora.JoinControlChannels();
+                return;
+            }
+
+            var s_LastQueueID = s_Values[10].Value<String>();
+
+            if (String.IsNullOrWhiteSpace(s_LastQueueID))
+            {
+                // Proceed with channel creation.
+                Library.Remora.JoinControlChannels();
+                return;
+            }
+
+            // Destroy queue and proceed with channel creation.
+            // TODO: Resume from queue instead (look for "getQueue").
+            Library.Remora.DestroyQueue(s_LastQueueID);
             Library.Remora.JoinControlChannels();
         }
 
         public void DestroyBroadcast()
         {
             SpecialGuests.Clear();
+            Library.Remora.DestroyQueue();
             m_QueuedSongs = 0;
         }
 
