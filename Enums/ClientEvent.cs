@@ -8,5 +8,6 @@
         BroadcastCreated,
         ChatMessage,
         SongVote,
+        SongPlaying,
     }
 }

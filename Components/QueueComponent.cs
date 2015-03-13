@@ -120,5 +120,15 @@ namespace GS.Lib.Components
 
             return s_SongData.QueueID;
         }
+
+        public int GetInternalIndexForSongID(Int64 p_SongID)
+        {
+            return CurrentQueue.FindIndex(p_Item => p_Item.SongID == p_SongID);
+        }
+
+        public int GetInternalIndexForSong(Int64 p_QueueID)
+        {
+            return CurrentQueue.FindIndex(p_Item => p_Item.QueueID == p_QueueID);
+        }
     }
 }

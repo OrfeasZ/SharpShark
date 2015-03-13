@@ -78,6 +78,16 @@ namespace GS.Lib.Components
             PlayingSongArtist = p_Data.Active.Data.ArtistName;
 
             Library.Queue.SetCurrentPlayingSong(p_Data.Active.QueueSongID);
+
+            if (s_LastPlayingSong != PlayingSongID)
+            {
+                Library.DispatchEvent(ClientEvent.SongPlaying, new SongPlayingEvent()
+                {
+                    SongID = PlayingSongID,
+                    QueueID = Library.Queue.GetQueueIDForSongID(PlayingSongID),
+                    SongName = PlayingSongName
+                });
+            }
         }
 
         private void HandleVIPRequest(JToken p_Request)
