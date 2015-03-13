@@ -142,6 +142,13 @@ namespace GS.Lib.Components
                 return;
             }
 
+            if (s_Values[10].Type != JTokenType.String)
+            {
+                // Proceed with channel creation.
+                Library.Remora.JoinControlChannels();
+                return; 
+            }
+
             var s_LastQueueID = s_Values[10].Value<String>();
 
             if (String.IsNullOrWhiteSpace(s_LastQueueID))
