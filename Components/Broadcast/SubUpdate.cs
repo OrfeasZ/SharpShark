@@ -63,32 +63,33 @@ namespace GS.Lib.Components
 
         private void HandlePlaybackStatusUpdate(PlaybackStatusData p_Data)
         {
+            var s_LastPlayingSong = PlayingSongID;
+
             if (p_Data == null || p_Data.Active == null || p_Data.Active.Data == null)
             {
                 PlayingSongID = PlayingAlbumID = PlayingArtistID = 0;
                 PlayingSongQueueID = 0;
                 PlayingSongName = PlayingSongAlbum = PlayingSongArtist = null;
-                return;
+            }
+            else
+            {
+                PlayingSongID = p_Data.Active.Data.SongID;
+                PlayingAlbumID = p_Data.Active.Data.AlbumID;
+                PlayingArtistID = p_Data.Active.Data.ArtistID;
+                PlayingSongQueueID = p_Data.Active.QueueSongID;
+                PlayingSongName = p_Data.Active.Data.SongName;
+                PlayingSongAlbum = p_Data.Active.Data.AlbumName;
+                PlayingSongArtist = p_Data.Active.Data.ArtistName;
             }
 
-            var s_LastPlayingSong = PlayingSongID;
-
-            PlayingSongID = p_Data.Active.Data.SongID;
-            PlayingAlbumID = p_Data.Active.Data.AlbumID;
-            PlayingArtistID = p_Data.Active.Data.ArtistID;
-            PlayingSongQueueID = p_Data.Active.QueueSongID;
-            PlayingSongName = p_Data.Active.Data.SongName;
-            PlayingSongAlbum = p_Data.Active.Data.AlbumName;
-            PlayingSongArtist = p_Data.Active.Data.ArtistName;
-
-            Library.Queue.SetCurrentPlayingSong(p_Data.Active.QueueSongID);
+            Library.Queue.SetCurrentPlayingSong(PlayingSongQueueID);
 
             if (s_LastPlayingSong != PlayingSongID)
             {
                 Library.DispatchEvent(ClientEvent.SongPlaying, new SongPlayingEvent()
                 {
                     SongID = PlayingSongID,
-                    QueueID = Library.Queue.GetQueueIDForSongID(PlayingSongID),
+                    QueueID = PlayingSongQueueID,
                     SongName = PlayingSongName
                 });
             }

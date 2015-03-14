@@ -122,9 +122,11 @@
     <Compile Include="Network\HTTP\Requests\GetResultsFromSearchRequest.cs" />
     <Compile Include="Network\HTTP\Requests\GetStreamKeyFromSongIDRequest.cs" />
     <Compile Include="Network\HTTP\Requests\GetStreamKeysFromSongIDsRequest.cs" />
+    <Compile Include="Network\HTTP\Requests\UserGetSongsInLibraryRequest.cs" />
     <Compile Include="Network\HTTP\Responses\AuthenticationResponse.cs" />
     <Compile Include="Network\HTTP\Responses\GetResultsFromSearchResponse.cs" />
     <Compile Include="Network\HTTP\Responses\LibrarySongIDsResponse.cs" />
+    <Compile Include="Network\HTTP\Responses\UserGetSongsInLibraryResponse.cs" />
     <Compile Include="Network\Sockets\Client.cs" />
     <Compile Include="Network\Sockets\Messages\Generic\KeyValEntry.cs" />
     <Compile Include="Network\Sockets\Messages\Generic\KeyValParams.cs" />
