@@ -178,9 +178,10 @@ namespace GS.Lib.Components
             var s_QueueSongIDs = new List<Int64>();
             var s_QueueSongData = new Dictionary<Int64, Int64>();
 
-            foreach (var s_SongID in s_SongIDs)
+            for (int i = 0; i < s_SongIDs.Count; i++)
             {
-                var s_QueueID = Library.Queue.CurrentQueueID + 1;
+                var s_SongID = s_SongIDs[i];
+                var s_QueueID = Library.Queue.CurrentQueueID + 1 + i;
                 s_QueueSongData.Add(s_SongID, s_QueueID);
                 s_QueueSongIDs.Add(s_QueueID);
             }
