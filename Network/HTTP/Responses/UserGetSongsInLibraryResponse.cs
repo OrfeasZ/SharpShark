@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using GS.Lib.Models;
+
+namespace GS.Lib.Network.HTTP.Responses
+{
+    internal class UserGetSongsInLibraryResponse
+    {
+        public bool HasMore { get; set; }
+
+        public int MaxSongs { get; set; }
+
+        public List<SongResultData> Songs { get; set; } 
+
+        public Int64 TSModified { get; set; }
+    }
+}

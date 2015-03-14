@@ -169,6 +169,25 @@ namespace GS.Lib.Components
             }
         }
 
+        public List<Int64> GetSongsInLibrary(Int64 p_UserID)
+        {
+            if (SessionID == null)
+                return new List<long>();
+
+            var s_SongsIDs = new List<Int64>();
+
+            var s_Response = Library.RequestDispatcher.Dispatch<UserGetSongsInLibraryRequest, UserGetSongsInLibraryResponse>("userGetSongsInLibrary",
+                new UserGetSongsInLibraryRequest() { Page = 0, UserID = p_UserID });
+
+            if (s_Response == null || s_Response.Songs == null)
+                return s_SongsIDs;
+
+            foreach (var s_Song in s_Response.Songs)
+                s_SongsIDs.Add(Int64.Parse(s_Song.SongID));
+
+            return s_SongsIDs;
+        }
+
         public List<Int64> GetCollectionSongs()
         {
             if (Data == null)
