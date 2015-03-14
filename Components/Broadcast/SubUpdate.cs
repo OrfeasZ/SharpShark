@@ -50,8 +50,13 @@ namespace GS.Lib.Components
                         var s_Vote = s_Event.Value["data"]["vote"].Value<int>();
                         var s_QueueSongID = s_Event.Value["data"]["queueSongID"].Value<Int64>();
 
+                        var s_Index = Library.Queue.GetInternalIndexForSong(s_QueueSongID);
+                        
+                        if (s_Index != -1)
+                            Library.Queue.CurrentQueue[s_Index].Votes += s_Vote;
+
                         Library.DispatchEvent(ClientEvent.SongVote,
-                            new SongVoteEvent() {CurrentVote = s_Vote, QueueSongID = s_QueueSongID});
+                            new SongVoteEvent() {VoteChange = s_Vote, QueueSongID = s_QueueSongID, CurrentVotes = s_Index != -1 ? Library.Queue.CurrentQueue[s_Index].Votes : 0});
 
                         return;
                     }

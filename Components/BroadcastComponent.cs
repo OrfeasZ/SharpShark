@@ -34,14 +34,11 @@ namespace GS.Lib.Components
 
         public bool SuggestionsEnabled { get; internal set; }
         public bool ChatEnabled { get; internal set; }
-
-        private Int64 m_QueuedSongs;
         
         internal BroadcastComponent(SharpShark p_Library) 
             : base(p_Library)
         {
             Data = null;
-            m_QueuedSongs = 0;
             SpecialGuests = new List<long>();
 
             CurrentBroadcastStatus = BroadcastStatus.Idle;
@@ -89,7 +86,6 @@ namespace GS.Lib.Components
                 return;
 
             SpecialGuests.Clear();
-            m_QueuedSongs = 0;
             CurrentBroadcastName = p_Name;
             CurrentBroadcastDescription = p_Description;
             CurrentBroadcastCategoryTag = p_Tag;
@@ -171,7 +167,6 @@ namespace GS.Lib.Components
         {
             SpecialGuests.Clear();
             Library.Remora.DestroyQueue();
-            m_QueuedSongs = 0;
         }
 
         public Dictionary<Int64, Int64> AddSongs(IEnumerable<Int64> p_SongIDs, int p_Index = -1)
@@ -185,7 +180,7 @@ namespace GS.Lib.Components
 
             foreach (var s_SongID in s_SongIDs)
             {
-                var s_QueueID = ++m_QueuedSongs;
+                var s_QueueID = Library.Queue.CurrentQueueID + 1;
                 s_QueueSongData.Add(s_SongID, s_QueueID);
                 s_QueueSongIDs.Add(s_QueueID);
             }

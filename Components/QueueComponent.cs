@@ -10,6 +10,8 @@ namespace GS.Lib.Components
     public class QueueComponent : SharkComponent
     {
         public List<QueueSongData> CurrentQueue { get; private set; }
+
+        public Int64 CurrentQueueID { get; private set; }
         
         internal QueueComponent(SharpShark p_Library)
             : base(p_Library)
@@ -31,7 +33,7 @@ namespace GS.Lib.Components
             if (s_SongData == null)
                 return;
 
-            s_SongData.Votes = s_Event.CurrentVote;
+            s_SongData.Votes = s_Event.VoteChange;
         }
 
         internal QueueSongData AddToQueue(Int64 p_SongID, Int64 p_QueueID, String p_SongName, Int64 p_ArtistID, String p_ArtistName, Int64 p_AlbumID, String p_AlbumName, int p_Index = -1)
@@ -51,6 +53,9 @@ namespace GS.Lib.Components
                 Votes = 0
             };
 
+            if (p_QueueID > CurrentQueueID)
+                CurrentQueueID = p_QueueID;
+
             lock (CurrentQueue)
                 CurrentQueue.Insert(p_Index, s_SongData);
 
@@ -64,6 +69,10 @@ namespace GS.Lib.Components
 
             lock (CurrentQueue)
                 CurrentQueue.Insert(p_Index, p_SongData);
+
+
+            if (p_SongData.QueueID > CurrentQueueID)
+                CurrentQueueID = p_SongData.QueueID;
 
             return p_SongData;
         }
@@ -126,6 +135,14 @@ namespace GS.Lib.Components
         public int GetInternalIndexForSong(Int64 p_QueueID)
         {
             return CurrentQueue.FindIndex(p_Item => p_Item.QueueID == p_QueueID);
+        }
+
+        public int GetPlayingSongIndex()
+        {
+            if (Library.Broadcast.PlayingSongQueueID == 0)
+                return -1;
+            
+            return CurrentQueue.FindIndex(p_Item => p_Item.QueueID == Library.Broadcast.PlayingSongQueueID);
         }
     }
 }
