@@ -193,7 +193,7 @@ namespace GS.Lib.Components
             Library.Remora.Send(new Dictionary<String, Object>
             {
                 { "action", "addSongs" },
-                { "index", p_Index == -1 || p_Index > Library.Queue.CurrentIndex ? Library.Queue.CurrentIndex : p_Index },
+                { "index", p_Index == -1 || p_Index > Library.Queue.CurrentQueue.Count ? Library.Queue.CurrentQueue.Count : p_Index },
                 { "songIDs", s_SongIDs },
                 { "queueSongIDs", s_QueueSongIDs }
             });

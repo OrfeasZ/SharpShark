@@ -10,9 +10,7 @@ namespace GS.Lib.Components
     public class QueueComponent : SharkComponent
     {
         public List<QueueSongData> CurrentQueue { get; private set; }
-
-        internal int CurrentIndex { get; private set; }
-
+        
         internal QueueComponent(SharpShark p_Library)
             : base(p_Library)
         {
@@ -38,12 +36,11 @@ namespace GS.Lib.Components
 
         internal QueueSongData AddToQueue(Int64 p_SongID, Int64 p_QueueID, String p_SongName, Int64 p_ArtistID, String p_ArtistName, Int64 p_AlbumID, String p_AlbumName, int p_Index = -1)
         {
-            if (p_Index == -1 || p_Index > CurrentIndex)
-                p_Index = CurrentIndex + 1;
+            if (p_Index <= -1 || p_Index > CurrentQueue.Count)
+                p_Index = CurrentQueue.Count;
 
             var s_SongData = new QueueSongData()
             {
-                Index = p_Index,
                 QueueID = p_QueueID,
                 SongID = p_SongID,
                 SongName = p_SongName,
@@ -55,36 +52,18 @@ namespace GS.Lib.Components
             };
 
             lock (CurrentQueue)
-            {
-                var s_InsertionIndex = CurrentQueue.FindLastIndex(p_Item => p_Item.Index < p_Index);
-
-                CurrentQueue.Insert(s_InsertionIndex + 1, s_SongData);
-
-                for (var i = s_InsertionIndex + 2; i < CurrentQueue.Count; ++i)
-                    CurrentQueue[i].Index += 1;
-
-                CurrentIndex = CurrentQueue[CurrentQueue.Count - 1].Index + 1;
-            }
+                CurrentQueue.Insert(p_Index, s_SongData);
 
             return s_SongData;
         }
 
         internal QueueSongData AddToQueue(QueueSongData p_SongData, int p_Index)
         {
-            if (p_Index == -1 || p_Index > CurrentIndex)
-                p_Index = CurrentIndex + 1;
+            if (p_Index <= -1 || p_Index > CurrentQueue.Count)
+                p_Index = CurrentQueue.Count;
 
             lock (CurrentQueue)
-            {
-                var s_InsertionIndex = CurrentQueue.FindLastIndex(p_Item => p_Item.Index < p_Index);
-
-                CurrentQueue.Insert(s_InsertionIndex + 1, p_SongData);
-
-                /*for (var i = s_InsertionIndex + 2; i < CurrentQueue.Count; ++i)
-                    CurrentQueue[i].Index += 1;*/
-
-                CurrentIndex = CurrentQueue[CurrentQueue.Count - 1].Index + 1;
-            }
+                CurrentQueue.Insert(p_Index, p_SongData);
 
             return p_SongData;
         }
@@ -93,12 +72,10 @@ namespace GS.Lib.Components
         {
             lock (CurrentQueue)
             {
-                var s_SongIndex = CurrentQueue.FindIndex(p_Item => p_Item.Index == p_Index);
-
-                if (s_SongIndex == -1)
+                if (p_Index < 0 || p_Index >= CurrentQueue.Count)
                     return;
 
-                CurrentQueue.RemoveAt(s_SongIndex);
+                CurrentQueue.RemoveAt(p_Index);
             }
         }
 
@@ -128,21 +105,6 @@ namespace GS.Lib.Components
                 CurrentQueue.RemoveAt(s_SongIndex);
 
                 AddToQueue(s_SongData, p_Index);
-            }
-        }
-
-        internal void SetCurrentPlayingSong(Int64 p_QueueID)
-        {
-            lock (CurrentQueue)
-            {
-                var s_CurrentSongIndex = CurrentQueue.FindIndex(p_Item => p_Item.QueueID == p_QueueID);
-
-                if (s_CurrentSongIndex == -1)
-                    return;
-
-                // Remove previous songs in order to cleanup the queue.
-                for (var i = 0; i < s_CurrentSongIndex - 1; ++i)
-                    CurrentQueue.RemoveAt(0);
             }
         }
 
