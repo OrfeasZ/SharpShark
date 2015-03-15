@@ -217,9 +217,6 @@ namespace GS.Lib.Components
                         s_SongData.Data.AlbumName, s_StartIndex++);
                 }
 
-                if (Library.Broadcast.PlayingSongID == 0)
-                    Library.Broadcast.PlaySong(Library.Queue.CurrentQueue[0].SongID, Library.Queue.CurrentQueue[0].QueueID);
-
                 Library.DispatchEvent(ClientEvent.QueueUpdated, null);
 
                 return;
