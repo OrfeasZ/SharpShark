@@ -2,7 +2,7 @@
 
 namespace GS.Lib.Models
 {
-    public class SongResultData : SharkObject
+    public class ResultData : SharkObject
     {
         public String AlbumID { get; set; }
 
@@ -43,5 +43,7 @@ namespace GS.Lib.Models
         public int PopularityIndex { get; set; }
 
         public String Name { get; set; }
+
+        public String UserID { get; set; }
     }
 }

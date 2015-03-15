@@ -14,10 +14,10 @@ namespace GS.Lib.Components
         {
         }
 
-        public Dictionary<String, List<SongResultData>> GetResultsFromSearch(String p_Query, IEnumerable<String> p_Types)
+        public Dictionary<String, List<ResultData>> GetResultsFromSearch(String p_Query, IEnumerable<String> p_Types)
         {
             if (String.IsNullOrWhiteSpace(Library.User.SessionID))
-                return new Dictionary<string, List<SongResultData>>();
+                return new Dictionary<string, List<ResultData>>();
 
             var s_Request = new GetResultsFromSearchRequest()
             {
@@ -31,9 +31,9 @@ namespace GS.Lib.Components
                 "getResultsFromSearch", s_Request);
 
             if (s_Response == null)
-                return s_Request.Type.ToDictionary(p_Type => p_Type, p_Type => new List<SongResultData>());
+                return s_Request.Type.ToDictionary(p_Type => p_Type, p_Type => new List<ResultData>());
 
-            var s_Results = new Dictionary<String, List<SongResultData>>();
+            var s_Results = new Dictionary<String, List<ResultData>>();
 
             foreach (var s_Type in s_Request.Type)
             {
@@ -47,7 +47,7 @@ namespace GS.Lib.Components
                             break;
                         }
 
-                        s_Results.Add("Songs", new List<SongResultData>());
+                        s_Results.Add("Songs", new List<ResultData>());
                         break;
                     }
 
@@ -59,7 +59,7 @@ namespace GS.Lib.Components
                             break;
                         }
 
-                        s_Results.Add("Artists", new List<SongResultData>());
+                        s_Results.Add("Artists", new List<ResultData>());
                         break;
                     }
 
@@ -71,7 +71,7 @@ namespace GS.Lib.Components
                             break;
                         }
 
-                        s_Results.Add("Albums", new List<SongResultData>());
+                        s_Results.Add("Albums", new List<ResultData>());
                         break;
                     }
 
@@ -83,7 +83,7 @@ namespace GS.Lib.Components
                             break;
                         }
 
-                        s_Results.Add("Videos", new List<SongResultData>());
+                        s_Results.Add("Videos", new List<ResultData>());
                         break;
                     }
 
@@ -95,7 +95,7 @@ namespace GS.Lib.Components
                             break;
                         }
 
-                        s_Results.Add("Playlists", new List<SongResultData>());
+                        s_Results.Add("Playlists", new List<ResultData>());
                         break;
                     }
 
@@ -107,7 +107,7 @@ namespace GS.Lib.Components
                             break;
                         }
 
-                        s_Results.Add("Users", new List<SongResultData>());
+                        s_Results.Add("Users", new List<ResultData>());
                         break;
                     }
 
@@ -119,13 +119,13 @@ namespace GS.Lib.Components
                             break;
                         }
 
-                        s_Results.Add("Events", new List<SongResultData>());
+                        s_Results.Add("Events", new List<ResultData>());
                         break;
                     }
 
                     default:
                     {
-                        s_Results.Add(s_Type, new List<SongResultData>());
+                        s_Results.Add(s_Type, new List<ResultData>());
                         break;
                     }
                 }
@@ -134,10 +134,10 @@ namespace GS.Lib.Components
             return s_Results;
         }
 
-        public Dictionary<String, List<SongResultData>> GetAutocomplete(String p_Query, String p_Type = "combined")
+        public Dictionary<String, List<ResultData>> GetAutocomplete(String p_Query, String p_Type = "combined")
         {
             if (String.IsNullOrWhiteSpace(Library.User.SessionID))
-                return new Dictionary<string, List<SongResultData>>();
+                return new Dictionary<string, List<ResultData>>();
 
             var s_Request = new GetAutocompleteRequest
             {
@@ -145,11 +145,11 @@ namespace GS.Lib.Components
                 Type = p_Type
             };
 
-            var s_Response = Library.RequestDispatcher.Dispatch<GetAutocompleteRequest, Dictionary<String, List<SongResultData>>>(
+            var s_Response = Library.RequestDispatcher.Dispatch<GetAutocompleteRequest, Dictionary<String, List<ResultData>>>(
                     "getAutocompleteEx", s_Request);
 
             if (s_Response == null)
-                return new Dictionary<String, List<SongResultData>>();
+                return new Dictionary<String, List<ResultData>>();
 
             return s_Response;
         }

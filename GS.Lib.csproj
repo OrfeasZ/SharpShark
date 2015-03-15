@@ -108,7 +108,7 @@
     <Compile Include="Models\MasterStatus.cs" />
     <Compile Include="Models\MetaUserData.cs" />
     <Compile Include="Models\StatusSongData.cs" />
-    <Compile Include="Models\SongResultData.cs" />
+    <Compile Include="Models\ResultData.cs" />
     <Compile Include="Models\StreamKeyData.cs" />
     <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\TokenData.cs" />

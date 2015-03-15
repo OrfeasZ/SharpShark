@@ -9,13 +9,13 @@ namespace GS.Lib.Network.HTTP.Responses
         internal class SearchResultsResult
         {
             // TODO: Check which of these types need fixing
-            public List<SongResultData> Songs { get; set; }
-            public List<SongResultData> Artists { get; set; }
-            public List<SongResultData> Albums { get; set; }
-            public List<SongResultData> Videos { get; set; }
-            public List<SongResultData> Playlists { get; set; }
-            public List<SongResultData> Users { get; set; }
-            public List<SongResultData> Events { get; set; }
+            public List<ResultData> Songs { get; set; }
+            public List<ResultData> Artists { get; set; }
+            public List<ResultData> Albums { get; set; }
+            public List<ResultData> Videos { get; set; }
+            public List<ResultData> Playlists { get; set; }
+            public List<ResultData> Users { get; set; }
+            public List<ResultData> Events { get; set; }
             public String AssignedVersion { get; set; }
         }
 

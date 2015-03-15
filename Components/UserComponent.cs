@@ -169,23 +169,18 @@ namespace GS.Lib.Components
             }
         }
 
-        public List<Int64> GetSongsInLibrary(Int64 p_UserID)
+        public List<ResultData> GetSongsInLibrary(Int64 p_UserID)
         {
             if (SessionID == null)
-                return new List<long>();
-
-            var s_SongsIDs = new List<Int64>();
+                return new List<ResultData>();
 
             var s_Response = Library.RequestDispatcher.Dispatch<UserGetSongsInLibraryRequest, UserGetSongsInLibraryResponse>("userGetSongsInLibrary",
                 new UserGetSongsInLibraryRequest() { Page = 0, UserID = p_UserID });
 
             if (s_Response == null || s_Response.Songs == null)
-                return s_SongsIDs;
+                return new List<ResultData>();
 
-            foreach (var s_Song in s_Response.Songs)
-                s_SongsIDs.Add(Int64.Parse(s_Song.SongID));
-
-            return s_SongsIDs;
+            return s_Response.Songs;
         }
 
         public List<Int64> GetCollectionSongs()
@@ -216,10 +211,10 @@ namespace GS.Lib.Components
             return s_Response;
         }
 
-        public List<SongResultData> GetFavorites(String p_What, Int64 p_UserID)
+        public List<ResultData> GetFavorites(String p_What, Int64 p_UserID)
         {
             if (String.IsNullOrWhiteSpace(SessionID))
-                return new List<SongResultData>();
+                return new List<ResultData>();
 
             var s_Request = new GetFavoritesRequest 
             { 
@@ -227,10 +222,10 @@ namespace GS.Lib.Components
                 UserID = p_UserID 
             };
 
-            var s_Response = Library.RequestDispatcher.Dispatch<GetFavoritesRequest, List<SongResultData>>("getFavorites", s_Request);
+            var s_Response = Library.RequestDispatcher.Dispatch<GetFavoritesRequest, List<ResultData>>("getFavorites", s_Request);
 
             if (s_Response == null)
-                return new List<SongResultData>();
+                return new List<ResultData>();
 
             return s_Response;
         }

@@ -29,6 +29,8 @@ namespace GS.Lib.Components
         private const String c_ChatServerChannelPublicPrefix = "bcast:p:";
         private const String c_ChatServerChannelPrefix = "bcast:";
 
+        private bool m_ShouldReconnect;
+
         internal ChatComponent(SharpShark p_Library) 
             : base(p_Library)
         {
@@ -41,6 +43,7 @@ namespace GS.Lib.Components
             m_SocketClient.OnMessageProcessed += OnMessageProcessed;
 
             m_Handlers = new Dictionary<string, Action<SharkResponseMessage>>();
+            m_ShouldReconnect = true;
 
             RegisterHandlers();
         }
@@ -69,6 +72,16 @@ namespace GS.Lib.Components
             var s_Server = DetermineBestServer();
 
             return m_SocketClient.Connect(s_Server, c_ServerPort);
+        }
+
+        public void Disconnect()
+        {
+            m_ShouldReconnect = false;
+
+            if (!m_SocketClient.IsConnected)
+                return;
+
+            m_SocketClient.Disconnect();
         }
 
         private String DetermineBestServer()
@@ -109,7 +122,8 @@ namespace GS.Lib.Components
             Library.Broadcast.PlayingSongQueueID = 0;
 
             // TODO: Verify re-connection works.
-            Connect();
+            if (m_ShouldReconnect)
+                Connect();
         }
 
         private void OnMessageProcessed(object p_Sender, SharkResponseMessage p_Message)

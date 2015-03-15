@@ -10,7 +10,7 @@ namespace GS.Lib.Network.HTTP.Responses
 
         public int MaxSongs { get; set; }
 
-        public List<SongResultData> Songs { get; set; } 
+        public List<ResultData> Songs { get; set; } 
 
         public Int64 TSModified { get; set; }
     }
