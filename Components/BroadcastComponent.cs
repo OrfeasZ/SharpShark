@@ -115,6 +115,7 @@ namespace GS.Lib.Components
                     "py",
                     "qc"
                 }, OnBroadcastSubscriptionData);
+
                 return;
             }
 
@@ -157,10 +158,37 @@ namespace GS.Lib.Components
                 return;
             }
 
-            // Destroy queue and proceed with channel creation.
-            // TODO: Resume from queue instead (look for "getQueue").
-            Library.Remora.DestroyQueue(s_LastQueueID);
-            Library.Remora.JoinControlChannels();
+            // Set currently playing song data.
+            var s_BroadcastData = s_Values[0].ToObject<Dictionary<String, JToken>>();
+
+            if (s_BroadcastData.ContainsKey("active"))
+            {
+                var s_SongData = s_BroadcastData["active"].ToObject<PlaybackStatusData.ActiveBroadcastData>();
+
+                if (s_SongData != null && s_SongData.Data != null)
+                {
+                    PlayingSongID = s_SongData.Data.SongID;
+                    PlayingSongName = s_SongData.Data.SongName;
+                    PlayingSongArtist = s_SongData.Data.ArtistName;
+                    PlayingArtistID = s_SongData.Data.ArtistID;
+                    PlayingSongAlbum = s_SongData.Data.AlbumName;
+                    PlayingAlbumID = s_SongData.Data.AlbumID;
+                    PlayingSongQueueID = s_SongData.QueueSongID;
+                }
+                else
+                {
+                    PlayingSongID = PlayingSongQueueID = PlayingArtistID = PlayingAlbumID = 0;
+                    PlayingSongName = PlayingSongAlbum = PlayingSongArtist = null;
+                }
+            }
+            else
+            {
+                PlayingSongID = PlayingSongQueueID = PlayingArtistID = PlayingAlbumID = 0;
+                PlayingSongName = PlayingSongAlbum = PlayingSongArtist = null;
+            }
+
+            // Attempt to resume the queue.
+            Library.Remora.ResumeQueue(s_LastQueueID);
         }
 
         public void DestroyBroadcast()

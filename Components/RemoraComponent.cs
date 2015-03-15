@@ -59,12 +59,49 @@ namespace GS.Lib.Components
             {
                 { "action", "destroyQueue" }
             });
+
+            if (p_QueueChannel == ControlChannel)
+                m_Created = false;
+        }
+
+        internal void ResumeQueue(String p_QueueChannel)
+        {
+            if (m_PendingCreation || m_Created)
+                return;
+
+            ControlChannel = p_QueueChannel;
+            m_PendingCreation = true;
+
+            Library.Chat.JoinChannels(new List<object>()
+            {
+                new Dictionary<String, Object>()
+                {
+                    { "sub", ControlChannel },
+                    { "overwrite_params", false },
+                    { "create_when_dne", false }
+                }
+            }, p_Callback: p_Message =>
+            {
+                Library.Chat.PublishToChannels(new List<string>() { ControlChannel }, new Dictionary<String, Object>
+                {
+                    { "action", "getQueue" },
+                    {
+                        "blackbox", new Dictionary<String, Object>
+                        {
+                            { "getFullQueue", true }
+                        }
+                    }
+                });
+            });
         }
 
         internal void JoinControlChannels()
         {
             if (Library.User.Data == null || m_Created || m_PendingCreation || ControlChannel != null)
                 return;
+
+            Library.Broadcast.PlayingSongID = Library.Broadcast.PlayingSongQueueID = Library.Broadcast.PlayingArtistID = Library.Broadcast.PlayingAlbumID = 0;
+            Library.Broadcast.PlayingSongName = Library.Broadcast.PlayingSongAlbum = Library.Broadcast.PlayingSongArtist = null;
 
             m_QueuedMessages.Clear();
 
@@ -149,6 +186,60 @@ namespace GS.Lib.Components
                 }
 
                 return true;
+            }
+
+            if (m_PendingCreation)
+            {
+                if (p_Event.Value.ContainsKey("blackbox") && !p_Event.Value.ContainsKey("action"))
+                {
+                    var s_Blackbox = p_Event.Value["blackbox"].ToObject<Dictionary<String, JToken>>();
+
+                    if (s_Blackbox.ContainsKey("getFullQueue") && s_Blackbox["getFullQueue"].Value<bool>())
+                    {
+                        // Queue takeover failed.
+                        if (!p_Event.Value.ContainsKey("response") || !p_Event.Value.ContainsKey("success") || 
+                            !p_Event.Value["success"].Value<bool>())
+                        {
+                            m_Created = false;
+                            m_PendingCreation = false;
+
+                            // Destroy queue and proceed with channel creation.
+                            Library.Remora.DestroyQueue(ControlChannel);
+                            Library.Remora.JoinControlChannels();
+                            return true;
+                        }
+
+                        var s_Response = p_Event.Value["response"].ToObject<Dictionary<String, JToken>>();
+                        
+                        Library.Queue.CurrentQueue.Clear();
+
+                        if (s_Response.ContainsKey("songs"))
+                        {
+                            var s_Songs = s_Response["songs"].ToObject<JArray>();
+                            
+                            foreach (var s_Song in s_Songs)
+                            {
+                                var s_SongData = s_Song.ToObject<PlaybackStatusData.ActiveBroadcastData>();
+                                Library.Queue.AddToQueue(s_SongData.Data.SongID, s_SongData.QueueSongID,
+                                    s_SongData.Data.SongName, s_SongData.Data.ArtistID, s_SongData.Data.ArtistName,
+                                    s_SongData.Data.AlbumID, s_SongData.Data.AlbumName);
+                            }
+                        }
+
+                        Library.Broadcast.CurrentBroadcastStatus = BroadcastStatus.Broadcasting;
+
+                        m_Created = true;
+                        m_PendingCreation = false;
+
+                        while (m_QueuedMessages.Count > 0)
+                            Library.Chat.PublishToChannels(new List<string>() { ControlChannel }, m_QueuedMessages.Dequeue());
+
+                        Library.Chat.UpdateCurrentStatus();
+                        Library.Chat.SubscribeToBroadcastStatuses();
+
+                        return true;
+                    }
+                }
             }
 
             if (!p_Event.Value.ContainsKey("action"))
