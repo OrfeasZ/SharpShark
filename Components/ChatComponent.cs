@@ -8,6 +8,7 @@ using GS.Lib.Models;
 using GS.Lib.Network.Sockets;
 using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Network.Sockets.Messages.Requests;
+using GS.Lib.Util;
 
 namespace GS.Lib.Components
 {
@@ -170,13 +171,16 @@ namespace GS.Lib.Components
                 Library.Broadcast.ActiveBroadcastID == null)
                 return;
 
-            PublishToChannels(new List<string>() { GetChatChannel(Library.Broadcast.ActiveBroadcastID, true) }, new Dictionary<String, Object>()
+            foreach (var s_Message in p_Message.Trim().SplitInParts(255))
             {
-                { "type", "chat" },
-                { "data", p_Message },
-                { "ignoreTag", false },
-                { "playingSongID", Library.Broadcast.PlayingSongID }
-            });
+                PublishToChannels(new List<string>() { GetChatChannel(Library.Broadcast.ActiveBroadcastID, true) }, new Dictionary<String, Object>()
+                {
+                    { "type", "chat" },
+                    { "data", s_Message },
+                    { "ignoreTag", false },
+                    { "playingSongID", Library.Broadcast.PlayingSongID }
+                });
+            }
         }
     }
 }

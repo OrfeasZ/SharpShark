@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Timers;
@@ -26,6 +27,8 @@ namespace GS.Lib.Components
 
         private Timer m_PingTimer;
 
+        private Timer m_ResumeTimeout;
+
         public RemoraComponent(SharpShark p_Library)
             : base(p_Library)
         {
@@ -37,7 +40,7 @@ namespace GS.Lib.Components
 
         internal void DestroyQueue()
         {
-            if (Library.User.Data == null || m_PendingCreation || !m_Created)
+            if (Library.User.Data == null)
                 return;
 
             Library.Chat.PublishToChannels(new List<string>() { ControlChannel }, new Dictionary<String, Object>()
@@ -93,6 +96,28 @@ namespace GS.Lib.Components
                     }
                 });
             });
+
+            m_ResumeTimeout = new Timer()
+            {
+                Interval = 10000,
+                AutoReset = false
+            };
+
+            m_ResumeTimeout.Elapsed += OnResumeTimeout;
+
+            m_ResumeTimeout.Start();
+        }
+
+        private void OnResumeTimeout(object p_Sender, ElapsedEventArgs p_ElapsedEventArgs)
+        {
+            Debug.WriteLine("Queue resuming timed out. Destroying and re-creating.");
+
+            m_Created = false;
+            m_PendingCreation = false;
+
+            // Destroy queue and proceed with channel creation.
+            Library.Remora.DestroyQueue();
+            Library.Remora.JoinControlChannels();
         }
 
         internal void JoinControlChannels()
@@ -196,6 +221,9 @@ namespace GS.Lib.Components
 
                     if (s_Blackbox.ContainsKey("getFullQueue") && s_Blackbox["getFullQueue"].Value<bool>())
                     {
+                        if (m_ResumeTimeout != null)
+                            m_ResumeTimeout.Dispose();
+
                         // Queue takeover failed.
                         if (!p_Event.Value.ContainsKey("response") || !p_Event.Value.ContainsKey("success") || 
                             !p_Event.Value["success"].Value<bool>())
@@ -204,7 +232,7 @@ namespace GS.Lib.Components
                             m_PendingCreation = false;
 
                             // Destroy queue and proceed with channel creation.
-                            Library.Remora.DestroyQueue(ControlChannel);
+                            Library.Remora.DestroyQueue();
                             Library.Remora.JoinControlChannels();
                             return true;
                         }

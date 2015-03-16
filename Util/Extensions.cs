@@ -4,12 +4,23 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace GS.Lib.Util
 {
     internal static class StringExtensions
     {
+        public static IEnumerable<String> SplitInParts(this String p_String, Int32 p_PartLength)
+        {
+            if (p_String == null)
+                throw new ArgumentNullException("p_String");
+
+            if (p_PartLength <= 0)
+                throw new ArgumentException("Part length has to be positive.", "p_PartLength");
+
+            for (var i = 0; i < p_String.Length; i += p_PartLength)
+                yield return p_String.Substring(i, Math.Min(p_PartLength, p_String.Length - i));
+        }
+
         public static string RemoveEnd(this string p_String, string p_Match)
         {
             return p_String.EndsWith(p_Match) ? p_String.Substring(0, p_String.Length - p_Match.Length) : p_String;
