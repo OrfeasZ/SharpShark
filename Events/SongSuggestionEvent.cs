@@ -1,8 +1,9 @@
 ﻿using System;
+using GS.Lib.Models;
 
 namespace GS.Lib.Events
 {
-    public class SongPlayingEvent : SharkEvent
+    public class SongSuggestionEvent : SharkEvent
     {
         public Int64 SongID { get; set; }
 
@@ -16,6 +17,6 @@ namespace GS.Lib.Events
 
         public String AlbumName { get; set; }
 
-        public Int64 QueueID { get; set; }
+        public ChatUserData User { get; set; }
     }
 }

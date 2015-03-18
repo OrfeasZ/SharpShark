@@ -99,7 +99,7 @@ namespace GS.Lib.Components
 
             m_ResumeTimeout = new Timer()
             {
-                Interval = 10000,
+                Interval = 15000,
                 AutoReset = false
             };
 
@@ -270,8 +270,65 @@ namespace GS.Lib.Components
                 }
             }
 
+            if (p_Event.Value.ContainsKey("type") && p_Event.Value["type"].Value<String>() == "suggestion" && p_Event.Value.ContainsKey("data"))
+            {
+                var s_Data = p_Event.Value["data"].ToObject<Dictionary<String, JToken>>();
+
+                var s_SongData = s_Data["song"].ToObject<PlaybackStatusData.ActiveBroadcastData>();
+
+                var s_UserData = p_Event.ID["app_data"].ToObject<ChatUserData>();
+
+                var s_Event = new SongSuggestionEvent()
+                {
+                    SongID = s_SongData.Data.SongID,
+                    SongName = s_SongData.Data.SongName,
+                    ArtistID = s_SongData.Data.ArtistID,
+                    ArtistName = s_SongData.Data.ArtistName,
+                    AlbumID = s_SongData.Data.AlbumID,
+                    AlbumName = s_SongData.Data.AlbumName,
+                    User = s_UserData
+                };
+
+                Library.DispatchEvent(ClientEvent.SongSuggestion, s_Event);
+                return true;
+            }
+
+            if (p_Event.Value.ContainsKey("type") && p_Event.Value["type"].Value<String>() == "suggestionRemove" && p_Event.Value.ContainsKey("data"))
+            {
+                var s_Data = p_Event.Value["data"].ToObject<Dictionary<String, JToken>>();
+
+                var s_SongID = s_Data["songID"].Value<Int64>();
+
+                var s_UserData = p_Event.ID["app_data"].ToObject<ChatUserData>();
+
+                var s_Event = new SongSuggestionRemovalEvent()
+                {
+                    SongID = s_SongID,
+                    User = s_UserData
+                };
+
+                Library.DispatchEvent(ClientEvent.SongSuggestionRemoved, s_Event);
+                return true;
+            }
+
             if (!p_Event.Value.ContainsKey("action"))
                 return true;
+
+            if (p_Event.Value["action"].Value<String>() == "rejectSuggestion")
+            {
+                var s_SongID = p_Event.Value["songID"].Value<Int64>();
+
+                var s_UserData = p_Event.ID["app_data"].ToObject<ChatUserData>();
+
+                var s_Event = new SongSuggestionRejectionEvent()
+                {
+                    SongID = s_SongID,
+                    User = s_UserData
+                };
+
+                Library.DispatchEvent(ClientEvent.SongSuggestionRejected, s_Event);
+                return true;
+            }
 
             if (p_Event.Value["action"].Value<String>() == "setupQueueFailed")
             {

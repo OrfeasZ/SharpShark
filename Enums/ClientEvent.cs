@@ -10,5 +10,8 @@
         SongVote,
         SongPlaying,
         QueueUpdated,
+        SongSuggestion,
+        SongSuggestionRemoved,
+        SongSuggestionRejected,
     }
 }

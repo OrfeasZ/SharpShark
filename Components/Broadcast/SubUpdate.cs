@@ -93,7 +93,11 @@ namespace GS.Lib.Components
                 {
                     SongID = PlayingSongID,
                     QueueID = PlayingSongQueueID,
-                    SongName = PlayingSongName
+                    SongName = PlayingSongName,
+                    ArtistID = PlayingArtistID,
+                    ArtistName = PlayingSongArtist,
+                    AlbumID = PlayingAlbumID,
+                    AlbumName = PlayingSongAlbum
                 });
             }
         }

@@ -161,6 +161,13 @@ namespace GS.Lib.Components
             // Set currently playing song data.
             var s_BroadcastData = s_Values[0].ToObject<Dictionary<String, JToken>>();
 
+            // Broadcast has ended; queue doesn't exist anymore.
+            if (s_BroadcastData.ContainsKey("ended") && s_BroadcastData["ended"].Value<bool>())
+            {
+                Library.Remora.JoinControlChannels();
+                return;
+            }
+
             if (s_BroadcastData.ContainsKey("active"))
             {
                 var s_SongData = s_BroadcastData["active"].ToObject<PlaybackStatusData.ActiveBroadcastData>();
