@@ -8,5 +8,7 @@ namespace GS.Lib.Events
         public Int64 SongID { get; set; }
 
         public ChatUserData User { get; set; }
+
+        public Int64 UserID { get; set; }
     }
 }

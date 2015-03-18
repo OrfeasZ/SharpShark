@@ -18,5 +18,7 @@ namespace GS.Lib.Events
         public String AlbumName { get; set; }
 
         public ChatUserData User { get; set; }
+
+        public Int64 UserID { get; set; }
     }
 }

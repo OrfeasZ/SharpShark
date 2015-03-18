@@ -277,6 +277,7 @@ namespace GS.Lib.Components
                 var s_SongData = s_Data["song"].ToObject<PlaybackStatusData.ActiveBroadcastData>();
 
                 var s_UserData = p_Event.ID["app_data"].ToObject<ChatUserData>();
+                var s_UserID = Int64.Parse(p_Event.ID["userid"].Value<String>());
 
                 var s_Event = new SongSuggestionEvent()
                 {
@@ -286,7 +287,8 @@ namespace GS.Lib.Components
                     ArtistName = s_SongData.Data.ArtistName,
                     AlbumID = s_SongData.Data.AlbumID,
                     AlbumName = s_SongData.Data.AlbumName,
-                    User = s_UserData
+                    User = s_UserData,
+                    UserID = s_UserID
                 };
 
                 Library.DispatchEvent(ClientEvent.SongSuggestion, s_Event);
@@ -300,11 +302,13 @@ namespace GS.Lib.Components
                 var s_SongID = s_Data["songID"].Value<Int64>();
 
                 var s_UserData = p_Event.ID["app_data"].ToObject<ChatUserData>();
+                var s_UserID = Int64.Parse(p_Event.ID["userid"].Value<String>());
 
                 var s_Event = new SongSuggestionRemovalEvent()
                 {
                     SongID = s_SongID,
-                    User = s_UserData
+                    User = s_UserData,
+                    UserID = s_UserID
                 };
 
                 Library.DispatchEvent(ClientEvent.SongSuggestionRemoved, s_Event);
@@ -319,11 +323,13 @@ namespace GS.Lib.Components
                 var s_SongID = p_Event.Value["songID"].Value<Int64>();
 
                 var s_UserData = p_Event.ID["app_data"].ToObject<ChatUserData>();
+                var s_UserID = Int64.Parse(p_Event.ID["userid"].Value<String>());
 
                 var s_Event = new SongSuggestionRejectionEvent()
                 {
                     SongID = s_SongID,
-                    User = s_UserData
+                    User = s_UserData,
+                    UserID = s_UserID
                 };
 
                 Library.DispatchEvent(ClientEvent.SongSuggestionRejected, s_Event);
