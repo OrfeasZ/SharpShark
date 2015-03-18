@@ -336,6 +336,24 @@ namespace GS.Lib.Components
                 return true;
             }
 
+            if (p_Event.Value["action"].Value<String>() == "approveSuggestion")
+            {
+                var s_SongID = p_Event.Value["songID"].Value<Int64>();
+
+                var s_UserData = p_Event.ID["app_data"].ToObject<ChatUserData>();
+                var s_UserID = Int64.Parse(p_Event.ID["userid"].Value<String>());
+
+                var s_Event = new SongSuggestionApprovalEvent()
+                {
+                    SongID = s_SongID,
+                    User = s_UserData,
+                    UserID = s_UserID
+                };
+
+                Library.DispatchEvent(ClientEvent.SongSuggestionApproved, s_Event);
+                return true;
+            }
+
             if (p_Event.Value["action"].Value<String>() == "setupQueueFailed")
             {
                 m_PendingCreation = false;

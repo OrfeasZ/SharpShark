@@ -13,5 +13,6 @@
         SongSuggestion,
         SongSuggestionRemoved,
         SongSuggestionRejected,
+        SongSuggestionApproved
     }
 }

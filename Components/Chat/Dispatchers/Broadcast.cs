@@ -109,6 +109,26 @@ namespace GS.Lib.Components
                     return;
                 }
 
+                // Restore VIP users.
+                Library.Broadcast.SpecialGuests.Clear();
+                var s_SuccessResponse = p_Message.As<SuccessResponse<JArray>>();
+
+                foreach (var s_Data in s_SuccessResponse.Success)
+                {
+                    if (s_Data["sub"].Value<String>() != GetChatChannel(Library.Broadcast.ActiveBroadcastID, true))
+                        continue;
+
+                    var s_Values = s_Data["values"].ToObject<JArray>();
+
+                    var s_VIPUsers = s_Values[s_Values.Count - 2].ToObject<JArray>();
+
+                    foreach (var s_User in s_VIPUsers)
+                    {
+                        var s_UserID = s_User["u"].Value<Int64>();
+                        Library.Broadcast.SpecialGuests.Add(s_UserID);
+                    }
+                }
+
                 SubscribeToBroadcast();
             });
         }

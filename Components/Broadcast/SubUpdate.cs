@@ -35,7 +35,7 @@ namespace GS.Lib.Components
                 {
                     if (s_Event.Value["type"].Value<String>() == "vipRequest")
                     {
-                        HandleVIPRequest(s_Event.Value["data"]);
+                        HandleVIPRequest(s_Event.Value["data"], s_Event);
                         return;
                     }
                 }
@@ -102,7 +102,7 @@ namespace GS.Lib.Components
             }
         }
 
-        private void HandleVIPRequest(JToken p_Request)
+        private void HandleVIPRequest(JToken p_Request, SubUpdateEvent p_Event)
         {
             var s_Action = p_Request["action"].Value<String>();
 
@@ -110,11 +110,20 @@ namespace GS.Lib.Components
             {
                 var s_SongID = p_Request["songID"].Value<Int64>();
 
-                // TODO: Compute index.
-                var s_QueueIDs = AddSongs(new List<Int64>() { s_SongID }, 9999999);
+                var s_UserData = p_Event.ID["app_data"].ToObject<ChatUserData>();
+                var s_UserID = Int64.Parse(p_Event.ID["userid"].Value<String>());
+
+                var s_QueueIDs = AddSongs(new List<Int64>() { s_SongID });
 
                 if (PlayingSongID == 0)
                     PlaySong(s_SongID, s_QueueIDs[s_SongID]);
+
+                Library.DispatchEvent(ClientEvent.SongSuggestionApproved, new SongSuggestionApprovalEvent()
+                {
+                    SongID = s_SongID,
+                    User = s_UserData,
+                    UserID = s_UserID
+                });
 
                 return;
             }

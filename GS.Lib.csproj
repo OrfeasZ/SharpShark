@@ -93,6 +93,7 @@
     <Compile Include="Events\SetResultEvent.cs" />
     <Compile Include="Events\SharkEvent.cs" />
     <Compile Include="Events\SongPlayingEvent.cs" />
+    <Compile Include="Events\SongSuggestionApprovalEvent.cs" />
     <Compile Include="Events\SongSuggestionEvent.cs" />
     <Compile Include="Events\SongSuggestionRejectionEvent.cs" />
     <Compile Include="Events\SongSuggestionRemovalEvent.cs" />
