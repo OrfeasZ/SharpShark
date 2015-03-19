@@ -167,9 +167,7 @@ namespace GS.Lib.Components
                 Library.Remora.JoinControlChannels();
                 return;
             }
-
-            Library.Remora.DestroyQueue(s_LastQueueID);
-
+            
             if (s_BroadcastData.ContainsKey("active"))
             {
                 var s_SongData = s_BroadcastData["active"].ToObject<PlaybackStatusData.ActiveBroadcastData>();
@@ -378,7 +376,7 @@ namespace GS.Lib.Components
                 }
             });
 
-            Library.RequestDispatcher.Dispatch<BroadcastUpdateExtraDataRequest, Object>("broadcastUpdateExtraData",
+            /*Library.RequestDispatcher.Dispatch<BroadcastUpdateExtraDataRequest, Object>("broadcastUpdateExtraData",
                 new BroadcastUpdateExtraDataRequest()
                 {
                     BroadcastID = ActiveBroadcastID,
@@ -387,7 +385,7 @@ namespace GS.Lib.Components
                     Image = CurrentBroadcastPicture,
                     Privacy = null,
                     Tag = CurrentBroadcastCategoryTag
-                });
+                });*/
         }
 
         public void UpdateBroadcastDescription(String p_Description)
@@ -408,7 +406,7 @@ namespace GS.Lib.Components
                 }
             });
 
-            Library.RequestDispatcher.Dispatch<BroadcastUpdateExtraDataRequest, Object>("broadcastUpdateExtraData",
+            /*Library.RequestDispatcher.Dispatch<BroadcastUpdateExtraDataRequest, Object>("broadcastUpdateExtraData",
                 new BroadcastUpdateExtraDataRequest()
                 {
                     BroadcastID = ActiveBroadcastID,
@@ -417,7 +415,7 @@ namespace GS.Lib.Components
                     Image = CurrentBroadcastPicture,
                     Privacy = null,
                     Tag = CurrentBroadcastCategoryTag
-                });
+                });*/
         }
     }
 }

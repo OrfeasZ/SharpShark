@@ -364,8 +364,8 @@ namespace GS.Lib.Components
             {
                 var s_Event = new ComplianceIssueEvent()
                 {
-                    Issue = p_Event.Value["issue"].Value<String>(),
-                    Reason = p_Event.Value["reason"].Value<String>()
+                    Issue = p_Event.Value.ContainsKey("issue") ? p_Event.Value["issue"].Value<String>() : "",
+                    Reason = p_Event.Value.ContainsKey("reason") ? p_Event.Value["reason"].Value<String>() : ""
                 };
 
                 Library.DispatchEvent(ClientEvent.ComplianceIssue, s_Event);
@@ -377,7 +377,7 @@ namespace GS.Lib.Components
             {
                 var s_Event = new PendingDestructionEvent()
                 {
-                    TimeLeft = p_Event.Value["timeLeft"].Value<Int64>()
+                    TimeLeft = p_Event.Value.ContainsKey("timeLeft") ? p_Event.Value["timeLeft"].Value<Int64>() : 600000
                 };
 
                 Library.DispatchEvent(ClientEvent.PendingDestruction, s_Event);
