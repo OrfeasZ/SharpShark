@@ -96,12 +96,6 @@ namespace GS.Lib.Components
             if (s_Message.SubinfoChange == null)
                 return false;
 
-            if (s_Message.SubinfoChange.Sub == "broadcastDarkLaunch")
-            {
-                // TODO: Implement.
-                return true;
-            }
-
             DispatchEvent((int)ChatEvent.SubUpdate, new SubUpdateEvent()
             {
                 Type = "properties",

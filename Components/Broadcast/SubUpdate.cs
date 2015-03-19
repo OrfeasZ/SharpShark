@@ -19,6 +19,9 @@ namespace GS.Lib.Components
                 if (s_Event.Type == "publish")
                     Library.Remora.HandlePublish(s_Event);
 
+                if (s_Event.Type == "subinfo_change")
+                    Library.Remora.HandleSubInfoChange(s_Event);
+
                 return;
             }
 

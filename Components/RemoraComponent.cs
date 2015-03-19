@@ -265,6 +265,8 @@ namespace GS.Lib.Components
                         Library.Chat.UpdateCurrentStatus();
                         Library.Chat.SubscribeToBroadcastStatuses();
 
+                        Library.DispatchEvent(ClientEvent.QueueUpdated, null);
+
                         return true;
                     }
                 }
@@ -351,6 +353,38 @@ namespace GS.Lib.Components
                 return true;
             }
 
+            if (p_Event.Value["action"].Value<String>() == "queueReset")
+            {
+                HandleQueueReset(p_Event.Value);
+                return true;
+            }
+
+
+            if (p_Event.Value["action"].Value<String>() == "complianceIssue")
+            {
+                var s_Event = new ComplianceIssueEvent()
+                {
+                    Issue = p_Event.Value["issue"].Value<String>(),
+                    Reason = p_Event.Value["reason"].Value<String>()
+                };
+
+                Library.DispatchEvent(ClientEvent.ComplianceIssue, s_Event);
+
+                return true;
+            }
+
+            if (p_Event.Value["action"].Value<String>() == "pendingDestruction")
+            {
+                var s_Event = new PendingDestructionEvent()
+                {
+                    TimeLeft = p_Event.Value["timeLeft"].Value<Int64>()
+                };
+
+                Library.DispatchEvent(ClientEvent.PendingDestruction, s_Event);
+
+                return true;
+            }
+
             return true;
         }
 
@@ -408,6 +442,31 @@ namespace GS.Lib.Components
 
                 return;
             }
+        }
+
+        private void HandleQueueReset(Dictionary<String, JToken> p_Values)
+        {
+            Library.Queue.CurrentQueue.Clear();
+
+            if (p_Values.ContainsKey("songs"))
+            {
+                var s_Songs = p_Values["songs"].ToObject<JArray>();
+
+                foreach (var s_Song in s_Songs)
+                {
+                    var s_SongData = s_Song.ToObject<PlaybackStatusData.ActiveBroadcastData>();
+                    Library.Queue.AddToQueue(s_SongData.Data.SongID, s_SongData.QueueSongID,
+                        s_SongData.Data.SongName, s_SongData.Data.ArtistID, s_SongData.Data.ArtistName,
+                        s_SongData.Data.AlbumID, s_SongData.Data.AlbumName);
+                }
+            }
+
+            Library.DispatchEvent(ClientEvent.QueueUpdated, null);
+        }
+
+        internal void HandleSubInfoChange(SubUpdateEvent p_Event)
+        {
+            
         }
 
         internal void StartPing()

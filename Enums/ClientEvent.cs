@@ -13,6 +13,8 @@
         SongSuggestion,
         SongSuggestionRemoved,
         SongSuggestionRejected,
-        SongSuggestionApproved
+        SongSuggestionApproved,
+        PendingDestruction,
+        ComplianceIssue
     }
 }

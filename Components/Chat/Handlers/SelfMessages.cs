@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GS.Lib.Enums;
 using GS.Lib.Models;
 using GS.Lib.Network.Sockets.Messages.Responses;
 using GS.Lib.Util;
@@ -78,6 +79,14 @@ namespace GS.Lib.Components
                 LoggedInMaster.Reason = s_Reason.Value<String>();
 
             LoggedInMaster.LastUpdate = DateTime.UtcNow.ToUnixTimestampMillis();
+
+            if (String.IsNullOrWhiteSpace(LoggedInMaster.CurrentBroadcast) ||
+                LoggedInMaster.CurrentBroadcast == Library.Broadcast.ActiveBroadcastID)
+                return;
+
+            Library.Broadcast.ActiveBroadcastID = LoggedInMaster.CurrentBroadcast;
+
+            SubscribeToBroadcast();
         }
     }
 }

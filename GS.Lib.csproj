@@ -89,6 +89,8 @@
     <Compile Include="Events\BroadcastCreationEvent.cs" />
     <Compile Include="Events\ChatErrorEvent.cs" />
     <Compile Include="Events\ChatMessageEvent.cs" />
+    <Compile Include="Events\ComplianceIssueEvent.cs" />
+    <Compile Include="Events\PendingDestructionEvent.cs" />
     <Compile Include="Events\PubResultEvent.cs" />
     <Compile Include="Events\SetResultEvent.cs" />
     <Compile Include="Events\SharkEvent.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="Events\SubResultEvent.cs" />
     <Compile Include="Events\SubUpdateEvent.cs" />
     <Compile Include="Models\PlaybackStatusData.cs" />
+    <Compile Include="Models\PlaylistData.cs" />
     <Compile Include="Models\QueueSongData.cs" />
     <Compile Include="Models\SubscriptionKeys.cs" />
     <Compile Include="Models\UserIDData.cs" />
@@ -125,13 +128,17 @@
     <Compile Include="Network\HTTP\Requests\CreateBroadcastRequest.cs" />
     <Compile Include="Network\HTTP\Requests\GetAutocompleteRequest.cs" />
     <Compile Include="Network\HTTP\Requests\GetFavoritesRequest.cs" />
+    <Compile Include="Network\HTTP\Requests\GetPlaylistByIDRequest.cs" />
     <Compile Include="Network\HTTP\Requests\GetResultsFromSearchRequest.cs" />
     <Compile Include="Network\HTTP\Requests\GetStreamKeyFromSongIDRequest.cs" />
     <Compile Include="Network\HTTP\Requests\GetStreamKeysFromSongIDsRequest.cs" />
+    <Compile Include="Network\HTTP\Requests\UserGetPlaylistsRequest.cs" />
     <Compile Include="Network\HTTP\Requests\UserGetSongsInLibraryRequest.cs" />
     <Compile Include="Network\HTTP\Responses\AuthenticationResponse.cs" />
+    <Compile Include="Network\HTTP\Responses\GetPlaylistByIDResponse.cs" />
     <Compile Include="Network\HTTP\Responses\GetResultsFromSearchResponse.cs" />
     <Compile Include="Network\HTTP\Responses\LibrarySongIDsResponse.cs" />
+    <Compile Include="Network\HTTP\Responses\UserGetPlaylistsResponse.cs" />
     <Compile Include="Network\HTTP\Responses\UserGetSongsInLibraryResponse.cs" />
     <Compile Include="Network\Sockets\Client.cs" />
     <Compile Include="Network\Sockets\Messages\Generic\KeyValEntry.cs" />

@@ -318,5 +318,25 @@ namespace GS.Lib.Components
                 { "userID", Library.User.Data.UserID }
             });
         }
+
+        public List<PlaylistData> GetPlaylists(Int64 p_UserID)
+        {
+            var s_Response = Library.RequestDispatcher.Dispatch<UserGetPlaylistsRequest, UserGetPlaylistsResponse>("userGetPlaylists",  new UserGetPlaylistsRequest()
+            {
+                UserID = p_UserID
+            });
+
+            if (s_Response != null)
+                return s_Response.Playlists;
+
+            return new List<PlaylistData>();
+        }
+
+        public GetPlaylistByIDResponse GetPlaylistData(Int64 p_PlaylistID)
+        {
+            return Library.RequestDispatcher.Dispatch<GetPlaylistByIDRequest, GetPlaylistByIDResponse>("getPlaylistByID", 
+                new GetPlaylistByIDRequest(p_PlaylistID));
+        }
+
     }
 }
