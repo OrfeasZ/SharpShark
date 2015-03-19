@@ -12,7 +12,7 @@ namespace GS.Lib.Network.HTTP.Requests
         {
             public String Client { get; set; }
             public String ClientRevision { get; set; }
-            public int Privacy { get; set; }
+            public Int64 Privacy { get; set; }
             public CountryData Country { get; set; }
             public String Session { get; set; }
             public String Token { get; set; }

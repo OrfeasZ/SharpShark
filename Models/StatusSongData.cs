@@ -9,10 +9,10 @@ namespace GS.Lib.Models
         public String CoverArtFilename { get; set; }
 
         [JsonProperty("TrackNum")]
-        public int TrackNum { get; set; }
+        public Int64 TrackNum { get; set; }
 
         [JsonProperty("EstimateDuration")]
-        public int EstimateDuration { get; set; }
+        public Int64 EstimateDuration { get; set; }
 
         [JsonProperty("AlbumID")]
         public Int64 AlbumID { get; set; }
@@ -30,7 +30,7 @@ namespace GS.Lib.Models
         public String SongName { get; set; }
 
         [JsonProperty("Flags")]
-        public int Flags { get; set; }
+        public Int64 Flags { get; set; }
 
         [JsonProperty("ArtistID")]
         public Int64 ArtistID { get; set; }

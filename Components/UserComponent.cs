@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -152,7 +153,7 @@ namespace GS.Lib.Components
                 }
 
                 // Try to extract the tokenData from the response.
-                var s_Match = Regex.Match(s_Data, @"window\.tokenData = ({.*});", RegexOptions.Singleline);
+                var s_Match = Regex.Match(s_Data, @"window\.tokenData = (\{.*\});", RegexOptions.Singleline);
 
                 if (!s_Match.Success)
                     return null;

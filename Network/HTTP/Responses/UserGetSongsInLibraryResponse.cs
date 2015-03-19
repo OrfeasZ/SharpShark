@@ -8,7 +8,7 @@ namespace GS.Lib.Network.HTTP.Responses
     {
         public bool HasMore { get; set; }
 
-        public int MaxSongs { get; set; }
+        public Int64 MaxSongs { get; set; }
 
         public List<ResultData> Songs { get; set; } 
 

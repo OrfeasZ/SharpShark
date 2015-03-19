@@ -28,19 +28,19 @@ namespace GS.Lib.Models
 
         public String EstimateDuration { get; set; }
 
-        public int Flags { get; set; }
+        public Int64 Flags { get; set; }
 
         public String IsLowBitrateAvailable { get; set; }
 
         public String IsVerified { get; set; }
 
-        public int Popularity { get; set; }
+        public Int64 Popularity { get; set; }
 
         public Double Score { get; set; }
 
-        public int RawScore { get; set; }
+        public Int64 RawScore { get; set; }
 
-        public int PopularityIndex { get; set; }
+        public Int64 PopularityIndex { get; set; }
 
         public String Name { get; set; }
 

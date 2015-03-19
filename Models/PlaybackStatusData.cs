@@ -34,7 +34,7 @@ namespace GS.Lib.Models
             public Int64 QueueSongID { get; set; }
         }
 
-        public int Status { get; set; }
+        public Int64 Status { get; set; }
 
         [JsonProperty("ts")]
         public Int64 Timestamp { get; set; }

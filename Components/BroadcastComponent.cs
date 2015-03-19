@@ -168,6 +168,8 @@ namespace GS.Lib.Components
                 return;
             }
 
+            Library.Remora.DestroyQueue(s_LastQueueID);
+
             if (s_BroadcastData.ContainsKey("active"))
             {
                 var s_SongData = s_BroadcastData["active"].ToObject<PlaybackStatusData.ActiveBroadcastData>();

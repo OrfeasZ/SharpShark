@@ -6,7 +6,7 @@ namespace GS.Lib.Models
     public class CategoryTag : SharkObject
     {
         [JsonProperty("i")]
-        public int Index { get; set; }
+        public Int64 Index { get; set; }
 
         [JsonProperty("n")]
         public String Name { get; set; }

@@ -5,7 +5,7 @@ namespace GS.Lib.Network.HTTP.Requests
 {
     internal class GetResultsFromSearchRequest : SharkObject
     {
-        public int Guts { get; set; }
+        public Int64 Guts { get; set; }
         public String PpOverride { get; set; }
         public String Query { get; set; }
         public List<String> Type { get; set; }

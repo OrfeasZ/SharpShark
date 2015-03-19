@@ -8,9 +8,9 @@ namespace GS.Lib.Network.Sockets.Messages.Generic
 
         public String Source { get; set; }
 
-        public int PartsTotal { get; set; }
+        public Int64 PartsTotal { get; set; }
 
-        public int PartID { get; set; }
+        public Int64 PartID { get; set; }
 
         public bool Initial { get; set; }
 
