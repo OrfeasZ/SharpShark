@@ -179,7 +179,7 @@ namespace GS.Lib.Components
                     { "data", s_Message },
                     { "ignoreTag", false },
                     { "playingSongID", Library.Broadcast.PlayingSongID }
-                });
+                }, p_Persist: true);
             }
         }
     }
