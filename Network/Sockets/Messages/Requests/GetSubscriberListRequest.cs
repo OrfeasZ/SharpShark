@@ -8,7 +8,7 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
     {
         public Dictionary<String, String> Params { get; set; }
 
-        public GetSubscriberListRequest(String p_SubList, bool p_WithExtra, Dictionary<String, JToken> p_Blackbox) 
+        public GetSubscriberListRequest(String p_SubList, bool p_WithExtra) 
             : base("info")
         {
             if (p_WithExtra)
@@ -27,8 +27,6 @@ namespace GS.Lib.Network.Sockets.Messages.Requests
                     {"sub_list", p_SubList}
                 };
             }
-
-            Blackbox = p_Blackbox;
         }
     }
 }

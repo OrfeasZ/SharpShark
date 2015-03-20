@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using GS.Lib.Enums;
 using GS.Lib.Models;
-using GS.Lib.Network.HTTP.Requests;
 using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Network.Sockets.Messages.Responses;
 using Newtonsoft.Json.Linq;
@@ -416,6 +415,34 @@ namespace GS.Lib.Components
                     Privacy = null,
                     Tag = CurrentBroadcastCategoryTag
                 });*/
+        }
+
+        public void GetListenerCount(Action<Int64> p_Callback)
+        {
+            if (p_Callback == null)
+                return;
+
+            if (Library.User.Data == null || ActiveBroadcastID == null)
+            {
+                p_Callback(0);
+                return;
+            }
+
+            Library.Chat.GetSubscriberCount(Library.Chat.GetChatChannel(ActiveBroadcastID), p_Callback);
+        }
+
+        public void GetListeners(Action<List<SimpleUserData>> p_Callback)
+        {
+            if (p_Callback == null)
+                return;
+
+            if (Library.User.Data == null || ActiveBroadcastID == null)
+            {
+                p_Callback(new List<SimpleUserData>());
+                return;
+            }
+
+            Library.Chat.GetSubscriberList(Library.Chat.GetChatChannel(ActiveBroadcastID), p_Callback);
         }
     }
 }

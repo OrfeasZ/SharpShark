@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GS.Lib.Enums;
 using GS.Lib.Events;
+using GS.Lib.Models;
 using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Network.Sockets.Messages.Responses;
 using Newtonsoft.Json.Linq;
@@ -165,13 +166,67 @@ namespace GS.Lib.Components
 
         private bool HandlePushSubAlert(SharkResponseMessage p_Message)
         {
-            // TODO: Implement.
+            var s_Message = p_Message.As<SubAlertResponse>();
+
+            JToken s_Sub;
+            if (!s_Message.SubAlert.TryGetValue("sub", out s_Sub))
+                return true;
+
+            if (Library.Broadcast.ActiveBroadcastID == null || 
+                s_Sub.Value<String>() != GetChatChannel(Library.Broadcast.ActiveBroadcastID))
+                return true;
+
+            JToken s_IDToken;
+            if (!s_Message.SubAlert.TryGetValue("id", out s_IDToken))
+                return true;
+
+            var s_ID = s_IDToken.ToObject<Dictionary<String, JToken>>();
+
+            if (!s_ID.ContainsKey("app_data") || !s_ID.ContainsKey("userid"))
+                return true;
+
+            var s_UserData = s_ID["app_data"].ToObject<ChatUserData>();
+            var s_UserID = Int64.Parse(s_ID["userid"].Value<String>());
+
+            Library.DispatchEvent(ClientEvent.UserJoinedBroadcast, new UserJoinedBroadcastEvent()
+            {
+                UserID = s_UserID,
+                UserData = s_UserData
+            });
+
             return true;
         }
 
         private bool HandlePushUnsubAlert(SharkResponseMessage p_Message)
         {
-            // TODO: Implement.
+            var s_Message = p_Message.As<UnsubAlertResponse>();
+
+            JToken s_Sub;
+            if (!s_Message.UnsubAlert.TryGetValue("sub", out s_Sub))
+                return true;
+
+            if (Library.Broadcast.ActiveBroadcastID == null ||
+                s_Sub.Value<String>() != GetChatChannel(Library.Broadcast.ActiveBroadcastID))
+                return true;
+
+            JToken s_IDToken;
+            if (!s_Message.UnsubAlert.TryGetValue("id", out s_IDToken))
+                return true;
+
+            var s_ID = s_IDToken.ToObject<Dictionary<String, JToken>>();
+
+            if (!s_ID.ContainsKey("app_data") || !s_ID.ContainsKey("userid"))
+                return true;
+
+            var s_UserData = s_ID["app_data"].ToObject<ChatUserData>();
+            var s_UserID = Int64.Parse(s_ID["userid"].Value<String>());
+
+            Library.DispatchEvent(ClientEvent.UserLeftBroadcast, new UserLeftBroadcastEvent()
+            {
+                UserID = s_UserID,
+                UserData = s_UserData
+            });
+
             return true;
         }
 

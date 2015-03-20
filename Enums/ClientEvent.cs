@@ -17,6 +17,8 @@
         PendingDestruction,
         ComplianceIssue,
         Connected,
-        Disconnected
+        Disconnected,
+        UserJoinedBroadcast,
+        UserLeftBroadcast
     }
 }
