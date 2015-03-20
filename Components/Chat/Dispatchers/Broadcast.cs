@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GS.Lib.Enums;
 using GS.Lib.Events;
 using GS.Lib.Models;
+using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Network.Sockets.Messages.Requests;
 using GS.Lib.Network.Sockets.Messages.Responses;
 using Newtonsoft.Json.Linq;
@@ -11,19 +12,19 @@ namespace GS.Lib.Components
 {
     public partial class ChatComponent
     {
-        private void BroadcastMessageToSelf(String p_Type)
+        private void BroadcastMessageToSelf(String p_Type, Action<SharkResponseMessage> p_Callback = null)
         {
-            BroadcastMessageToSelf(new Dictionary<string, string>(), p_Type);
+            BroadcastMessageToSelf(new Dictionary<string, string>(), p_Type, p_Callback);
         }
 
-        private void BroadcastMessageToSelf<T>(T p_Params, String p_Type)
+        private void BroadcastMessageToSelf<T>(T p_Params, String p_Type, Action<SharkResponseMessage> p_Callback = null)
         {
             if (Library.User.Data == null)
                 return;
 
             if (p_Params == null)
             {
-                BroadcastMessageToSelf(new Dictionary<string, string>(), p_Type);
+                BroadcastMessageToSelf(new Dictionary<string, string>(), p_Type, p_Callback);
                 return;
             }
 
@@ -34,7 +35,7 @@ namespace GS.Lib.Components
                     { "type", p_Type },
                     { "params", p_Params },
                     { "sessionPart", GetSessionPart() }
-                });
+                }, p_Callback: p_Callback);
             }
             else if (Library.User.Data.UserID != 0)
             {
@@ -43,7 +44,7 @@ namespace GS.Lib.Components
                     { "type", p_Type },
                     { "params", p_Params },
                     { "sessionPart", GetSessionPart() }
-                });
+                }, p_Callback: p_Callback);
             }
         }
 

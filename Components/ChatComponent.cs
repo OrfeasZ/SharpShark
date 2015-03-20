@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Timers;
+using GS.Lib.Enums;
 using GS.Lib.Models;
 using GS.Lib.Network.Sockets;
 using GS.Lib.Network.Sockets.Messages;
@@ -31,10 +33,14 @@ namespace GS.Lib.Components
         private const String c_ChatServerChannelPrefix = "bcast:";
 
         private bool m_ShouldReconnect;
+        private bool m_Reconnect;
+
+        private Timer m_ReconnectionTimer;
 
         internal ChatComponent(SharpShark p_Library) 
             : base(p_Library)
         {
+            m_ReconnectionTimer = new Timer();
             ChatServers = new Dictionary<string, int>();
 
             m_SocketClient = new Client();
@@ -45,6 +51,7 @@ namespace GS.Lib.Components
 
             m_Handlers = new Dictionary<string, Action<SharkResponseMessage>>();
             m_ShouldReconnect = true;
+            m_Reconnect = false;
 
             RegisterHandlers();
         }
@@ -60,7 +67,7 @@ namespace GS.Lib.Components
             m_Handlers.Add("push", HandlePush);
         }
 
-        public bool Connect()
+        public bool Connect(bool p_Reconnect)
         {
             if (Library.User.Data == null)
                 return false;
@@ -68,11 +75,48 @@ namespace GS.Lib.Components
             if (ChatServers.Count == 0)
                 return false;
 
+            m_Reconnect = p_Reconnect;
             LoggedInMaster = null;
 
             var s_Server = DetermineBestServer();
 
-            return m_SocketClient.Connect(s_Server, c_ServerPort);
+            var s_Result = m_SocketClient.Connect(s_Server, c_ServerPort);
+
+            if (!s_Result && m_Reconnect)
+            {
+                Reconnect();
+                return true;
+            }
+
+            return s_Result;
+        }
+
+        private void Reconnect()
+        {
+            Debug.WriteLine("Reconnecting to manatee in 5 seconds.");
+
+            m_ReconnectionTimer.Dispose();
+            m_ReconnectionTimer = new Timer()
+            {
+                Interval = 5000,
+                AutoReset = false
+            };
+
+            m_ReconnectionTimer.Elapsed += OnReconnect;
+            m_ReconnectionTimer.Start();
+        }
+
+        private void OnReconnect(object p_Sender, ElapsedEventArgs p_ElapsedEventArgs)
+        {
+            if (m_SocketClient.IsConnected)
+                return;
+
+            Debug.WriteLine("Reconnecting to manatee...");
+
+            LoggedInMaster = null;
+
+            if (!m_SocketClient.Connect(DetermineBestServer(), c_ServerPort) && m_Reconnect)
+                Reconnect();
         }
 
         public void Disconnect()
@@ -107,7 +151,10 @@ namespace GS.Lib.Components
             if (!p_Success)
             {
                 Console.WriteLine("Connection to the chat service failed.");
+                return;
             }
+
+            Library.DispatchEvent(ClientEvent.Connected, null);
 
             m_SocketClient.SendMessage(new IdentifyRequest(Library.User.Data.ChatUserData,
                 Library.User.Data.ChatUserDataSig, Library.User.SessionID,
@@ -122,9 +169,11 @@ namespace GS.Lib.Components
             Library.Broadcast.PlayingSongID = 0;
             Library.Broadcast.PlayingSongQueueID = 0;
 
+            Library.DispatchEvent(ClientEvent.Disconnected, null);
+
             // TODO: Verify re-connection works.
-            if (m_ShouldReconnect)
-                Connect();
+            if (m_ShouldReconnect && m_Reconnect)
+                Reconnect();
         }
 
         private void OnMessageProcessed(object p_Sender, SharkResponseMessage p_Message)

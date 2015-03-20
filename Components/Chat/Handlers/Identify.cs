@@ -124,19 +124,20 @@ namespace GS.Lib.Components
                             return;
                         }
 
-                        Library.DispatchEvent(ClientEvent.Authenticated, null);
-
                         var s_Message = p_Message.As<ReturnResponse>();
 
                         if (s_Message == null || s_Message.Return == null ||
                             s_Message.Return.Value<JArray>("values") == null)
+                        {
+                            Library.DispatchEvent(ClientEvent.Authenticated, null);
                             return;
-                        
+                        }
+
                         var s_Values = s_Message.Return.Value<JArray>("values");
 
                         if (s_Values.Count == 0)
                         {
-                            PromoteSelfToMaster("restore_not_found");
+                            PromoteSelfToMaster("restore_not_found", OnRestoreFinished);
                             return;
                         }
 
@@ -144,7 +145,7 @@ namespace GS.Lib.Components
 
                         if (s_RestoreValue == null)
                         {
-                            PromoteSelfToMaster("restore_not_found");
+                            PromoteSelfToMaster("restore_not_found", OnRestoreFinished);
                             return;
                         }
 
@@ -159,7 +160,7 @@ namespace GS.Lib.Components
                               s_RestoreValue["songEx"].ToObject<Dictionary<String, JToken>>() == null) ||
                              s_LocalTime - s_RestoreTime > c_MaxOnlineIdleTime))
                         {
-                            PromoteSelfToMaster("last_master_idle_lower");
+                            PromoteSelfToMaster("last_master_idle_lower", OnRestoreFinished);
                             return;
                         }
 
@@ -185,10 +186,17 @@ namespace GS.Lib.Components
                         if (s_LocalTime - s_RestoreTime > 5 * 60 * 1000 ||
                             s_LocalTime - s_RestoreTime > 10 * 1000 &&
                             (!s_RestoreValue.ContainsKey("remora") || Double.Parse(s_RestoreValue["remora"].Value<String>()) == 0.0))
-                            PingMaster();
-                        else if (LastMasterUUID != null)
-                            PromoteSelfToMaster("were_last_master");
+                            PingMaster(OnRestoreFinished);
+                        else
+                            PromoteSelfToMaster("were_last_master", OnRestoreFinished);
                     });
+        }
+
+        private void OnRestoreFinished(SharkResponseMessage p_SharkResponseMessage)
+        {
+            // Restore has finished.
+            // We should now be fully authenticated.
+            Library.DispatchEvent(ClientEvent.Authenticated, null);
         }
     }
 }

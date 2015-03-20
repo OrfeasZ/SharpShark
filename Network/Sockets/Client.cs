@@ -8,7 +8,6 @@ using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Util;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 
 namespace GS.Lib.Network.Sockets
 {
@@ -56,7 +55,18 @@ namespace GS.Lib.Network.Sockets
 
             m_IncomingBuffer = new byte[4096];
 
-            var s_Host = Dns.GetHostEntry(p_HostName);
+            IPHostEntry s_Host;
+
+            try
+            {
+                // This will usually fail when there's no internet connection.
+                s_Host = Dns.GetHostEntry(p_HostName);
+            }
+            catch
+            {
+                m_Connecting = false;
+                return false;
+            }
 
             if (s_Host.AddressList.Length == 0)
             {

@@ -1,16 +1,17 @@
 ﻿using System;
 using GS.Lib.Enums;
 using GS.Lib.Models;
+using GS.Lib.Network.Sockets.Messages;
 using GS.Lib.Util;
 
 namespace GS.Lib.Components
 {
     public partial class ChatComponent
     {
-        private void PingMaster()
+        private void PingMaster(Action<SharkResponseMessage> p_Callback = null)
         {
             // TODO: Implement timeout timer
-            BroadcastMessageToSelf("masterPing");
+            BroadcastMessageToSelf("masterPing", p_Callback);
         }
 
         private MasterStatus GetPrivateStatus()
@@ -25,7 +26,7 @@ namespace GS.Lib.Components
             };
         }
 
-        private void PromoteSelfToMaster(String p_Reason = "unknown")
+        private void PromoteSelfToMaster(String p_Reason = "unknown", Action<SharkResponseMessage> p_Callback = null)
         {
             if (Library.User.Data == null || Library.User.Data.UserID == 0)
                 return;
@@ -36,7 +37,7 @@ namespace GS.Lib.Components
 
             UpdateCurrentStatus();
 
-            BroadcastMessageToSelf(LoggedInMaster, "masterPromotion");
+            BroadcastMessageToSelf(LoggedInMaster, "masterPromotion", p_Callback);
         }
 
         internal void ReEvaluateMastershipAndUpdate()

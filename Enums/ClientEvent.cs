@@ -15,6 +15,8 @@
         SongSuggestionRejected,
         SongSuggestionApproved,
         PendingDestruction,
-        ComplianceIssue
+        ComplianceIssue,
+        Connected,
+        Disconnected
     }
 }
