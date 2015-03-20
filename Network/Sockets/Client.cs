@@ -153,7 +153,7 @@ namespace GS.Lib.Network.Sockets
             if (p_Message == null)
                 return false;
 
-            Debug.WriteLine(String.Format("Sending command: {0}", p_Message.Command));
+            Trace.WriteLine(String.Format("Sending command: {0}", p_Message.Command));
 
             try
             {
@@ -161,7 +161,7 @@ namespace GS.Lib.Network.Sockets
                     new JsonSerializerSettings {ContractResolver = new CamelCaseResolver()});
                 s_SerializedMessage += '\n';
 
-                Debug.WriteLine("[C -> S] " + s_SerializedMessage);
+                Trace.WriteLine("[C -> S] " + s_SerializedMessage);
 
                 var s_MessageData = Encoding.UTF8.GetBytes(s_SerializedMessage);
 
@@ -181,7 +181,7 @@ namespace GS.Lib.Network.Sockets
             if (p_Callback == null)
                 return SendMessage(p_Message);
 
-            Debug.WriteLine(String.Format("Sending command: {0}", p_Message.Command));
+            Trace.WriteLine(String.Format("Sending command: {0}", p_Message.Command));
 
             if (p_Message.Blackbox == null)
                 p_Message.Blackbox = new Dictionary<string, JToken>();
@@ -205,7 +205,7 @@ namespace GS.Lib.Network.Sockets
                     new JsonSerializerSettings { ContractResolver = new CamelCaseResolver() });
                 s_SerializedMessage += '\n';
 
-                Debug.WriteLine("[C -> S] " + s_SerializedMessage);
+                Trace.WriteLine("[C -> S] " + s_SerializedMessage);
 
                 var s_MessageData = Encoding.UTF8.GetBytes(s_SerializedMessage);
 
@@ -219,9 +219,9 @@ namespace GS.Lib.Network.Sockets
 
         private void OnMessageProcessedInternal(object p_Sender, SharkResponseMessage p_SharkResponseMessage)
         {
-            Debug.WriteLine("Received Message:");
-            Debug.WriteLine("[S -> C] " + p_SharkResponseMessage);
-            Debug.WriteLine("");
+            Trace.WriteLine("Received Message:");
+            Trace.WriteLine("[S -> C] " + p_SharkResponseMessage);
+            Trace.WriteLine("");
 
             if (p_SharkResponseMessage.Blackbox == null || !p_SharkResponseMessage.Blackbox.ContainsKey("__gspid"))
             {

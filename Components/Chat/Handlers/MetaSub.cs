@@ -15,7 +15,7 @@ namespace GS.Lib.Components
             {
                 case "error":
                     {
-                        Debug.WriteLine(String.Format("Set failed. Error: {0}", p_Message.As<ErrorResponse>().Error));
+                        Trace.WriteLine(String.Format("Set failed. Error: {0}", p_Message.As<ErrorResponse>().Error));
 
                         // TODO: Retry request if we have enough data.
 
@@ -35,14 +35,14 @@ namespace GS.Lib.Components
                             }
                         }
 
-                        Debug.WriteLine("Unknown metasub response type received!");
+                        Trace.WriteLine("Unknown metasub response type received!");
 
                         break;
                     }
 
                 default:
                     {
-                        Debug.WriteLine("Unknown metasub response type received!");
+                        Trace.WriteLine("Unknown metasub response type received!");
                         break;
                     }
             }

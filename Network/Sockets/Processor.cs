@@ -55,9 +55,10 @@ namespace GS.Lib.Network.Sockets
                 if (OnMessageProcessed != null)
                     OnMessageProcessed(this, s_Message);
             }
-            catch
+            catch (Exception e)
             {
-                Debug.WriteLine("Failed to deserialize message: {0}", s_MessageStringData);
+                Trace.WriteLine(String.Format("Failed to deserialize message: {0}", s_MessageStringData));
+                Trace.WriteLine(String.Format("Exception: {0}", e));
             }
 
             if (m_IncomingData.Length > s_SeparatorIndex + 1)

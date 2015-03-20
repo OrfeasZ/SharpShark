@@ -17,7 +17,7 @@ namespace GS.Lib.Components
             {
                 case "error":
                     {
-                        Debug.WriteLine(String.Format("Sub failed. Error: {0}", p_Message.As<ErrorResponse>().Error));
+                        Trace.WriteLine(String.Format("Sub failed. Error: {0}", p_Message.As<ErrorResponse>().Error));
                         break;
                     }
 
@@ -30,7 +30,7 @@ namespace GS.Lib.Components
 
                 default:
                     {
-                        Debug.WriteLine("Unknown sub response type received!");
+                        Trace.WriteLine("Unknown sub response type received!");
                         break;
                     }
             }

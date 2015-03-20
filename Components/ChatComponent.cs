@@ -93,7 +93,7 @@ namespace GS.Lib.Components
 
         private void Reconnect()
         {
-            Debug.WriteLine("Reconnecting to manatee in 5 seconds.");
+            Trace.WriteLine("Reconnecting to manatee in 5 seconds.");
 
             m_ReconnectionTimer.Dispose();
             m_ReconnectionTimer = new Timer()
@@ -111,7 +111,7 @@ namespace GS.Lib.Components
             if (m_SocketClient.IsConnected)
                 return;
 
-            Debug.WriteLine("Reconnecting to manatee...");
+            Trace.WriteLine("Reconnecting to manatee...");
 
             LoggedInMaster = null;
 
@@ -182,11 +182,11 @@ namespace GS.Lib.Components
             
             if (!m_Handlers.TryGetValue(p_Message.Command, out s_Handler))
             {
-                Debug.WriteLine(String.Format("Received an unhandled command: {0}", p_Message.Command));
+                Trace.WriteLine(String.Format("Received an unhandled command: {0}", p_Message.Command));
                 return;
             }
 
-            //Debug.WriteLine(String.Format("Received a known command: {0}", p_Message.Command));
+            //Trace.WriteLine(String.Format("Received a known command: {0}", p_Message.Command));
 
             s_Handler(p_Message);
         }

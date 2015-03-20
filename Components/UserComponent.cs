@@ -58,7 +58,7 @@ namespace GS.Lib.Components
             Library.Remora.Channel = s_TokenData.GetGSConfig.RemoraChannel;
             Library.TimeDifference = s_TokenData.GetGSConfig.Timestamp * 1000 - DateTime.UtcNow.ToUnixTimestampMillis();
 
-            Debug.WriteLine("Time difference calculated to {0}ms.", Library.TimeDifference);
+            Trace.WriteLine(String.Format("Time difference calculated to {0}ms.", Library.TimeDifference));
 
             return AuthenticationResult.Success;
         }
@@ -83,7 +83,7 @@ namespace GS.Lib.Components
             Library.Remora.Channel = s_TokenData.GetGSConfig.RemoraChannel;
             Library.TimeDifference = s_TokenData.GetGSConfig.Timestamp * 1000 - DateTime.UtcNow.ToUnixTimestampMillis();
 
-            Debug.WriteLine("Time difference calculated to {0}ms.", Library.TimeDifference);
+            Trace.WriteLine(String.Format("Time difference calculated to {0}ms.", Library.TimeDifference));
 
             var s_Request = new AuthenticationRequest
             {
@@ -125,7 +125,7 @@ namespace GS.Lib.Components
             Library.Remora.Channel = s_TokenData.GetGSConfig.RemoraChannel;
             Library.TimeDifference = s_TokenData.GetGSConfig.Timestamp * 1000 - DateTime.UtcNow.ToUnixTimestampMillis();
 
-            Debug.WriteLine("Time difference calculated to {0}ms.", Library.TimeDifference);
+            Trace.WriteLine(String.Format("Time difference calculated to {0}ms.", Library.TimeDifference));
 
             return true;
         }

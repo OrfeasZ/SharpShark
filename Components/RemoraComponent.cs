@@ -110,7 +110,7 @@ namespace GS.Lib.Components
 
         private void OnResumeTimeout(object p_Sender, ElapsedEventArgs p_ElapsedEventArgs)
         {
-            Debug.WriteLine("Queue resuming timed out. Destroying and re-creating.");
+            Trace.WriteLine("Queue resuming timed out. Destroying and re-creating.");
 
             m_Created = false;
             m_PendingCreation = false;

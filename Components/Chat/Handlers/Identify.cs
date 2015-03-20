@@ -24,7 +24,7 @@ namespace GS.Lib.Components
             {
                 case "error":
                 {
-                    Debug.WriteLine(String.Format("Failed to identify with the Chat Service. Error: {0}", p_Message.As<ErrorResponse>().Error));
+                    Trace.WriteLine(String.Format("Failed to identify with the Chat Service. Error: {0}", p_Message.As<ErrorResponse>().Error));
                     Library.DispatchEvent(ClientEvent.AuthenticationFailed, new AuthenticationFailureEvent()
                     {
                         Error = p_Message.As<ErrorResponse>().Error
@@ -35,7 +35,7 @@ namespace GS.Lib.Components
 
                 case "success":
                 {
-                    Debug.WriteLine("Successfully authenticated with the Chat Service.");
+                    Trace.WriteLine("Successfully authenticated with the Chat Service.");
                     var s_Message = p_Message.As<IdentifyResponse>();
 
                     UID = s_Message.Success.ID.UID;
@@ -99,7 +99,7 @@ namespace GS.Lib.Components
 
                 default:
                 {
-                    Debug.WriteLine("Unknown response type received!");
+                    Trace.WriteLine("Unknown response type received!");
                     break;
                 }
             }
@@ -120,7 +120,7 @@ namespace GS.Lib.Components
                     {
                         if (p_Message == null)
                         {
-                            Debug.WriteLine("Restore command failed.");
+                            Trace.WriteLine("Restore command failed.");
                             return;
                         }
 

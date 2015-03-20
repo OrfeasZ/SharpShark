@@ -20,7 +20,7 @@ namespace GS.Lib.Components
             {
                 case "error":
                     {
-                        Debug.WriteLine(String.Format("Set failed. Error: {0}", p_Message.As<ErrorResponse>().Error));
+                        Trace.WriteLine(String.Format("Set failed. Error: {0}", p_Message.As<ErrorResponse>().Error));
                         break;
                     }
 
@@ -32,7 +32,7 @@ namespace GS.Lib.Components
 
                 default:
                     {
-                        Debug.WriteLine("Unknown set response type received!");
+                        Trace.WriteLine("Unknown set response type received!");
                         break;
                     }
             }
