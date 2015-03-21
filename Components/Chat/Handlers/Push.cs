@@ -182,7 +182,8 @@ namespace GS.Lib.Components
 
             var s_ID = s_IDToken.ToObject<Dictionary<String, JToken>>();
 
-            if (!s_ID.ContainsKey("app_data") || !s_ID.ContainsKey("userid"))
+            if (!s_ID.ContainsKey("app_data") || !s_ID.ContainsKey("userid") ||
+                s_ID["userid"].Type != JTokenType.Integer)
                 return true;
 
             var s_UserData = s_ID["app_data"].ToObject<ChatUserData>();
@@ -215,7 +216,8 @@ namespace GS.Lib.Components
 
             var s_ID = s_IDToken.ToObject<Dictionary<String, JToken>>();
 
-            if (!s_ID.ContainsKey("app_data") || !s_ID.ContainsKey("userid"))
+            if (!s_ID.ContainsKey("app_data") || !s_ID.ContainsKey("userid") ||
+                s_ID["userid"].Type != JTokenType.Integer)
                 return true;
 
             var s_UserData = s_ID["app_data"].ToObject<ChatUserData>();

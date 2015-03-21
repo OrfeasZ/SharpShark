@@ -19,6 +19,7 @@
         Connected,
         Disconnected,
         UserJoinedBroadcast,
-        UserLeftBroadcast
+        UserLeftBroadcast,
+        PlaybackStatusUpdate
     }
 }

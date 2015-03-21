@@ -129,6 +129,14 @@ namespace GS.Lib.Components
             m_SocketClient.Disconnect();
         }
 
+        internal void DisconnectSilent()
+        {
+            if (!m_SocketClient.IsConnected)
+                return;
+
+            m_SocketClient.Disconnect();
+        }
+
         private String DetermineBestServer()
         {
             var s_Server = ChatServers.First().Key;

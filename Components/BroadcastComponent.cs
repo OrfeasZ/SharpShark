@@ -91,6 +91,34 @@ namespace GS.Lib.Components
             ActiveBroadcastID = null;
             Data = null;
 
+            if (Library.Chat.LoggedInMaster != null && Library.Chat.LoggedInMaster.CurrentBroadcast != null)
+            {
+                ActiveBroadcastID = Library.Chat.LoggedInMaster.CurrentBroadcast;
+                CurrentBroadcastPicture = null;
+                Data = new BroadcastData()
+                {
+
+                };
+
+                // Check if broadcast still exists.
+                Library.Chat.GetSubscriptionData(Library.Chat.GetChatChannel(ActiveBroadcastID), new List<String>()
+                {
+                    "s",
+                    "h",
+                    "owners",
+                    "n",
+                    "t",
+                    "owner_subscribed",
+                    "i",
+                    "d",
+                    "tl",
+                    "py",
+                    "qc"
+                }, OnBroadcastSubscriptionData);
+
+                return;
+            }
+
             var s_LastBroadcast = GetLastBroadcast();
 
             if (s_LastBroadcast != null)

@@ -187,8 +187,11 @@ namespace GS.Lib.Components
                             s_LocalTime - s_RestoreTime > 10 * 1000 &&
                             (!s_RestoreValue.ContainsKey("remora") || Double.Parse(s_RestoreValue["remora"].Value<String>()) == 0.0))
                             PingMaster(OnRestoreFinished);
-                        else
+                        else if (LastMasterUUID != null)
                             PromoteSelfToMaster("were_last_master", OnRestoreFinished);
+                        else
+                            Library.DispatchEvent(ClientEvent.Authenticated, null);
+
                     });
         }
 

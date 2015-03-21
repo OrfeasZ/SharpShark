@@ -41,6 +41,12 @@ namespace GS.Lib.Components
                         HandleVIPRequest(s_Event.Value["data"], s_Event);
                         return;
                     }
+
+                    if (s_Event.Value["type"].Value<String>() == "broadcastOwnerEnded")
+                    {
+                        Library.Chat.DisconnectSilent();
+                        return;
+                    }
                 }
             }
 
@@ -146,6 +152,14 @@ namespace GS.Lib.Components
                     ArtistName = PlayingSongArtist,
                     AlbumID = PlayingAlbumID,
                     AlbumName = PlayingSongAlbum
+                });
+            }
+
+            if (p_Data != null)
+            {
+                Library.DispatchEvent(ClientEvent.PlaybackStatusUpdate, new PlaybackStatusUpdateEvent()
+                {
+                    Status = (PlaybackStatus) p_Data.Status
                 });
             }
         }

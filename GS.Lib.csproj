@@ -84,6 +84,7 @@
     <Compile Include="Enums\BroadcastStatus.cs" />
     <Compile Include="Enums\ChatEvent.cs" />
     <Compile Include="Enums\ClientEvent.cs" />
+    <Compile Include="Enums\PlaybackStatus.cs" />
     <Compile Include="Enums\VIPPermissions.cs" />
     <Compile Include="Events\AuthenticationFailureEvent.cs" />
     <Compile Include="Events\BroadcastCreationEvent.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Events\PubResultEvent.cs" />
     <Compile Include="Events\SetResultEvent.cs" />
     <Compile Include="Events\SharkEvent.cs" />
+    <Compile Include="Events\PlaybackStatusUpdateEvent.cs" />
     <Compile Include="Events\SongPlayingEvent.cs" />
     <Compile Include="Events\SongSuggestionApprovalEvent.cs" />
     <Compile Include="Events\SongSuggestionEvent.cs" />
