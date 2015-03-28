@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using GS.Lib.Components;
 using GS.Lib.Enums;
 using GS.Lib.Events;
@@ -109,7 +110,16 @@ namespace GS.Lib
                 return;
 
             foreach (var s_Handler in s_Handlers)
-                s_Handler(p_Data);
+            {
+                try
+                {
+                    s_Handler(p_Data);
+                }
+                catch (Exception s_Exception)
+                {
+                    Trace.WriteLine(String.Format("Failed to dispatch event '{0}'. Exception: {1}", p_Event, s_Exception));
+                }
+            }
         }
     }
 }

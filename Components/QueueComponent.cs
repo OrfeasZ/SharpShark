@@ -127,6 +127,16 @@ namespace GS.Lib.Components
             return s_SongData.QueueID;
         }
 
+        public Int64 GetSongIDForQueueID(Int64 p_QueueID)
+        {
+            var s_SongData = CurrentQueue.FirstOrDefault(p_Item => p_Item.QueueID == p_QueueID);
+
+            if (s_SongData == null)
+                return -1;
+
+            return s_SongData.SongID;
+        }
+
         public int GetInternalIndexForSongID(Int64 p_SongID)
         {
             return CurrentQueue.FindIndex(p_Item => p_Item.SongID == p_SongID);

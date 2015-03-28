@@ -64,8 +64,17 @@ namespace GS.Lib.Components
                         if (s_Index != -1)
                             Library.Queue.CurrentQueue[s_Index].Votes += s_Vote;
 
-                        Library.DispatchEvent(ClientEvent.SongVote,
-                            new SongVoteEvent() {VoteChange = s_Vote, QueueSongID = s_QueueSongID, CurrentVotes = s_Index != -1 ? Library.Queue.CurrentQueue[s_Index].Votes : 0});
+                        var s_UserData = s_Event.ID["app_data"].ToObject<ChatUserData>();
+                        var s_UserID = Int64.Parse(s_Event.ID["userid"].Value<String>());
+
+                        Library.DispatchEvent(ClientEvent.SongVote, new SongVoteEvent()
+                        {
+                            VoteChange = s_Vote, 
+                            QueueSongID = s_QueueSongID, 
+                            CurrentVotes = s_Index != -1 ? Library.Queue.CurrentQueue[s_Index].Votes : 0,
+                            User = s_UserData,
+                            UserID = s_UserID
+                        });
 
                         return;
                     }
